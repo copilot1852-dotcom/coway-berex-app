@@ -1,0 +1,25 @@
+node_modules/
+.DS_Store
+**/.DS_Store
+
+# Local agent/editor state
+.claude/
+.claude/settings.local.json
+.understand-anything/
+
+# Generated deployment bundles
+deploy/
+*.zip
+
+# Customer/proposal output artifacts
+proposal_output/
+*.pdf
+*.docx
+*.png
+~$*
+
+# Historical backups and scratch variants
+index[0-9]*.html
+index_backup*.html
+*_backup_*.md
+*_backup_*.html

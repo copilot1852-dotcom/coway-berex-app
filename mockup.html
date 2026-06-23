@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V5 festa - 힐링탭 목업</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Pretendard', -apple-system, sans-serif; background: #FFFFFF; color: #37352f; }
+
+  :root {
+    --color-background: #FFFFFF;
+    --color-surface: #f7f6f3;
+    --color-text-primary: #37352f;
+    --color-text-secondary: #787774;
+    --color-text-tertiary: #9b9a97;
+    --color-text-disabled: #c4c4c0;
+    --color-border: #e9e9e7;
+    --color-border-light: #f1f1ef;
+    --color-accent: #2eaadc;
+    --color-accent-light: #d3e5ef;
+    --color-discount: #eb5757;
+    --color-on-primary: #FFFFFF;
+    --font-number: 'Inter', 'SF Pro Display', 'Pretendard', sans-serif;
+  }
+
+  .app { width: 375px; height: 812px; margin: 20px auto; border: 1px solid #ddd; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; background: var(--color-background); position: relative; }
+
+  /* 헤더 */
+  .header { padding: 12px 20px 8px; display: flex; align-items: center; justify-content: space-between; }
+  .header-logo { font-size: 14px; font-weight: 800; letter-spacing: 0.05em; color: var(--color-text-primary); }
+  .header-right { display: flex; gap: 8px; align-items: center; }
+  .header-btn { background: none; border: none; font-size: 12px; color: var(--color-text-tertiary); cursor: pointer; }
+
+  /* 상단 카테고리 탭 */
+  .category-tabs { display: flex; padding: 4px 16px; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .category-tabs::-webkit-scrollbar { display: none; }
+  .cat-tab { padding: 7px 14px; border-radius: 4px; border: 1px solid var(--color-border); font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; background: transparent; color: var(--color-text-secondary); transition: all 0.15s; flex-shrink: 0; }
+  .cat-tab.active { background: var(--color-accent); color: var(--color-on-primary); border-color: var(--color-accent); font-weight: 700; }
+
+  /* 대시보드 카드 */
+  .dashboard { padding: 20px 20px 16px; }
+  .dash-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); letter-spacing: 0.05em; margin-bottom: 4px; }
+  .dash-price { font-family: var(--font-number); font-size: 44px; font-weight: 200; letter-spacing: -0.04em; color: var(--color-text-primary); line-height: 1.1; }
+  .dash-price span { font-size: 16px; font-weight: 400; color: var(--color-text-secondary); margin-left: 2px; }
+  .dash-sub { display: flex; gap: 8px; margin-top: 8px; }
+  .dash-chip { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: var(--color-surface); color: var(--color-text-secondary); font-weight: 500; }
+  .dash-chip.accent { background: var(--color-accent-light); color: var(--color-accent); font-weight: 600; }
+
+  /* 4분할 요약 */
+  .summary-bar { display: flex; border-top: 1px solid var(--color-border-light); padding: 10px 10px 12px; }
+  .summary-item { flex: 1; text-align: center; }
+  .summary-item .label { font-size: 11px; color: var(--color-text-tertiary); margin-bottom: 4px; }
+  .summary-item .value { font-family: var(--font-number); font-size: 14px; font-weight: 300; letter-spacing: -0.02em; }
+  .summary-sep { width: 1px; background: var(--color-border-light); margin: 0 4px; }
+
+  /* 선택 영역 */
+  .selector { padding: 16px 20px; display: flex; flex-direction: column; gap: 16px; flex: 1; overflow-y: auto; }
+  .sel-section { }
+  .sel-label { font-size: 11px; font-weight: 600; color: var(--color-text-tertiary); letter-spacing: 0.05em; margin-bottom: 8px; }
+  .sel-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .sel-chip { padding: 8px 14px; border-radius: 4px; border: 1px solid var(--color-border); font-size: 12px; font-weight: 500; cursor: pointer; background: transparent; color: var(--color-text-secondary); }
+  .sel-chip.active { border-color: var(--color-accent); background: var(--color-accent); color: #fff; font-weight: 700; }
+
+  /* 제품 카드 */
+  .product-card { padding: 14px; border: 1px solid var(--color-border); border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+  .product-card.active { border-color: var(--color-accent); background: var(--color-accent-light); }
+  .product-card .name { font-size: 14px; font-weight: 700; }
+  .product-card .desc { font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px; }
+  .product-card .price { font-family: var(--font-number); font-size: 16px; font-weight: 600; margin-top: 6px; color: var(--color-accent); }
+  .product-card .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; background: var(--color-discount); color: #fff; margin-left: 6px; }
+  .product-card .specs { font-size: 11px; color: var(--color-text-secondary); margin-top: 4px; }
+
+  /* 하단 네비 */
+  .bottom-nav { display: flex; border-top: 1px solid var(--color-border); padding: 8px 0 28px; background: var(--color-background); }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; color: var(--color-text-tertiary); cursor: pointer; }
+  .nav-item.active { color: var(--color-accent); }
+  .nav-icon { font-size: 18px; }
+
+  /* 페이지 전환 라벨 */
+  .page-label { text-align: center; padding: 6px; font-size: 10px; color: var(--color-text-disabled); border-bottom: 1px solid var(--color-border-light); }
+
+  /* 토글 영역 */
+  .toggle-row { display: flex; padding: 8px 20px; gap: 0; background: var(--color-surface); border-radius: 4px; margin: 0 16px; border: 1px solid var(--color-border-light); }
+  .toggle-item { flex: 1; display: flex; align-items: center; gap: 6px; padding: 0 4px; cursor: pointer; }
+  .toggle-track { position: relative; width: 36px; height: 20px; border-radius: 4px; background: var(--color-border); flex-shrink: 0; }
+  .toggle-track.on { background: var(--color-accent); }
+  .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+  .toggle-track.on .toggle-thumb { left: 18px; }
+  .toggle-label { font-size: 11px; font-weight: 600; }
+  .toggle-sub { font-size: 10px; color: var(--color-text-tertiary); }
+  .toggle-sep { width: 1px; height: 24px; background: var(--color-border); margin: 0 8px; flex-shrink: 0; }
+
+  /* 탭 하이라이트 */
+  .tab-indicator { font-size: 9px; position: absolute; top: -2px; right: -4px; background: var(--color-discount); color: #fff; border-radius: 50%; width: 14px; height: 14px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- ==================== 목업 A: 침대 모드 (현재와 동일) ==================== -->
+<div style="display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; padding: 20px;">
+
+<div>
+<div style="text-align:center; margin-bottom:8px; font-size:13px; font-weight:700; color:#787774;">A. 침대 모드 (현재)</div>
+<div class="app">
+  <div class="header">
+    <div class="header-logo">COWAY</div>
+    <div class="header-right">
+      <span class="header-btn">🌙</span>
+      <span class="header-btn">담당자</span>
+    </div>
+  </div>
+
+  <div class="category-tabs">
+    <button class="cat-tab active">페스타</button>
+    <button class="cat-tab">매트리스</button>
+    <button class="cat-tab">프레임</button>
+  </div>
+
+  <div class="dashboard">
+    <div class="dash-label">MONTHLY</div>
+    <div class="dash-price">59,320<span>원</span></div>
+    <div class="dash-sub">
+      <span class="dash-chip accent">퀸 · 5년 · 토탈</span>
+      <span class="dash-chip">루네어 + 코지</span>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    <div class="summary-item"><div class="label">5년총납입</div><div class="value">356만</div></div>
+    <div class="summary-sep"></div>
+    <div class="summary-item"><div class="label">절약</div><div class="value" style="color:var(--color-discount)">90만</div></div>
+    <div class="summary-sep"></div>
+    <div class="summary-item"><div class="label">하루</div><div class="value">1,977원</div></div>
+    <div class="summary-sep"></div>
+    <div class="summary-item"><div class="label">투자</div><div class="value" style="font-weight:700">약12분</div></div>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle-item">
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      <div><div class="toggle-label">결합 5%</div><div class="toggle-sub">기존고객</div></div>
+    </div>
+    <div class="toggle-sep"></div>
+    <div class="toggle-item">
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      <div><div class="toggle-label">페스타 15%</div><div class="toggle-sub">4월 렌탈고객만</div></div>
+    </div>
+  </div>
+
+  <div class="selector">
+    <div class="sel-section">
+      <div class="sel-label">사이즈</div>
+      <div class="sel-chips">
+        <button class="sel-chip">싱글</button>
+        <button class="sel-chip">슈싱</button>
+        <button class="sel-chip active">퀸</button>
+        <button class="sel-chip">킹</button>
+        <button class="sel-chip">라지킹</button>
+      </div>
+    </div>
+    <div class="sel-section">
+      <div class="sel-label">약정</div>
+      <div class="sel-chips">
+        <button class="sel-chip active">5년</button>
+        <button class="sel-chip">7년</button>
+        <button class="sel-chip">9년</button>
+      </div>
+    </div>
+    <div class="sel-section">
+      <div class="sel-label">매트리스</div>
+      <div class="product-card active" style="margin-bottom:8px">
+        <div class="name">루네어</div>
+        <div class="desc">AD7 독립스프링 · 345mm · 퀸 1,500×2,000</div>
+        <div class="price">39,900원/월</div>
+      </div>
+      <div class="product-card">
+        <div class="name">모디</div>
+        <div class="desc">AD7 독립스프링 · 320mm</div>
+        <div class="price">37,900원/월</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item"><span class="nav-icon">🛒</span>장바구니</div>
+    <div class="nav-item"><span class="nav-icon">💳</span>제휴카드</div>
+    <div class="nav-item"><span class="nav-icon">📦</span>보관함</div>
+    <div class="nav-item"><span class="nav-icon">🔤</span>글자크기</div>
+    <div class="nav-item"><span class="nav-icon">⋯</span>더보기</div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== 목업 B: 힐링 모드 ==================== -->
+<div>
+<div style="text-align:center; margin-bottom:8px; font-size:13px; font-weight:700; color:#787774;">B. 힐링 모드 (신규)</div>
+<div class="app">
+  <div class="header">
+    <div class="header-logo">COWAY</div>
+    <div class="header-right">
+      <span class="header-btn">🌙</span>
+      <span class="header-btn">담당자</span>
+    </div>
+  </div>
+
+  <div class="category-tabs">
+    <button class="cat-tab">페스타</button>
+    <button class="cat-tab">매트리스</button>
+    <button class="cat-tab">프레임</button>
+    <button class="cat-tab active" style="position:relative;">힐링<span class="tab-indicator" style="display:none">N</span></button>
+  </div>
+
+  <div class="dashboard">
+    <div class="dash-label">MONTHLY</div>
+    <div class="dash-price">64,900<span>원</span></div>
+    <div class="dash-sub">
+      <span class="dash-chip accent">5년 · 방문관리</span>
+      <span class="dash-chip">마사지셋 페블</span>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    <div class="summary-item"><div class="label">5년총납입</div><div class="value">389만</div></div>
+    <div class="summary-sep"></div>
+    <div class="summary-item"><div class="label">일시불</div><div class="value">499만</div></div>
+    <div class="summary-sep"></div>
+    <div class="summary-item"><div class="label">하루</div><div class="value">2,163원</div></div>
+    <div class="summary-sep"></div>
+    <div class="summary-item"><div class="label">등록비</div><div class="value" style="font-weight:600">10만</div></div>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle-item">
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      <div><div class="toggle-label">결합 5%</div><div class="toggle-sub">기존고객</div></div>
+    </div>
+    <div class="toggle-sep"></div>
+    <div class="toggle-item">
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      <div><div class="toggle-label">페스타 15%</div><div class="toggle-sub">4월 렌탈고객만</div></div>
+    </div>
+  </div>
+
+  <div class="selector">
+    <div class="sel-section">
+      <div class="sel-label">카테고리</div>
+      <div class="sel-chips">
+        <button class="sel-chip active">마사지셋</button>
+        <button class="sel-chip">코어셋</button>
+        <button class="sel-chip">안마의자</button>
+      </div>
+    </div>
+    <div class="sel-section">
+      <div class="sel-label">약정</div>
+      <div class="sel-chips">
+        <button class="sel-chip">3년</button>
+        <button class="sel-chip active">5년</button>
+        <button class="sel-chip">6년</button>
+        <button class="sel-chip">7년</button>
+      </div>
+    </div>
+    <div class="sel-section">
+      <div class="sel-label">관리방법</div>
+      <div class="sel-chips">
+        <button class="sel-chip active">방문관리 (2개월)</button>
+        <button class="sel-chip">방문관리 (4개월)</button>
+        <button class="sel-chip">서비스프리</button>
+      </div>
+    </div>
+    <div class="sel-section">
+      <div class="sel-label">제품 선택</div>
+      <div class="product-card active" style="margin-bottom:8px">
+        <div class="name">마사지셋 페블<span class="badge">NEW</span></div>
+        <div class="desc">마사지 매트 + 밸런스 시트 · 549×1,700mm</div>
+        <div class="specs">방문관리(2개월) · 5년</div>
+        <div class="price">64,900원/월 <span style="font-size:11px; color:var(--color-text-tertiary); font-weight:400; text-decoration:line-through;">일시불 4,990,000원</span></div>
+      </div>
+      <div class="product-card" style="margin-bottom:8px">
+        <div class="name">코어셋</div>
+        <div class="desc">코어 마사지 시트 · 485×1,150mm</div>
+        <div class="price">44,900원/월</div>
+      </div>
+      <div class="product-card">
+        <div class="name">안마의자 스피카<span class="badge">NEW</span></div>
+        <div class="desc">AI 맞춤 안마 · 860×1,400mm</div>
+        <div class="price">89,900원/월</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item"><span class="nav-icon">🛒</span>장바구니</div>
+    <div class="nav-item"><span class="nav-icon">💳</span>제휴카드</div>
+    <div class="nav-item"><span class="nav-icon">📦</span>보관함</div>
+    <div class="nav-item"><span class="nav-icon">🔤</span>글자크기</div>
+    <div class="nav-item"><span class="nav-icon">⋯</span>더보기</div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== 목업 C: 침대+힐링 통합 장바구니 ==================== -->
+<div>
+<div style="text-align:center; margin-bottom:8px; font-size:13px; font-weight:700; color:#787774;">C. 장바구니 (침대+힐링 합산)</div>
+<div class="app">
+  <div class="header">
+    <div class="header-logo">COWAY</div>
+    <div class="header-right">
+      <span class="header-btn" style="font-size:14px">✕</span>
+    </div>
+  </div>
+
+  <div style="padding: 16px 20px 12px;">
+    <div style="font-size: 13px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 12px;">장바구니 · 3대</div>
+
+    <!-- 침대 아이템 -->
+    <div style="padding: 12px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 12px; font-weight: 700;">🛏️ 루네어 + 코지</div>
+          <div style="font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px;">퀸 · 5년 · 토탈케어</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-family: var(--font-number); font-size: 15px; font-weight: 600;">59,320원</div>
+          <div style="font-size: 10px; color: var(--color-text-tertiary);">/월</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 힐링 아이템 -->
+    <div style="padding: 12px; border: 1px solid var(--color-accent); border-radius: 4px; margin-bottom: 8px; background: var(--color-accent-light);">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 12px; font-weight: 700;">💆 마사지셋 페블</div>
+          <div style="font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px;">5년 · 방문관리(2개월)</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-family: var(--font-number); font-size: 15px; font-weight: 600;">64,900원</div>
+          <div style="font-size: 10px; color: var(--color-text-tertiary);">/월</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 추가제품 (정수기 - 카탈로그 선택) -->
+    <div style="padding: 12px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 12px; font-weight: 700;">💧 아이콘 정수기 3</div>
+          <div style="font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px;">5년 · 방문관리 · <span style="color:var(--color-accent)">카탈로그</span></div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-family: var(--font-number); font-size: 15px; font-weight: 600;">39,900원</div>
+          <div style="font-size: 10px; color: var(--color-text-tertiary);">/월</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 구분선 -->
+    <div style="border-top: 2px solid var(--color-text-primary); margin: 16px 0 12px;"></div>
+
+    <!-- 합산 -->
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+      <span style="font-size: 11px; color: var(--color-text-tertiary);">합계 (3대 · 15% 패키지)</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+      <span style="font-size: 13px; font-weight: 600;">월 납부액</span>
+      <span style="font-family: var(--font-number); font-size: 28px; font-weight: 200; letter-spacing: -0.04em;">139,502<span style="font-size: 14px; font-weight: 400; color: var(--color-text-secondary);">원</span></span>
+    </div>
+
+    <div style="display: flex; gap: 12px; margin-top: 12px;">
+      <div style="flex: 1; text-align: center; padding: 8px; background: var(--color-surface); border-radius: 4px;">
+        <div style="font-size: 10px; color: var(--color-text-tertiary);">반값 3개월</div>
+        <div style="font-family: var(--font-number); font-size: 14px; font-weight: 600; color: var(--color-discount);">-209,253원</div>
+      </div>
+      <div style="flex: 1; text-align: center; padding: 8px; background: var(--color-surface); border-radius: 4px;">
+        <div style="font-size: 10px; color: var(--color-text-tertiary);">패키지 15%</div>
+        <div style="font-family: var(--font-number); font-size: 14px; font-weight: 600; color: var(--color-discount);">-24,600원/월</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 16px; padding: 10px; background: var(--color-surface); border-radius: 4px; border: 1px solid var(--color-border-light);">
+      <div style="font-size: 11px; font-weight: 600; margin-bottom: 6px;">등록비 합계</div>
+      <div style="display: flex; justify-content: space-between; font-size: 12px;">
+        <span style="color: var(--color-text-secondary);">침대 (등록비 없음)</span>
+        <span>0원</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 4px;">
+        <span style="color: var(--color-text-secondary);">마사지셋 페블</span>
+        <span>100,000원</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 4px;">
+        <span style="color: var(--color-text-secondary);">아이콘 정수기 3</span>
+        <span>100,000원</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--color-border); font-weight: 600;">
+        <span>등록비 합계</span>
+        <span>200,000원</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="flex:1"></div>
+
+  <div style="padding: 12px 20px 32px; display: flex; gap: 8px;">
+    <button style="flex: 1; padding: 14px; border-radius: 4px; border: 1px solid var(--color-border); background: transparent; font-size: 13px; font-weight: 600; cursor: pointer;">명세서</button>
+    <button style="flex: 2; padding: 14px; border-radius: 4px; border: none; background: var(--color-accent); color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;">보관함에 담기</button>
+  </div>
+</div>
+</div>
+
+</div>
+
+</body>
+</html>

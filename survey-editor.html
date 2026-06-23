@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>설문 구조 편집기</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+:root, [data-theme="dark"] {
+  --bg: #0a0a0a; --surface: #161616; --card: #1c1c1e;
+  --border: #2c2c2e; --border-light: #3a3a3c;
+  --text: #f5f5f7; --text2: #a1a1a6; --text3: #6e6e73;
+  --accent: #34c759; --accent-bg: rgba(52,199,89,0.12);
+  --red: #ff453a; --red-bg: rgba(255,69,58,0.12);
+  --blue: #0a84ff; --blue-bg: rgba(10,132,255,0.12);
+  --orange: #ff9f0a; --orange-bg: rgba(255,159,10,0.12);
+  --radius: 14px; --font: -apple-system, 'Pretendard', sans-serif;
+  --scale: 1;
+  --header-bg: rgba(10,10,10,0.95);
+}
+[data-theme="light"] {
+  --bg: #f2f2f7; --surface: #ffffff; --card: #ffffff;
+  --border: #d1d1d6; --border-light: #e5e5ea;
+  --text: #1c1c1e; --text2: #636366; --text3: #8e8e93;
+  --accent: #34c759; --accent-bg: rgba(52,199,89,0.12);
+  --red: #ff3b30; --red-bg: rgba(255,59,48,0.1);
+  --blue: #007aff; --blue-bg: rgba(0,122,255,0.1);
+  --orange: #ff9500; --orange-bg: rgba(255,149,0,0.1);
+  --header-bg: rgba(242,242,247,0.92);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--font); background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; }
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+button { font-family:var(--font); cursor:pointer; -webkit-tap-highlight-color:transparent; }
+input, textarea { font-family:var(--font); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useRef, useEffect, useCallback } = React;
+
+// ═══════════════════════════════════════════════
+// 기본 데이터 — 현재 index.html 코드 기반
+// ═══════════════════════════════════════════════
+const DEFAULT_DATA = {
+  step1_conditions: [
+    { id: 'joint', label: '관절 · 척추 불편', desc: '디스크 · 협착증 · 무릎', hasDetail: true,
+      care: 'serviceFree',
+      heightAdj: { withBed_max: -3, noBed_min: 0, noBed_max: -8 },
+      recommendMattress: [], recommendFrame: [],
+      lowFrame: false, excludeModels: [],
+      rec: { care:'serviceFree', heightAdj:{withBed_max:-3,noBed_min:0,noBed_max:-8}, recommendMattress:[], recommendFrame:[], lowFrame:false, excludeModels:[] } },
+    { id: 'child', label: '아이 사용', desc: '영유아 ~ 초등', hasDetail: false,
+      care: 'total',
+      heightAdj: { withBed_max: -5, noBed_min: -8, noBed_max: -12 },
+      recommendMattress: ['elite','doublechainge','lunaire','compactfoam'], recommendFrame: ['family','myframeBasic'],
+      lowFrame: false, excludeModels: [],
+      rec: { care:'total', heightAdj:{withBed_max:-5,noBed_min:-8,noBed_max:-12}, recommendMattress:['elite','doublechainge','lunaire','compactfoam'], recommendFrame:['family','myframeBasic'], lowFrame:false, excludeModels:[] } },
+    { id: 'pet', label: '반려동물', desc: '강아지 · 고양이', hasDetail: true,
+      care: 'total',
+      heightAdj: { withBed_max: 0, noBed_min: 0, noBed_max: 0 },
+      recommendMattress: ['elite','doublechainge','lunaire','modi'], recommendFrame: ['myframeBasic','myframeSide'],
+      lowFrame: true, excludeModels: [],
+      rec: { care:'total', heightAdj:{withBed_max:0,noBed_min:0,noBed_max:0}, recommendMattress:['elite','doublechainge','lunaire','modi'], recommendFrame:['myframeBasic','myframeSide'], lowFrame:true, excludeModels:[] } },
+    { id: 'envHealth', label: '환경성질환', desc: '비염 · 아토피 · 천식', hasDetail: false,
+      care: 'total',
+      heightAdj: { withBed_max: 0, noBed_min: 0, noBed_max: 0 },
+      recommendMattress: [], recommendFrame: [],
+      lowFrame: false, excludeModels: [],
+      rec: { care:'total', heightAdj:{withBed_max:0,noBed_min:0,noBed_max:0}, recommendMattress:[], recommendFrame:[], lowFrame:false, excludeModels:[] } },
+    { id: 'heating', label: '전기장판 · 온열기구', desc: '전기매트 · 온수매트 · 찜질기', hasDetail: false,
+      care: 'special',
+      heightAdj: { withBed_max: 0, noBed_min: 0, noBed_max: 0 },
+      recommendMattress: [], recommendFrame: [],
+      lowFrame: false, excludeModels: ['compactfoam'],
+      rec: { care:'special', heightAdj:{withBed_max:0,noBed_min:0,noBed_max:0}, recommendMattress:[], recommendFrame:[], lowFrame:false, excludeModels:['compactfoam'] } },
+  ],
+
+  step2_joint_details: [
+    { id: 'spine', label: '척추', desc: '디스크 · 협착증' },
+    { id: 'knee', label: '관절', desc: '무릎 · 고관절' },
+    { id: 'general', label: '특별한 질환 없이 불편해요', desc: '' },
+  ],
+
+  step2_pet_status: [
+    { id: 'healthy', label: '건강한 편' },
+    { id: 'senior', label: '노견 · 관절 약함', effects: ['침대 높이 더 낮게 추천'] },
+  ],
+
+  step2_pet_clean: [
+    { id: 'robot', label: '로봇청소기', desc: '침대 밑 20cm 확보',
+      autoSet: '엘리트 + 마이프레임 (단매트리스)' },
+    { id: 'manual', label: '직접 청소', desc: '침대 밑 10cm 확보',
+      autoSet: '엘리트 + 마이프레임' },
+    { id: 'lowest', label: '최대한 낮게', desc: '저상 7cm',
+      autoSet: '엘리트 + 마이프레임 저상 모드 (단매트리스)' },
+  ],
+
+  step3_height_prefs: [
+    { id: 'lower', label: '좀 낮았으면', minOff: -15, maxOff: 0, rec: {minOff:-15, maxOff:0} },
+    { id: 'perfect', label: '딱 좋아요', minOff: -5, maxOff: 5, rec: {minOff:-5, maxOff:5} },
+    { id: 'higher', label: '좀 높았으면', minOff: 0, maxOff: 15, rec: {minOff:0, maxOff:15} },
+  ],
+
+  step3_height_profiles: [
+    { key: 150, label: '150cm대', emoji: '👧', optMin: 30, optMax: 51 },
+    { key: 160, label: '160cm대', emoji: '👩', optMin: 33, optMax: 54 },
+    { key: 170, label: '170cm대', emoji: '🧑', optMin: 36, optMax: 57 },
+    { key: 180, label: '180cm대', emoji: '👨', optMin: 39, optMax: 61 },
+  ],
+
+  step4_care_survey: [
+    { id: 'mattressAge', question: '현재 매트리스 사용 기간은?',
+      options: [
+        { label: '1~3년', value: '1to3' },
+        { label: '4~6년', value: '4to6' },
+        { label: '7~9년', value: '7to9', effect: '케어: 스페셜 후보' },
+        { label: '10년 이상', value: '10over', effect: '케어: 스페셜 후보' },
+      ], multi: false },
+    { id: 'satisfaction', question: '현재 매트리스 만족도는?',
+      options: [
+        { label: '만족', value: 'good' },
+        { label: '보통', value: 'average' },
+        { label: '불만족', value: 'bad' },
+      ], multi: false },
+    { id: 'allergy', question: '아토피·비염이 있으신 분은?',
+      options: [
+        { label: '본인', value: 'self', effect: '케어: 토탈 확정' },
+        { label: '배우자', value: 'spouse', effect: '케어: 토탈 확정' },
+        { label: '아이', value: 'child', effect: '케어: 토탈 확정' },
+        { label: '해당없음', value: 'none' },
+      ], multi: true },
+    { id: 'sweat', question: '수면 중 땀을 얼마나 흘리시나요?',
+      options: [
+        { label: '거의 안 함', value: 'little' },
+        { label: '조금', value: 'some' },
+        { label: '많이', value: 'much', effect: '매트리스: 루네어 자동' },
+      ], multi: false },
+    { id: 'withWhom', question: '누구와 함께 사용하시나요?',
+      options: [
+        { label: '혼자', value: 'alone' },
+        { label: '배우자', value: 'spouse' },
+        { label: '자녀', value: 'child', effect: '케어: 토탈 확정' },
+        { label: '반려동물', value: 'pet', effect: '케어: 토탈 확정' },
+      ], multi: true },
+  ],
+
+  step5_frame_types: [
+    { id: '투매트리스', label: '투매트리스', desc: '숙면 · 편안함 (80% 추천)',
+      models: ['파운데이션', '우디', '코지', '볼륨', '루나'],
+      heightNote: '권장범위 optMax +10cm' },
+    { id: '단매트리스', label: '단매트리스', desc: '지지력 · 안정감',
+      models: ['마이프레임 베이직', '마이프레임 사이드', '패밀리', '그레이스'],
+      heightNote: '' },
+  ],
+
+  step6_mattress_pools: [
+    { condition: '관절 (jointSet)', models: ['전체 매트리스'], note: '탑퍼 유형별 장단점' },
+    { condition: '반려동물 (petSet)', models: ['엘리트', '더블체인지', '루네어', '모디'], note: '세탁+교체 가능' },
+    { condition: '아이 (childSet)', models: ['엘리트', '더블체인지', '루네어', '컴팩트폼'], note: '안전+세탁' },
+    { condition: '환경질환 (envSet)', models: ['전체 매트리스'], note: '케어가 핵심' },
+    { condition: '온열기구', models: ['컴팩트폼 제외'], note: '열 변형 위험' },
+  ],
+
+  step6_care_rules: [
+    { priority: 1, condition: 'pet / allergy / child / envHealth', result: '토탈케어' },
+    { priority: 2, condition: '매트리스 7년+', result: '스페셜케어' },
+    { priority: 3, condition: '온열기구', result: '스페셜케어' },
+    { priority: 4, condition: '그 외', result: '서비스프리' },
+  ],
+
+  step6_frame_rules: [
+    { condition: '반려동물+로봇청소기', result: '마이프레임 (밑 20cm)' },
+    { condition: '반려동물+직접청소', result: '마이프레임 (밑 10cm)' },
+    { condition: '반려동물+최대한 낮게', result: '마이프레임 저상 (7cm)' },
+    { condition: '그 외', result: '사용자 선택 유지' },
+  ],
+
+  height_judgment: [
+    { id: 'optimal', label: '최적', icon: '✓', color: '초록', rule: '범위 안' },
+    { id: 'ok', label: 'OK', icon: '✓', color: '초록', rule: '범위 ±5cm 이내' },
+    { id: 'high', label: '높아요', icon: '△', color: '주황', rule: '범위+5cm 초과' },
+    { id: 'low', label: '낮아요', icon: '△', color: '주황', rule: '범위-5cm 미만' },
+  ],
+
+  height_corrections: {
+    with_bed: {
+      label: '현재 침대가 있는 고객',
+      desc: '기존 침대 높이 기준으로, 최대 권장 높이만 낮춰요',
+      adjustments: [
+        { id: 'joint', label: '관절 불편', maxAdj: -3, minAdj: 0 },
+        { id: 'child', label: '아이 사용', maxAdj: -5, minAdj: 0 },
+        { id: 'senior', label: '노견', maxAdj: -3, minAdj: 0 },
+      ]
+    },
+    without_bed: {
+      label: '처음 구매 (침대 없음)',
+      desc: '키 기반 권장 범위에서 최소·최대 모두 조정해요',
+      adjustments: [
+        { id: 'joint', label: '관절 불편', maxAdj: -8, minAdj: 0 },
+        { id: 'child', label: '아이 사용', maxAdj: -12, minAdj: -8 },
+        { id: 'senior', label: '노견', maxAdj: -5, minAdj: 0 },
+      ]
+    },
+    two_mattress_bonus: 10,
+    default_range: { single: { min: 45, max: 55 }, double: { min: 45, max: 65 } },
+    safety: { minGap: 5, absoluteMin: 25 }
+  },
+};
+
+// ═══════════════════════════════════════════════
+// 컴포넌트
+// ═══════════════════════════════════════════════
+
+// 칩 태그
+const Tag = ({text, color='accent'}) => {
+  const colors = {
+    accent: {bg:'var(--accent-bg)', c:'var(--accent)'},
+    red: {bg:'var(--red-bg)', c:'var(--red)'},
+    blue: {bg:'var(--blue-bg)', c:'var(--blue)'},
+    orange: {bg:'var(--orange-bg)', c:'var(--orange)'},
+    gray: {bg:'rgba(174,174,178,0.12)', c:'var(--text3)'},
+  };
+  const s = colors[color] || colors.accent;
+  return <span style={{display:'inline-block',padding:'3px 8px',borderRadius:'6px',fontSize:'11px',fontWeight:600,background:s.bg,color:s.c,lineHeight:1.4}}>{text}</span>;
+};
+
+// 섹션 아코디언
+const Section = ({title, badge, children, defaultOpen=false, color='var(--accent)'}) => {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div style={{background:'var(--card)',borderRadius:'var(--radius)',overflow:'hidden',border:'1px solid var(--border)'}}>
+      <button onClick={()=>setOpen(!open)} style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px 18px',border:'none',background:'transparent',color:'var(--text)',cursor:'pointer'}}>
+        <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+          <div style={{width:'4px',height:'20px',borderRadius:'2px',background:color}} />
+          <span style={{fontSize:'15px',fontWeight:700}}>{title}</span>
+          {badge != null && <span style={{fontSize:'11px',fontWeight:700,color:'var(--text3)',background:'var(--border)',borderRadius:'10px',padding:'2px 8px'}}>{badge}</span>}
+        </div>
+        <span style={{fontSize:'18px',color:'var(--text3)',transition:'transform 0.2s',transform:open?'rotate(180deg)':'rotate(0)'}}>{'\u25BE'}</span>
+      </button>
+      {open && <div style={{padding:'0 18px 18px',display:'flex',flexDirection:'column',gap:'8px'}}>{children}</div>}
+    </div>
+  );
+};
+
+// 칩 편집기 — 태그를 개별 추가/삭제
+const ChipEditor = ({items=[], onChange, color='accent', placeholder='항목 입력 후 Enter'}) => {
+  const [input, setInput] = useState('');
+  const addChip = () => { const v = input.trim(); if (v && !items.includes(v)) { onChange([...items, v]); setInput(''); } };
+  return (
+    <div style={{display:'flex',flexDirection:'column',gap:'6px'}}>
+      <div style={{display:'flex',flexWrap:'wrap',gap:'4px'}}>
+        {items.map((t,i) => (
+          <span key={i} style={{display:'inline-flex',alignItems:'center',gap:'4px',padding:'4px 8px',borderRadius:'8px',fontSize:'11px',fontWeight:600,background:'var(--accent-bg)',color:'var(--accent)'}}>
+            {t}
+            <button onClick={()=>onChange(items.filter((_,j)=>j!==i))} style={{background:'none',border:'none',color:'var(--red)',fontSize:'12px',cursor:'pointer',padding:0,lineHeight:1}}>✕</button>
+          </span>
+        ))}
+      </div>
+      <div style={{display:'flex',gap:'4px'}}>
+        <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();addChip();}}}
+          placeholder={placeholder} style={{flex:1,padding:'6px 10px',borderRadius:'8px',border:'1px solid var(--border)',background:'var(--bg)',color:'var(--text)',fontSize:'12px',outline:'none'}} />
+        <button onClick={addChip} style={{padding:'6px 10px',borderRadius:'8px',border:'none',background:'var(--accent)',color:'#000',fontSize:'11px',fontWeight:700,cursor:'pointer',whiteSpace:'nowrap'}}>추가</button>
+      </div>
+    </div>
+  );
+};
+
+// 토글 스위치
+const Toggle = ({on, onToggle, label}) => (
+  <button onClick={onToggle} style={{display:'flex',alignItems:'center',gap:'8px',background:'none',border:'none',cursor:'pointer',padding:'4px 0'}}>
+    <div style={{width:'36px',height:'20px',borderRadius:'10px',background:on?'var(--accent)':'var(--border)',position:'relative',transition:'background 0.2s'}}>
+      <div style={{width:'16px',height:'16px',borderRadius:'8px',background:'#fff',position:'absolute',top:'2px',left:on?'18px':'2px',transition:'left 0.2s',boxShadow:'0 1px 3px rgba(0,0,0,0.3)'}} />
+    </div>
+    <span style={{fontSize:'12px',fontWeight:500,color:on?'var(--text)':'var(--text3)'}}>{label}</span>
+  </button>
+);
+
+// 인라인 텍스트 편집 — 항상 입력 가능, blur 시 자동 저장
+const InlineEdit = ({value, onChange, bold, placeholder, style:_s}) => {
+  return (
+    <input value={value||''} onChange={e=>onChange(e.target.value)} placeholder={placeholder||''}
+      style={{width:'100%',padding:'4px 8px',borderRadius:'6px',border:'1px solid var(--border)',background:'var(--bg)',color:'var(--text)',fontSize:bold?'14px':'12px',fontWeight:bold?700:500,outline:'none',..._s}}
+      onFocus={e=>e.target.style.borderColor='var(--accent)'}
+      onBlur={e=>e.target.style.borderColor='var(--border)'} />
+  );
+};
+
+// 선택지 상수
+const CARE_LIST = [
+  {id:'serviceFree',label:'서비스프리'},
+  {id:'special',label:'스페셜체인지'},
+  {id:'basic',label:'베이직케어'},
+  {id:'total',label:'토탈케어'},
+];
+const MATTRESS_LIST = [
+  {id:'elite',label:'엘리트',h:260},{id:'hybrid4',label:'하이브리드4',h:330},
+  {id:'lunaire',label:'루네어',h:345},{id:'modi',label:'모디',h:320},
+  {id:'doublechainge',label:'더블체인지',h:295},{id:'compactfoam',label:'컴팩트폼',h:210},
+];
+const FRAME_LIST = [
+  {id:'foundation',label:'파운데이션',h:290},{id:'woody',label:'우디',h:290},
+  {id:'cozy',label:'코지',h:290},{id:'volume',label:'볼륨',h:290},{id:'luna',label:'루나',h:290},
+  {id:'myframeBasic',label:'마이프레임B',h:200},{id:'myframeSide',label:'마이프레임S',h:200},
+  {id:'family',label:'패밀리',h:65},{id:'grace',label:'그레이스',h:190},
+];
+// 제품 조합 높이 계산 (주요 조합만)
+const getProductCombos = () => {
+  const combos = [];
+  MATTRESS_LIST.forEach(m => {
+    FRAME_LIST.forEach(f => {
+      const cm = (m.h + f.h) / 10;
+      combos.push({ mattress: m.label, frame: f.label, cm, key: m.id+'_'+f.id });
+    });
+  });
+  return combos.sort((a,b) => a.cm - b.cm);
+};
+const ALL_COMBOS = getProductCombos();
+
+// 원클릭 토글 칩 그룹
+const ChipToggleGroup = ({items, selected=[], onChange, radio=false, color='accent'}) => {
+  const toggle = (id) => {
+    if (radio) { onChange(id); return; }
+    onChange(selected.includes(id) ? selected.filter(x=>x!==id) : [...selected, id]);
+  };
+  const colors = {accent:'var(--accent)', blue:'var(--blue)', red:'var(--red)', orange:'var(--orange)'};
+  const c = colors[color] || colors.accent;
+  return (
+    <div style={{display:'flex',flexWrap:'wrap',gap:'5px'}}>
+      {items.map(it => {
+        const on = radio ? selected === it.id : (selected||[]).includes(it.id);
+        return (
+          <button key={it.id} onClick={()=>toggle(it.id)} style={{padding:'5px 10px',borderRadius:'8px',fontSize:'11px',fontWeight:on?700:500,cursor:'pointer',
+            border:on?`1.5px solid ${c}`:'1.5px solid var(--border)',
+            background:on?c+'1a':'transparent',
+            color:on?c:'var(--text3)',
+            transition:'all 0.15s'}}>
+            {on ? '✓ ' : ''}{it.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+};
+
+// 높이 보정 미니 입력
+const HeightAdjMini = ({adj, onChange}) => {
+  const CmIn = ({label, val, field}) => (
+    <div style={{display:'flex',alignItems:'center',gap:'4px'}}>
+      <span style={{fontSize:'10px',color:'var(--text3)',whiteSpace:'nowrap'}}>{label}</span>
+      <input type="number" value={val} onChange={e=>onChange({...adj,[field]:parseInt(e.target.value)||0})}
+        style={{width:'46px',padding:'5px 4px',borderRadius:'6px',border:'1px solid var(--border)',background:'var(--bg)',color:'var(--text)',fontSize:'12px',fontWeight:700,textAlign:'center',outline:'none'}} />
+    </div>
+  );
+  return (
+    <div style={{display:'flex',flexDirection:'column',gap:'6px'}}>
+      <div style={{display:'flex',alignItems:'center',gap:'8px',flexWrap:'wrap'}}>
+        <span style={{fontSize:'11px',color:'var(--text2)',fontWeight:600,minWidth:'64px'}}>침대 있을때</span>
+        <CmIn label="최대" val={adj.withBed_max} field="withBed_max" />
+      </div>
+      <div style={{display:'flex',alignItems:'center',gap:'8px',flexWrap:'wrap'}}>
+        <span style={{fontSize:'11px',color:'var(--text2)',fontWeight:600,minWidth:'64px'}}>처음 구매</span>
+        <CmIn label="최소" val={adj.noBed_min} field="noBed_min" />
+        <CmIn label="최대" val={adj.noBed_max} field="noBed_max" />
+      </div>
+    </div>
+  );
+};
+
+// 숨김/보임 버튼
+const VisToggle = ({hidden, onToggle}) => (
+  <button onClick={onToggle} title={hidden?'숨김 중 — 클릭하여 보이기':'보이는 중 — 클릭하여 숨기기'}
+    style={{width:'28px',height:'28px',borderRadius:'8px',border:'1px solid '+(hidden?'var(--red)':'var(--accent)'),background:hidden?'var(--red-bg)':'var(--accent-bg)',color:hidden?'var(--red)':'var(--accent)',fontSize:'14px',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,cursor:'pointer'}}>
+    {hidden?'⊘':'◉'}
+  </button>
+);
+
+// 범용 구조화 카드 (접기/펼치기 + 숨김 토글)
+const StructCard = ({item, onEdit, label, headerExtra, children}) => {
+  const [open, setOpen] = useState(!item.hidden);
+  const hidden = !!item.hidden;
+  const update = (patch) => onEdit({...item, ...patch});
+  return (
+    <div style={{background:'var(--surface)',borderRadius:'12px',border:'1px solid '+(hidden?'var(--red)':'var(--border)'),overflow:'hidden',opacity:hidden?0.5:1,transition:'opacity 0.2s'}}>
+      <div style={{display:'flex',alignItems:'center',gap:'8px',padding:'12px 14px',borderBottom:open&&!hidden?'1px solid var(--border)':'none'}}>
+        <button onClick={()=>setOpen(!open)} style={{background:'none',border:'none',color:'var(--text3)',fontSize:'14px',cursor:'pointer',padding:0}}>{open&&!hidden?'▾':'▸'}</button>
+        <InlineEdit value={item.label||label||''} onChange={v=>update({label:v})} bold placeholder="이름" style={{flex:1}} />
+        {headerExtra}
+        <VisToggle hidden={hidden} onToggle={()=>update({hidden:!hidden})} />
+      </div>
+      {open && !hidden && children && (
+        <div style={{padding:'12px 14px',display:'flex',flexDirection:'column',gap:'12px'}}>{children}</div>
+      )}
+      {hidden && <div style={{padding:'6px 14px',fontSize:'11px',color:'var(--red)',fontWeight:500}}>앱에서 숨겨짐</div>}
+    </div>
+  );
+};
+
+// 섹션 라벨
+const SLabel = ({text}) => <div style={{fontSize:'11px',fontWeight:700,color:'var(--text3)',marginBottom:'6px',letterSpacing:'0.05em'}}>{text}</div>;
+
+// 추천값 비교 배지
+const RecBadge = ({current, recommended, label}) => {
+  if (recommended === undefined) return null;
+  const eq = JSON.stringify(current) === JSON.stringify(recommended);
+  return eq
+    ? <span style={{fontSize:'9px',fontWeight:700,color:'var(--accent)',background:'var(--accent-bg)',padding:'2px 6px',borderRadius:'4px',marginLeft:'4px'}}>추천 ✓</span>
+    : <span style={{fontSize:'9px',fontWeight:700,color:'var(--orange)',background:'var(--orange-bg)',padding:'2px 6px',borderRadius:'4px',marginLeft:'4px',cursor:'pointer'}} title={'추천: '+JSON.stringify(recommended)}>추천값과 다름</span>;
+};
+
+// 조건 카드 (구조화 UI)
+const ConditionCard = ({item, onEdit}) => {
+  const update = (patch) => onEdit({...item, ...patch});
+  const r = item.rec || {};
+  return (
+    <StructCard item={item} onEdit={onEdit}>
+      <InlineEdit value={item.desc} onChange={v=>update({desc:v})} placeholder="설명" style={{fontSize:'12px',color:'var(--text3)'}} />
+      <div>
+        <div style={{display:'flex',alignItems:'center'}}><SLabel text="케어 자동설정" /><RecBadge current={item.care} recommended={r.care} /></div>
+        <ChipToggleGroup items={CARE_LIST} selected={item.care} onChange={v=>update({care:v})} radio color="accent" />
+      </div>
+      <div>
+        <div style={{display:'flex',alignItems:'center'}}><SLabel text="높이 보정 (cm)" /><RecBadge current={item.heightAdj} recommended={r.heightAdj} /></div>
+        <HeightAdjMini adj={item.heightAdj||{withBed_max:0,noBed_min:0,noBed_max:0}} onChange={v=>update({heightAdj:v})} />
+      </div>
+      <div>
+        <div style={{display:'flex',alignItems:'center'}}><SLabel text="추천 매트리스" /><RecBadge current={item.recommendMattress||[]} recommended={r.recommendMattress} /></div>
+        <ChipToggleGroup items={MATTRESS_LIST} selected={item.recommendMattress||[]} onChange={v=>update({recommendMattress:v})} color="blue" />
+        <div style={{fontSize:'10px',color:'var(--text3)',marginTop:'4px'}}>선택 없음 = 전체 가능</div>
+      </div>
+      {((item.excludeModels||[]).length > 0 || item.id === 'heating') && <div>
+        <div style={{display:'flex',alignItems:'center'}}><SLabel text="제외 모델" /><RecBadge current={item.excludeModels||[]} recommended={r.excludeModels} /></div>
+        <ChipToggleGroup items={MATTRESS_LIST} selected={item.excludeModels||[]} onChange={v=>update({excludeModels:v})} color="red" />
+      </div>}
+      <div>
+        <div style={{display:'flex',alignItems:'center'}}><SLabel text="추천 프레임" /><RecBadge current={item.recommendFrame||[]} recommended={r.recommendFrame} /></div>
+        <ChipToggleGroup items={FRAME_LIST} selected={item.recommendFrame||[]} onChange={v=>update({recommendFrame:v})} color="blue" />
+        <div style={{fontSize:'10px',color:'var(--text3)',marginTop:'4px'}}>선택 없음 = 사용자 선택 유지</div>
+      </div>
+      <div style={{display:'flex',gap:'16px',flexWrap:'wrap'}}>
+        <Toggle on={item.hasDetail} label="Step 2 상세질문" onToggle={()=>update({hasDetail:!item.hasDetail})} />
+        <Toggle on={item.lowFrame} label="저상형 프레임 추천" onToggle={()=>update({lowFrame:!item.lowFrame})} />
+      </div>
+    </StructCard>
+  );
+};
+
+// 항목 카드 (인라인 편집)
+const ItemCard = ({item, fields, onDelete, onEdit, children}) => {
+  return (
+    <div style={{background:'var(--surface)',borderRadius:'12px',border:'1px solid var(--border)',padding:'12px 14px',position:'relative'}}>
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:'8px'}}>
+        <div style={{flex:1,minWidth:0}}>
+          {fields.map(f => {
+            const val = item[f.key];
+            // 태그 배열 — 칩 편집기
+            if (f.type === 'tags' && onEdit) return (
+              <div key={f.key} style={{marginTop:'6px'}}>
+                <div style={{fontSize:'10px',fontWeight:600,color:'var(--text3)',marginBottom:'4px'}}>{f.label}</div>
+                <ChipEditor items={val||[]} color={f.color||'accent'} placeholder={f.placeholder||'항목 입력 후 Enter'}
+                  onChange={newArr=>onEdit({...item,[f.key]:newArr})} />
+              </div>
+            );
+            if (f.type === 'tags') return (!val || val.length === 0) ? null : <div key={f.key} style={{display:'flex',flexWrap:'wrap',gap:'4px',marginTop:'4px'}}>{val.map((t,i) => <Tag key={i} text={t} color={f.color||'accent'}/>)}</div>;
+            // sub 텍스트 — 인라인 편집
+            if (f.type === 'sub' && onEdit) return (
+              <div key={f.key} style={{marginTop:'2px'}}>
+                <InlineEdit value={val||''} onChange={v=>onEdit({...item,[f.key]:v})} placeholder={f.label} style={{fontSize:'12px',color:'var(--text3)'}} />
+              </div>
+            );
+            if (f.type === 'sub') return val ? <div key={f.key} style={{fontSize:'12px',color:'var(--text3)',marginTop:'2px'}}>{val}</div> : null;
+            // 볼드 텍스트 — 인라인 편집
+            if (onEdit) return (
+              <InlineEdit key={f.key} value={val||''} onChange={v=>onEdit({...item,[f.key]:v})} bold={f.bold} placeholder={f.label} />
+            );
+            return <div key={f.key} style={{fontSize:'14px',fontWeight:f.bold?700:500,color:f.dim?'var(--text2)':'var(--text)'}}>{val}</div>;
+          })}
+          {children}
+        </div>
+        <div style={{display:'flex',gap:'4px',flexShrink:0}}>
+          {onDelete && <button onClick={()=>onDelete(item)} style={{width:'28px',height:'28px',borderRadius:'8px',border:'1px solid var(--red)',background:'var(--red-bg)',color:'var(--red)',fontSize:'13px',display:'flex',alignItems:'center',justifyContent:'center'}}>✕</button>}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// 추가 버튼
+const AddButton = ({onClick, label='항목 추가'}) => (
+  <button onClick={onClick} style={{width:'100%',padding:'12px',borderRadius:'12px',border:'2px dashed var(--border)',background:'transparent',color:'var(--text3)',fontSize:'13px',fontWeight:600,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',gap:'6px',transition:'border-color 0.2s'}}
+    onMouseEnter={e=>e.target.style.borderColor='var(--accent)'}
+    onMouseLeave={e=>e.target.style.borderColor='var(--border)'}>
+    + {label}
+  </button>
+);
+
+// ═══════════════════════════════════════════════
+// 메인 앱
+// ═══════════════════════════════════════════════
+function App() {
+  const [data, setData] = useState(() => {
+    try {
+      const s = localStorage.getItem('survey_editor_data');
+      if (!s) return DEFAULT_DATA;
+      const loaded = JSON.parse(s);
+      if (!loaded.height_corrections) loaded.height_corrections = DEFAULT_DATA.height_corrections;
+      // step1 마이그레이션: effects 텍스트 → 구조화 데이터
+      if (loaded.step1_conditions && loaded.step1_conditions[0] && loaded.step1_conditions[0].effects && !loaded.step1_conditions[0].care) {
+        loaded.step1_conditions = DEFAULT_DATA.step1_conditions;
+      }
+      // step3 마이그레이션: range 텍스트 → minOff/maxOff + rec
+      if (loaded.step3_height_prefs && loaded.step3_height_prefs[0] && (loaded.step3_height_prefs[0].range || !loaded.step3_height_prefs[0].rec)) {
+        loaded.step3_height_prefs = DEFAULT_DATA.step3_height_prefs;
+      }
+      return loaded;
+    } catch(e) { return DEFAULT_DATA; }
+  });
+  const [toast, setToast] = useState(null);
+  const [showExport, setShowExport] = useState(false);
+  const [fontScale, setFontScale] = useState(() => { try { return parseFloat(localStorage.getItem('survey_editor_scale'))||1; } catch(e) { return 1; } });
+  useEffect(() => { try { localStorage.setItem('survey_editor_scale', fontScale); } catch(e){} }, [fontScale]);
+  const [theme, setTheme] = useState(() => { try { return localStorage.getItem('survey_editor_theme')||'dark'; } catch(e) { return 'dark'; } });
+  useEffect(() => { document.documentElement.setAttribute('data-theme', theme); try { localStorage.setItem('survey_editor_theme', theme); } catch(e){} }, [theme]);
+  const toggleTheme = () => setTheme(prev => prev==='dark'?'light':'dark');
+  const scaleUp = () => setFontScale(prev => Math.min(prev + 0.1, 1.6));
+  const scaleDown = () => setFontScale(prev => Math.max(prev - 0.1, 0.8));
+
+  // 자동 저장
+  useEffect(() => {
+    try { localStorage.setItem('survey_editor_data', JSON.stringify(data)); } catch(e) {}
+  }, [data]);
+
+  const showToast = (msg) => { setToast(msg); setTimeout(()=>setToast(null), 2000); };
+
+  // 범용 배열 수정 헬퍼
+  const updateList = (key, newList) => setData(prev => ({...prev, [key]: newList}));
+  const deleteItem = (key, item) => updateList(key, data[key].filter(x => x !== item));
+  const editItem = (key, oldItem, newItem) => updateList(key, data[key].map(x => x === oldItem ? newItem : x));
+  const addItem = (key, newItem) => updateList(key, [...data[key], newItem]);
+
+  // 설문 옵션 수정
+  const updateSurveyOption = (qIdx, optIdx, newOpt) => {
+    const q = [...data.step4_care_survey];
+    q[qIdx] = {...q[qIdx], options: q[qIdx].options.map((o,i) => i===optIdx ? newOpt : o)};
+    updateList('step4_care_survey', q);
+  };
+  const deleteSurveyOption = (qIdx, optIdx) => {
+    const q = [...data.step4_care_survey];
+    q[qIdx] = {...q[qIdx], options: q[qIdx].options.filter((_,i) => i!==optIdx)};
+    updateList('step4_care_survey', q);
+  };
+  const addSurveyOption = (qIdx) => {
+    const q = [...data.step4_care_survey];
+    q[qIdx] = {...q[qIdx], options: [...q[qIdx].options, {label:'새 옵션', value:'new_'+Date.now(), effect:''}]};
+    updateList('step4_care_survey', q);
+  };
+
+  // 내보내기
+  const exportJSON = () => {
+    const json = JSON.stringify(data, null, 2);
+    navigator.clipboard.writeText(json).then(() => showToast('클립보드에 복사됨!')).catch(() => {});
+    setShowExport(true);
+  };
+
+  // 초기화
+  const resetData = () => { setData(DEFAULT_DATA); showToast('기본값으로 초기화됨'); };
+
+  return (
+    <div style={{maxWidth:'480px',margin:'0 auto',minHeight:'100vh',background:'var(--bg)',paddingBottom:'100px'}}>
+      {/* 헤더 — zoom 밖 */}
+      <div style={{position:'sticky',top:0,zIndex:100,background:'var(--header-bg)',backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',borderBottom:'1px solid var(--border)',padding:'10px 14px'}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+          <div style={{fontSize:'15px',fontWeight:800,letterSpacing:'-0.02em'}}>설문 구조 편집기</div>
+          <div style={{display:'flex',gap:'6px'}}>
+            <button onClick={resetData} style={{padding:'6px 10px',borderRadius:'8px',border:'1px solid var(--border)',background:'transparent',color:'var(--text2)',fontSize:'11px',fontWeight:600}}>초기화</button>
+            <button onClick={exportJSON} style={{padding:'6px 12px',borderRadius:'8px',border:'none',background:'var(--accent)',color:'#000',fontSize:'11px',fontWeight:700}}>JSON 내보내기</button>
+          </div>
+        </div>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:'6px'}}>
+          <div style={{display:'flex',alignItems:'center',gap:'6px'}}>
+            <span style={{fontSize:'10px',color:'var(--text3)'}}>맞춤 추천 · 높이 진단</span>
+            <button onClick={toggleTheme} style={{padding:'3px 8px',borderRadius:'6px',border:'1px solid var(--border)',background:'transparent',color:'var(--text2)',fontSize:'10px',fontWeight:600,cursor:'pointer'}}>{theme==='dark'?'☀️ 주간':'🌙 야간'}</button>
+          </div>
+          <div style={{display:'flex',alignItems:'center',gap:'2px',background:'var(--border)',borderRadius:'8px',padding:'2px'}}>
+            <button onClick={scaleDown} style={{width:'32px',height:'28px',borderRadius:'6px',border:'none',background:fontScale<=0.8?'var(--border)':'transparent',color:'var(--text)',fontSize:'12px',fontWeight:800,cursor:fontScale<=0.8?'default':'pointer',opacity:fontScale<=0.8?0.3:1}}>A-</button>
+            <span style={{fontSize:'10px',color:'var(--text3)',fontWeight:700,minWidth:'32px',textAlign:'center'}}>{Math.round(fontScale*100)}%</span>
+            <button onClick={scaleUp} style={{width:'32px',height:'28px',borderRadius:'6px',border:'none',background:fontScale>=1.6?'var(--border)':'transparent',color:'var(--text)',fontSize:'12px',fontWeight:800,cursor:fontScale>=1.6?'default':'pointer',opacity:fontScale>=1.6?0.3:1}}>A+</button>
+          </div>
+        </div>
+      </div>
+
+      {/* 콘텐츠 — zoom 적용 */}
+      <div style={{padding:'12px',display:'flex',flexDirection:'column',gap:'10px',zoom:fontScale}}>
+
+        {/* ──── Step 1 ──── */}
+        <Section title="Step 1 — 조건 체크리스트" badge={data.step1_conditions.length} color="var(--accent)" defaultOpen={true}>
+          {data.step1_conditions.map((item,i) => (
+            <ConditionCard key={item.id+i} item={item}
+              onEdit={(d)=>editItem('step1_conditions',item,d)} />
+          ))}
+          <AddButton label="조건 추가" onClick={()=>addItem('step1_conditions',{id:'new_'+Date.now(),label:'새 조건',desc:'설명',hasDetail:false,care:'serviceFree',heightAdj:{withBed_max:0,noBed_min:0,noBed_max:0},recommendMattress:[],recommendFrame:[],lowFrame:false,excludeModels:[]})} />
+        </Section>
+
+        {/* ──── Step 2: 관절 상세 ──── */}
+        <Section title="Step 2-1 — 관절 상세" badge={data.step2_joint_details.filter(x=>!x.hidden).length+'/'+data.step2_joint_details.length} color="var(--blue)">
+          {data.step2_joint_details.map((item,i) => (
+            <StructCard key={item.id+i} item={item} onEdit={(d)=>editItem('step2_joint_details',item,d)}>
+              <InlineEdit value={item.desc||''} onChange={v=>editItem('step2_joint_details',item,{...item,desc:v})} placeholder="설명" style={{fontSize:'12px',color:'var(--text3)'}} />
+            </StructCard>
+          ))}
+          <AddButton label="부위 추가" onClick={()=>addItem('step2_joint_details',{id:'new_'+Date.now(),label:'새 부위',desc:''})} />
+        </Section>
+
+        {/* ──── Step 2: 반려동물 상태 ──── */}
+        <Section title="Step 2-2 — 반려동물 상태" badge={data.step2_pet_status.filter(x=>!x.hidden).length+'/'+data.step2_pet_status.length} color="var(--blue)">
+          {data.step2_pet_status.map((item,i) => (
+            <StructCard key={item.id+i} item={item} onEdit={(d)=>editItem('step2_pet_status',item,d)}>
+              <SLabel text="높이 보정" />
+              <HeightAdjMini adj={item.heightAdj||{withBed_max:0,noBed_min:0,noBed_max:0}} onChange={v=>editItem('step2_pet_status',item,{...item,heightAdj:v})} />
+            </StructCard>
+          ))}
+          <AddButton label="상태 추가" onClick={()=>addItem('step2_pet_status',{id:'new_'+Date.now(),label:'새 상태',heightAdj:{withBed_max:0,noBed_min:0,noBed_max:0}})} />
+        </Section>
+
+        {/* ──── Step 2: 청소 환경 ──── */}
+        <Section title="Step 2-3 — 청소 환경" badge={data.step2_pet_clean.filter(x=>!x.hidden).length+'/'+data.step2_pet_clean.length} color="var(--blue)">
+          {data.step2_pet_clean.map((item,i) => (
+            <StructCard key={item.id+i} item={item} onEdit={(d)=>editItem('step2_pet_clean',item,d)}>
+              <InlineEdit value={item.desc||''} onChange={v=>editItem('step2_pet_clean',item,{...item,desc:v})} placeholder="설명" style={{fontSize:'12px',color:'var(--text3)'}} />
+              <div>
+                <SLabel text="자동 세팅 매트리스" />
+                <ChipToggleGroup items={MATTRESS_LIST} selected={item.autoMattress||[]} onChange={v=>editItem('step2_pet_clean',item,{...item,autoMattress:v})} color="blue" />
+              </div>
+              <div>
+                <SLabel text="자동 세팅 프레임" />
+                <ChipToggleGroup items={FRAME_LIST} selected={item.autoFrame||[]} onChange={v=>editItem('step2_pet_clean',item,{...item,autoFrame:v})} color="blue" />
+              </div>
+              <Toggle on={item.forceSingleMattress} label="단매트리스 강제" onToggle={()=>editItem('step2_pet_clean',item,{...item,forceSingleMattress:!item.forceSingleMattress})} />
+            </StructCard>
+          ))}
+          <AddButton label="청소 옵션 추가" onClick={()=>addItem('step2_pet_clean',{id:'new_'+Date.now(),label:'새 옵션',desc:'',autoMattress:['elite'],autoFrame:['myframeBasic'],forceSingleMattress:false})} />
+        </Section>
+
+        {/* ──── Step 3: 높이 선호 ──── */}
+        {(() => {
+        const [exH, setExH] = useState(40);
+        return (
+        <Section title="Step 3 — 침대 높이 선호" badge={data.step3_height_prefs.filter(x=>!x.hidden).length+'/'+data.step3_height_prefs.length} color="var(--orange)">
+          <div style={{display:'flex',alignItems:'center',gap:'8px',padding:'10px 12px',borderRadius:'10px',background:'var(--bg)',border:'1px solid var(--border)'}}>
+            <span style={{fontSize:'12px',fontWeight:700,color:'var(--text2)'}}>고객 현재 침대</span>
+            <input type="number" value={exH} onChange={e=>setExH(parseInt(e.target.value)||0)}
+              style={{width:'60px',padding:'6px',borderRadius:'8px',border:'1px solid var(--accent)',background:'var(--surface)',color:'var(--accent)',fontSize:'16px',fontWeight:900,textAlign:'center',outline:'none'}} />
+            <span style={{fontSize:'12px',color:'var(--text3)'}}>cm 기준으로 미리보기</span>
+          </div>
+          {data.step3_height_prefs.map((item,i) => {
+            const updPref = (patch) => editItem('step3_height_prefs',item,{...item,...patch});
+            return (
+            <StructCard key={item.id+i} item={item} onEdit={(d)=>editItem('step3_height_prefs',item,d)}>
+              {/* 추천값 비교 */}
+              {item.rec && (item.minOff !== item.rec.minOff || item.maxOff !== item.rec.maxOff) && (
+                <div style={{padding:'6px 10px',borderRadius:'8px',background:'var(--orange-bg)',border:'1px solid rgba(255,159,10,0.2)',display:'flex',alignItems:'center',gap:'6px',fontSize:'11px'}}>
+                  <span style={{color:'var(--orange)',fontWeight:700}}>추천값과 다름</span>
+                  <span style={{color:'var(--text3)'}}>추천: 현재 {item.rec.minOff!==null?item.rec.minOff:'∞'} ~ {item.rec.maxOff!==null?'+'+item.rec.maxOff:'∞'}</span>
+                  <button onClick={()=>updPref({minOff:item.rec.minOff, maxOff:item.rec.maxOff})} style={{marginLeft:'auto',fontSize:'10px',fontWeight:700,color:'var(--accent)',background:'none',border:'none',cursor:'pointer',textDecoration:'underline'}}>추천값 적용</button>
+                </div>
+              )}
+              {item.rec && item.minOff === item.rec.minOff && item.maxOff === item.rec.maxOff && (
+                <div style={{fontSize:'10px',color:'var(--accent)',fontWeight:600}}>✓ 추천값과 일치</div>
+              )}
+              {/* 설정 */}
+              <div style={{display:'flex',gap:'8px',flexWrap:'wrap'}}>
+                <div style={{flex:1,minWidth:'120px',display:'flex',alignItems:'center',gap:'6px',padding:'8px 10px',borderRadius:'8px',background:'var(--bg)',border:'1px solid var(--border)'}}>
+                  <span style={{fontSize:'12px',color:'var(--text2)',fontWeight:700}}>최소</span>
+                  {item.minOff !== null ? (<>
+                    <span style={{fontSize:'10px',color:'var(--text3)'}}>현재</span>
+                    <input type="number" value={item.minOff!=null?item.minOff:0} onChange={e=>updPref({minOff:e.target.value===''?0:parseInt(e.target.value)})}
+                      style={{width:'44px',padding:'4px',borderRadius:'6px',border:'1px solid var(--border)',background:'var(--surface)',color:'var(--text)',fontSize:'13px',fontWeight:700,textAlign:'center',outline:'none'}} />
+                  </>) : <Tag text="제한없음" color="blue" />}
+                  <button onClick={()=>updPref({minOff:item.minOff!==null?null:0})} style={{fontSize:'9px',color:'var(--blue)',background:'none',border:'none',cursor:'pointer',textDecoration:'underline'}}>{item.minOff!==null?'해제':'설정'}</button>
+                </div>
+                <div style={{flex:1,minWidth:'120px',display:'flex',alignItems:'center',gap:'6px',padding:'8px 10px',borderRadius:'8px',background:'var(--bg)',border:'1px solid var(--border)'}}>
+                  <span style={{fontSize:'12px',color:'var(--text2)',fontWeight:700}}>최대</span>
+                  {item.maxOff !== null ? (<>
+                    <span style={{fontSize:'10px',color:'var(--text3)'}}>현재</span>
+                    <input type="number" value={item.maxOff!=null?item.maxOff:0} onChange={e=>updPref({maxOff:e.target.value===''?0:parseInt(e.target.value)})}
+                      style={{width:'44px',padding:'4px',borderRadius:'6px',border:'1px solid var(--border)',background:'var(--surface)',color:'var(--text)',fontSize:'13px',fontWeight:700,textAlign:'center',outline:'none'}} />
+                  </>) : <Tag text="제한없음" color="blue" />}
+                  <button onClick={()=>updPref({maxOff:item.maxOff!==null?null:0})} style={{fontSize:'9px',color:'var(--blue)',background:'none',border:'none',cursor:'pointer',textDecoration:'underline'}}>{item.maxOff!==null?'해제':'설정'}</button>
+                </div>
+              </div>
+              {/* 예시 + 제품 조합 미리보기 */}
+              {(() => {
+                const ex = exH;
+                const lo = item.minOff !== null ? ex + item.minOff : 0;
+                const hi = item.maxOff !== null ? ex + item.maxOff : 999;
+                const inRange = ALL_COMBOS.filter(c => c.cm >= lo && c.cm <= hi);
+                const outRange = ALL_COMBOS.filter(c => c.cm < lo || c.cm > hi);
+                // 대표 조합만 (같은 높이 중복 제거)
+                const seen = new Set();
+                const unique = (arr) => arr.filter(c => { const k = c.cm.toFixed(1); if(seen.has(k)) return false; seen.add(k); return true; });
+                const inU = unique(inRange).slice(0,6);
+                seen.clear();
+                const outU = unique(outRange).slice(0,3);
+                return (
+                <div style={{padding:'10px 12px',borderRadius:'10px',background:'var(--bg)',border:'1px solid var(--border)'}}>
+                  <div style={{fontSize:'10px',color:'var(--text3)',marginBottom:'6px'}}>예시) 고객 현재 침대 = {ex}cm → 권장 {lo > 0 ? lo : '—'}~{hi < 999 ? hi : '∞'}cm</div>
+                  {inU.length > 0 && (
+                    <div style={{display:'flex',flexDirection:'column',gap:'3px'}}>
+                      {inU.map(c => (
+                        <div key={c.key} style={{display:'flex',alignItems:'center',gap:'6px',fontSize:'11px'}}>
+                          <span style={{color:'var(--accent)',fontWeight:700}}>✓</span>
+                          <span style={{color:'var(--text)',fontWeight:500}}>{c.mattress}+{c.frame}</span>
+                          <span style={{color:'var(--text3)',marginLeft:'auto',fontWeight:700,fontFamily:'var(--font)'}}>{c.cm.toFixed(1)}cm</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {outU.length > 0 && (
+                    <div style={{marginTop:'6px',paddingTop:'6px',borderTop:'1px solid var(--border)',display:'flex',flexDirection:'column',gap:'2px'}}>
+                      {outU.map(c => (
+                        <div key={c.key} style={{display:'flex',alignItems:'center',gap:'6px',fontSize:'10px',opacity:0.5}}>
+                          <span style={{color:'var(--red)'}}>✕</span>
+                          <span style={{color:'var(--text3)'}}>{c.mattress}+{c.frame}</span>
+                          <span style={{color:'var(--text3)',marginLeft:'auto'}}>{c.cm.toFixed(1)}cm</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {inU.length === 0 && <div style={{fontSize:'11px',color:'var(--red)',fontWeight:600}}>범위 안에 제품 조합이 없습니다</div>}
+                </div>
+                );
+              })()}
+            </StructCard>
+            );
+          })}
+          <AddButton label="선호 추가" onClick={()=>addItem('step3_height_prefs',{id:'new_'+Date.now(),label:'새 선호',minOff:0,maxOff:0})} />
+        </Section>
+        );
+        })()}
+
+        {/* ──── Step 3: 키 프로필 ──── */}
+        <Section title="Step 3 — 키 프로필" badge={data.step3_height_profiles.filter(x=>!x.hidden).length+'/'+data.step3_height_profiles.length} color="var(--orange)">
+          {data.step3_height_profiles.map((item,i) => (
+            <StructCard key={item.key+'_'+i} item={{...item,label:item.label||item.key+'cm대'}} onEdit={(d)=>editItem('step3_height_profiles',item,d)}>
+              <div style={{display:'flex',gap:'8px',flexWrap:'wrap',alignItems:'center'}}>
+                <div style={{display:'flex',alignItems:'center',gap:'4px'}}>
+                  <span style={{fontSize:'11px',color:'var(--text3)'}}>이모지</span>
+                  <input value={item.emoji||''} onChange={e=>editItem('step3_height_profiles',item,{...item,emoji:e.target.value})}
+                    style={{width:'40px',padding:'5px',borderRadius:'6px',border:'1px solid var(--border)',background:'var(--bg)',color:'var(--text)',fontSize:'16px',textAlign:'center',outline:'none'}} />
+                </div>
+                <div style={{display:'flex',alignItems:'center',gap:'4px'}}>
+                  <span style={{fontSize:'11px',color:'var(--text3)'}}>최소</span>
+                  <input type="number" value={item.optMin||0} onChange={e=>editItem('step3_height_profiles',item,{...item,optMin:parseInt(e.target.value)||0})}
+                    style={{width:'50px',padding:'5px',borderRadius:'6px',border:'1px solid var(--border)',background:'var(--bg)',color:'var(--text)',fontSize:'13px',fontWeight:700,textAlign:'center',outline:'none'}} />
+                </div>
+                <span style={{color:'var(--text3)'}}>~</span>
+                <div style={{display:'flex',alignItems:'center',gap:'4px'}}>
+                  <span style={{fontSize:'11px',color:'var(--text3)'}}>최대</span>
+                  <input type="number" value={item.optMax||0} onChange={e=>editItem('step3_height_profiles',item,{...item,optMax:parseInt(e.target.value)||0})}
+                    style={{width:'50px',padding:'5px',borderRadius:'6px',border:'1px solid var(--border)',background:'var(--bg)',color:'var(--text)',fontSize:'13px',fontWeight:700,textAlign:'center',outline:'none'}} />
+                </div>
+                <span style={{fontSize:'11px',color:'var(--text3)'}}>cm</span>
+              </div>
+              {/* 제품 조합 미리보기 */}
+              {(() => {
+                const lo = item.optMin || 0;
+                const hi = item.optMax || 0;
+                const seen = new Set();
+                const inR = ALL_COMBOS.filter(c => c.cm >= lo && c.cm <= hi).filter(c => { const k = c.cm.toFixed(1); if(seen.has(k)) return false; seen.add(k); return true; }).slice(0,5);
+                seen.clear();
+                const outR = ALL_COMBOS.filter(c => c.cm < lo || c.cm > hi).filter(c => { const k = c.cm.toFixed(1); if(seen.has(k)) return false; seen.add(k); return true; }).slice(0,2);
+                return (
+                <div style={{padding:'8px 10px',borderRadius:'8px',background:'var(--bg)',border:'1px solid var(--border)',marginTop:'4px'}}>
+                  <div style={{fontSize:'10px',color:'var(--text3)',marginBottom:'4px'}}>{item.emoji} {item.label} 권장 {lo}~{hi}cm 포함 제품</div>
+                  {inR.map(c => (
+                    <div key={c.key} style={{display:'flex',alignItems:'center',gap:'6px',fontSize:'11px',lineHeight:'20px'}}>
+                      <span style={{color:'var(--accent)',fontWeight:700}}>✓</span>
+                      <span style={{color:'var(--text)',fontWeight:500}}>{c.mattress}+{c.frame}</span>
+                      <span style={{color:'var(--text3)',marginLeft:'auto',fontWeight:700}}>{c.cm.toFixed(1)}cm</span>
+                    </div>
+                  ))}
+                  {outR.length > 0 && <div style={{borderTop:'1px solid var(--border)',marginTop:'4px',paddingTop:'4px'}}>
+                    {outR.map(c => (
+                      <div key={c.key} style={{display:'flex',alignItems:'center',gap:'6px',fontSize:'10px',opacity:0.5,lineHeight:'18px'}}>
+                        <span style={{color:'var(--red)'}}>✕</span>
+                        <span style={{color:'var(--text3)'}}>{c.mattress}+{c.frame}</span>
+                        <span style={{color:'var(--text3)',marginLeft:'auto'}}>{c.cm.toFixed(1)}cm</span>
+                      </div>
+                    ))}
+                  </div>}
+                  {inR.length === 0 && <div style={{fontSize:'11px',color:'var(--red)',fontWeight:600}}>범위 안에 제품 조합이 없습니다</div>}
+                </div>
+                );
+              })()}
+            </StructCard>
+          ))}
+          <AddButton label="키 프로필 추가" onClick={()=>addItem('step3_height_profiles',{key:190,label:'190cm대',emoji:'🧔',optMin:42,optMax:64})} />
+        </Section>
+
+        {/* ──── Step 4: 케어 설문 ──── */}
+        <Section title="Step 4 — 케어 설문" badge={`${data.step4_care_survey.filter(x=>!x.hidden).length}/${data.step4_care_survey.length}문항`} color="#af52de">
+          {data.step4_care_survey.map((q,qi) => (
+            <StructCard key={q.id} item={{...q,label:q.question}} onEdit={(d)=>{const nq=[...data.step4_care_survey];nq[qi]={...nq[qi],...d,question:d.label||d.question};updateList('step4_care_survey',nq);}}>
+              <Toggle on={q.multi} label="복수 선택 가능" onToggle={()=>{const nq=[...data.step4_care_survey];nq[qi]={...nq[qi],multi:!nq[qi].multi};updateList('step4_care_survey',nq);}} />
+              {q.options.map((opt,oi) => (
+                <div key={opt.value+oi} style={{padding:'8px 10px',borderRadius:'8px',background:'var(--bg)',border:'1px solid var(--border)',display:'flex',flexDirection:'column',gap:'4px'}}>
+                  <div style={{display:'flex',alignItems:'center',gap:'6px'}}>
+                    <InlineEdit value={opt.label} onChange={v=>{const nq=[...data.step4_care_survey];nq[qi]={...nq[qi],options:nq[qi].options.map((o,j)=>j===oi?{...o,label:v}:o)};updateList('step4_care_survey',nq);}} bold placeholder="옵션명" />
+                    <VisToggle hidden={opt.hidden} onToggle={()=>{const nq=[...data.step4_care_survey];nq[qi]={...nq[qi],options:nq[qi].options.map((o,j)=>j===oi?{...o,hidden:!o.hidden}:o)};updateList('step4_care_survey',nq);}} />
+                  </div>
+                  {!opt.hidden && (
+                    <div>
+                      <SLabel text="이 옵션 선택 시 효과" />
+                      <ChipToggleGroup items={[{id:'케어: 토탈',label:'케어→토탈'},{id:'케어: 스페셜',label:'케어→스페셜'},{id:'매트리스: 루네어',label:'매트→루네어'}]} selected={opt.effect?[opt.effect]:[]} onChange={v=>{ const nq=[...data.step4_care_survey]; nq[qi]={...nq[qi],options:nq[qi].options.map((o,j)=>j===oi?{...o,effect:v.length>0?v[v.length-1]:''}:o)}; updateList('step4_care_survey',nq); }} color="blue" />
+                    </div>
+                  )}
+                </div>
+              ))}
+              <AddButton label="옵션 추가" onClick={()=>addSurveyOption(qi)} />
+            </StructCard>
+          ))}
+          <AddButton label="문항 추가" onClick={()=>addItem('step4_care_survey',{id:'new_'+Date.now(),question:'새 질문?',options:[{label:'옵션1',value:'opt1'},{label:'옵션2',value:'opt2'}],multi:false})} />
+        </Section>
+
+        {/* ──── Step 5: 프레임 타입 ──── */}
+        <Section title="Step 5 — 프레임 타입" badge={data.step5_frame_types.filter(x=>!x.hidden).length+'/'+data.step5_frame_types.length} color="var(--blue)">
+          {data.step5_frame_types.map((item,i) => (
+            <StructCard key={item.id+i} item={item} onEdit={(d)=>editItem('step5_frame_types',item,d)}>
+              <InlineEdit value={item.desc||''} onChange={v=>editItem('step5_frame_types',item,{...item,desc:v})} placeholder="설명" style={{fontSize:'12px',color:'var(--text3)'}} />
+              <div>
+                <SLabel text="포함 프레임" />
+                <ChipToggleGroup items={FRAME_LIST} selected={item.frameIds||[]} onChange={v=>editItem('step5_frame_types',item,{...item,frameIds:v})} color="accent" />
+              </div>
+              <InlineEdit value={item.heightNote||''} onChange={v=>editItem('step5_frame_types',item,{...item,heightNote:v})} placeholder="높이 보정 메모" style={{fontSize:'11px',color:'var(--text3)'}} />
+            </StructCard>
+          ))}
+          <AddButton label="타입 추가" onClick={()=>addItem('step5_frame_types',{id:'new_'+Date.now(),label:'새 타입',desc:'',frameIds:[],heightNote:''})} />
+        </Section>
+
+        {/* ──── Step 6: 케어 규칙 ──── */}
+        <Section title="Step 6 — 케어 자동설정 규칙" badge={data.step6_care_rules.filter(x=>!x.hidden).length+'/'+data.step6_care_rules.length} color="var(--red)">
+          {data.step6_care_rules.map((item,i) => (
+            <StructCard key={i} item={{...item,label:item.condition}} onEdit={(d)=>{editItem('step6_care_rules',item,{...item,...d,condition:d.label||d.condition});}}>
+              <div>
+                <SLabel text="결과 케어" />
+                <ChipToggleGroup items={CARE_LIST} selected={item.result_id||item.result} onChange={v=>editItem('step6_care_rules',item,{...item,result_id:v,result:CARE_LIST.find(c=>c.id===v)?.label||v})} radio color="accent" />
+              </div>
+              <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                <span style={{fontSize:'11px',color:'var(--text3)'}}>우선순위</span>
+                <input type="number" value={item.priority||i+1} onChange={e=>editItem('step6_care_rules',item,{...item,priority:parseInt(e.target.value)||1})}
+                  style={{width:'46px',padding:'5px',borderRadius:'6px',border:'1px solid var(--border)',background:'var(--bg)',color:'var(--text)',fontSize:'13px',fontWeight:700,textAlign:'center',outline:'none'}} />
+              </div>
+            </StructCard>
+          ))}
+          <AddButton label="규칙 추가" onClick={()=>addItem('step6_care_rules',{priority:data.step6_care_rules.length+1,condition:'새 조건',result:'서비스프리'})} />
+        </Section>
+
+        {/* ──── Step 6: 프레임 규칙 ──── */}
+        <Section title="Step 6 — 프레임 추천 규칙" badge={data.step6_frame_rules.filter(x=>!x.hidden).length+'/'+data.step6_frame_rules.length} color="var(--red)">
+          {data.step6_frame_rules.map((item,i) => (
+            <StructCard key={i} item={{...item,label:item.condition}} onEdit={(d)=>{editItem('step6_frame_rules',item,{...item,...d,condition:d.label||d.condition});}}>
+              <div>
+                <SLabel text="추천 프레임" />
+                <ChipToggleGroup items={FRAME_LIST} selected={item.frameIds||[]} onChange={v=>editItem('step6_frame_rules',item,{...item,frameIds:v})} color="blue" />
+                <div style={{fontSize:'10px',color:'var(--text3)',marginTop:'4px'}}>선택 없음 = 사용자 선택 유지</div>
+              </div>
+            </StructCard>
+          ))}
+          <AddButton label="규칙 추가" onClick={()=>addItem('step6_frame_rules',{condition:'새 조건',result:'',frameIds:[]})} />
+        </Section>
+
+        {/* ──── 높이 보정 상세 ──── */}
+        {(() => {
+          const hc = data.height_corrections;
+          if (!hc) return null;
+          const [hcTab, setHcTab] = useState('with_bed');
+          const scenario = hc[hcTab];
+          const isWithBed = hcTab === 'with_bed';
+
+          const updateAdj = (idx, field, val) => {
+            const newHc = JSON.parse(JSON.stringify(hc));
+            newHc[hcTab].adjustments[idx][field] = parseInt(val) || 0;
+            setData(prev => ({...prev, height_corrections: newHc}));
+          };
+          const deleteAdj = (idx) => {
+            const newHc = JSON.parse(JSON.stringify(hc));
+            newHc[hcTab].adjustments.splice(idx, 1);
+            setData(prev => ({...prev, height_corrections: newHc}));
+          };
+          const addAdj = () => {
+            const newHc = JSON.parse(JSON.stringify(hc));
+            newHc[hcTab].adjustments.push({id:'new_'+Date.now(), label:'새 조건', maxAdj:0, minAdj:0});
+            setData(prev => ({...prev, height_corrections: newHc}));
+          };
+          const updateCommon = (path, val) => {
+            const newHc = JSON.parse(JSON.stringify(hc));
+            const keys = path.split('.');
+            let obj = newHc;
+            for(let i=0;i<keys.length-1;i++) obj = obj[keys[i]];
+            obj[keys[keys.length-1]] = parseInt(val) || 0;
+            setData(prev => ({...prev, height_corrections: newHc}));
+          };
+
+          const CmInput = ({value, onChange, disabled}) => (
+            <div style={{display:'flex',alignItems:'center',gap:'4px'}}>
+              <input type="number" value={value} onChange={e=>onChange(e.target.value)} disabled={disabled}
+                style={{width:'56px',padding:'8px 6px',borderRadius:'8px',border:'1px solid var(--border)',background:disabled?'var(--border)':'var(--bg)',color:disabled?'var(--text3)':'var(--text)',fontSize:'14px',fontWeight:700,textAlign:'center',outline:'none',opacity:disabled?0.4:1}} />
+              <span style={{fontSize:'11px',color:'var(--text3)'}}>cm</span>
+            </div>
+          );
+
+          return (
+          <Section title="높이 보정 상세 설정" badge={`${scenario.adjustments.length}개 조건`} color="var(--orange)">
+            {/* 미니 탭 */}
+            <div style={{display:'flex',gap:'4px',background:'var(--bg)',borderRadius:'10px',padding:'3px'}}>
+              {[{k:'with_bed',l:'현재 침대 있음'},{k:'without_bed',l:'처음 구매'}].map(t => (
+                <button key={t.k} onClick={()=>setHcTab(t.k)}
+                  style={{flex:1,padding:'9px 8px',borderRadius:'8px',border:'none',fontSize:'12px',fontWeight:hcTab===t.k?700:500,cursor:'pointer',transition:'all 0.15s',
+                    background:hcTab===t.k?'var(--accent)':'transparent',
+                    color:hcTab===t.k?'#000':'var(--text3)'}}>
+                  {t.l}
+                </button>
+              ))}
+            </div>
+
+            {/* 시나리오 설명 */}
+            <div style={{padding:'10px 14px',borderRadius:'10px',background:'var(--bg)',border:'1px solid var(--border)'}}>
+              <div style={{fontSize:'12px',color:'var(--text2)',lineHeight:1.6}}>{scenario.desc}</div>
+            </div>
+
+            {/* 보정값 표 */}
+            <div style={{borderRadius:'12px',overflow:'hidden',border:'1px solid var(--border)'}}>
+              {/* 헤더 */}
+              <div style={{display:'grid',gridTemplateColumns:'1fr 80px 80px 32px',background:'var(--border)',padding:'10px 12px',gap:'8px'}}>
+                <span style={{fontSize:'11px',fontWeight:700,color:'var(--text2)'}}>조건</span>
+                <span style={{fontSize:'11px',fontWeight:700,color:isWithBed?'var(--text3)':'var(--text2)',textAlign:'center'}}>최소 보정</span>
+                <span style={{fontSize:'11px',fontWeight:700,color:'var(--text2)',textAlign:'center'}}>최대 보정</span>
+                <span></span>
+              </div>
+              {/* 행 */}
+              {scenario.adjustments.map((adj, idx) => (
+                <div key={adj.id+idx} style={{display:'grid',gridTemplateColumns:'1fr 80px 80px 32px',alignItems:'center',padding:'10px 12px',gap:'8px',background:'var(--surface)',borderTop:'1px solid var(--border)'}}>
+                  <div>
+                    <div style={{fontSize:'13px',fontWeight:600,color:'var(--text)'}}>{adj.label}</div>
+                  </div>
+                  <CmInput value={adj.minAdj} onChange={v=>updateAdj(idx,'minAdj',v)} disabled={isWithBed} />
+                  <CmInput value={adj.maxAdj} onChange={v=>updateAdj(idx,'maxAdj',v)} disabled={false} />
+                  <VisToggle hidden={adj.hidden} onToggle={()=>{const newHc=JSON.parse(JSON.stringify(hc));newHc[hcTab].adjustments[idx].hidden=!adj.hidden;setData(prev=>({...prev,height_corrections:newHc}));}} />
+                </div>
+              ))}
+            </div>
+            <AddButton label="조건 추가" onClick={addAdj} />
+
+            {/* 구분선 */}
+            <div style={{display:'flex',alignItems:'center',gap:'10px',margin:'8px 0'}}>
+              <div style={{flex:1,height:'1px',background:'var(--border)'}} />
+              <span style={{fontSize:'11px',fontWeight:600,color:'var(--text3)'}}>공통 설정</span>
+              <div style={{flex:1,height:'1px',background:'var(--border)'}} />
+            </div>
+
+            {/* 투매트리스 추가 높이 */}
+            <div style={{background:'var(--surface)',borderRadius:'12px',border:'1px solid var(--border)',padding:'14px'}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <div>
+                  <div style={{fontSize:'13px',fontWeight:600,color:'var(--text)'}}>투매트리스 추가 높이</div>
+                  <div style={{fontSize:'11px',color:'var(--text3)',marginTop:'2px'}}>투매트리스 프레임 선택 시 최대 권장에 더해짐</div>
+                </div>
+                <CmInput value={hc.two_mattress_bonus} onChange={v=>updateCommon('two_mattress_bonus',v)} />
+              </div>
+            </div>
+
+            {/* 기본 범위 */}
+            <div style={{background:'var(--surface)',borderRadius:'12px',border:'1px solid var(--border)',padding:'14px',display:'flex',flexDirection:'column',gap:'12px'}}>
+              <div style={{fontSize:'13px',fontWeight:600,color:'var(--text)'}}>기본 범위 (고객 키 미설정 시)</div>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <span style={{fontSize:'12px',color:'var(--text2)'}}>단매트리스</span>
+                <div style={{display:'flex',alignItems:'center',gap:'4px'}}>
+                  <CmInput value={hc.default_range.single.min} onChange={v=>updateCommon('default_range.single.min',v)} />
+                  <span style={{color:'var(--text3)',fontSize:'12px'}}>~</span>
+                  <CmInput value={hc.default_range.single.max} onChange={v=>updateCommon('default_range.single.max',v)} />
+                </div>
+              </div>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <span style={{fontSize:'12px',color:'var(--text2)'}}>투매트리스</span>
+                <div style={{display:'flex',alignItems:'center',gap:'4px'}}>
+                  <CmInput value={hc.default_range.double.min} onChange={v=>updateCommon('default_range.double.min',v)} />
+                  <span style={{color:'var(--text3)',fontSize:'12px'}}>~</span>
+                  <CmInput value={hc.default_range.double.max} onChange={v=>updateCommon('default_range.double.max',v)} />
+                </div>
+              </div>
+            </div>
+
+            {/* 안전 제한 */}
+            <div style={{background:'var(--surface)',borderRadius:'12px',border:'1px solid var(--border)',padding:'14px',display:'flex',flexDirection:'column',gap:'12px'}}>
+              <div style={{fontSize:'13px',fontWeight:600,color:'var(--text)'}}>안전 제한</div>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <div>
+                  <span style={{fontSize:'12px',color:'var(--text2)'}}>최소~최대 간격</span>
+                  <div style={{fontSize:'10px',color:'var(--text3)'}}>범위가 너무 좁아지지 않게</div>
+                </div>
+                <CmInput value={hc.safety.minGap} onChange={v=>updateCommon('safety.minGap',v)} />
+              </div>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <div>
+                  <span style={{fontSize:'12px',color:'var(--text2)'}}>최소 높이 하한</span>
+                  <div style={{fontSize:'10px',color:'var(--text3)'}}>이보다 낮은 침대는 추천 안 함</div>
+                </div>
+                <CmInput value={hc.safety.absoluteMin} onChange={v=>updateCommon('safety.absoluteMin',v)} />
+              </div>
+            </div>
+          </Section>
+          );
+        })()}
+
+        {/* ──── 높이 판정 ──── */}
+        <Section title="높이 판정 기준" badge={data.height_judgment.length} color="var(--orange)">
+          {data.height_judgment.map((item,i) => (
+            <ItemCard key={item.id+i} item={item}
+              fields={[
+                {key:'label',bold:true,label:'이름'},
+                {key:'rule',type:'sub',label:'조건'},
+                {key:'color',label:'색상'},
+                {key:'icon',label:'아이콘'},
+              ]}
+              onDelete={()=>deleteItem('height_judgment',item)}
+              onEdit={(d)=>editItem('height_judgment',item,d)} >
+              <div style={{marginTop:'4px',display:'flex',gap:'4px'}}>
+                <Tag text={`${item.icon} ${item.label}`} color={item.color==='초록'?'accent':'orange'} />
+                <Tag text={item.rule} color="gray" />
+              </div>
+            </ItemCard>
+          ))}
+        </Section>
+
+      </div>
+
+      {/* ──── 내보내기 모달 ──── */}
+      {showExport && (
+        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',zIndex:200,display:'flex',alignItems:'flex-end',justifyContent:'center'}}
+          onClick={(e)=>{if(e.target===e.currentTarget)setShowExport(false);}}>
+          <div style={{width:'100%',maxWidth:'480px',maxHeight:'70vh',background:'var(--card)',borderTopLeftRadius:'20px',borderTopRightRadius:'20px',display:'flex',flexDirection:'column',overflow:'hidden'}}>
+            <div style={{padding:'16px 18px',borderBottom:'1px solid var(--border)',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+              <span style={{fontSize:'15px',fontWeight:700}}>JSON 데이터</span>
+              <div style={{display:'flex',gap:'8px'}}>
+                <button onClick={()=>{navigator.clipboard.writeText(JSON.stringify(data,null,2));showToast('복사됨!');}} style={{padding:'6px 14px',borderRadius:'8px',border:'none',background:'var(--accent)',color:'#000',fontSize:'12px',fontWeight:700,cursor:'pointer'}}>복사</button>
+                <button onClick={()=>setShowExport(false)} style={{padding:'6px 12px',borderRadius:'8px',border:'1px solid var(--border)',background:'transparent',color:'var(--text2)',fontSize:'12px',fontWeight:600,cursor:'pointer'}}>닫기</button>
+              </div>
+            </div>
+            <div style={{flex:1,overflow:'auto',padding:'12px'}}>
+              <pre style={{fontSize:'11px',color:'var(--text2)',whiteSpace:'pre-wrap',wordBreak:'break-all',lineHeight:1.6,margin:0}}>{JSON.stringify(data,null,2)}</pre>
+            </div>
+            <div style={{padding:'14px 18px',borderTop:'1px solid var(--border)',background:'var(--surface)'}}>
+              <div style={{fontSize:'12px',color:'var(--text3)',lineHeight:1.6}}>
+                이 JSON을 Claude에게 전달하면 index.html 코드에 반영합니다.
+                <br/>예: "이 JSON으로 설문 구조 업데이트해줘"
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 토스트 */}
+      {toast && (
+        <div style={{position:'fixed',bottom:'40px',left:'50%',transform:'translateX(-50%)',padding:'10px 20px',borderRadius:'12px',background:'var(--accent)',color:'#000',fontSize:'13px',fontWeight:700,zIndex:300,boxShadow:'0 4px 20px rgba(0,0,0,0.4)',animation:'fadeIn 0.2s ease'}}>
+          {toast}
+        </div>
+      )}
+
+      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}`}</style>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

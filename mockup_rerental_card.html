@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=375"/>
+<title>재렌탈 구간 카드 목업</title>
+<style>
+  :root{
+    --color-background:#ffffff;
+    --color-surface:#f5f7fa;
+    --color-primary:#0090e2;
+    --color-accent:#2eaadc;
+    --color-accent-light:rgba(46,170,220,0.08);
+    --color-safe-bg:#f0f9ff;
+    --color-text-primary:#1a1a1a;
+    --color-text-secondary:#4a4a4a;
+    --color-text-tertiary:#8a8a8a;
+    --color-discount:#ff3b30;
+    --color-border:#e5e8ec;
+    --color-border-light:#eef1f4;
+    --font-number:'SF Pro Display','-apple-system',sans-serif;
+    font-family:'SF Pro Text','-apple-system','Noto Sans KR',sans-serif;
+  }
+  body{margin:0;background:#eef1f4;padding:20px 0;display:flex;flex-direction:column;align-items:center;gap:24px}
+  .phone{width:375px;background:#fff;border-radius:20px;box-shadow:0 4px 20px rgba(0,0,0,0.1);padding:16px;box-sizing:border-box}
+  .label{font-size:12px;font-weight:700;color:#666;margin:0 0 6px 2px}
+  .top-summary{padding:4px 2px 12px}
+  .price-big{font-size:38px;font-weight:300;color:var(--color-text-primary);letter-spacing:-0.02em;font-family:var(--font-number)}
+  .price-unit{font-size:14px;color:var(--color-text-tertiary);margin-left:4px}
+  .badge{display:inline-block;padding:3px 10px;border-radius:4px;background:var(--color-accent-light);color:var(--color-accent);font-size:11px;font-weight:700;margin-left:8px;vertical-align:middle}
+  .sub-save{font-size:12px;color:var(--color-accent);font-weight:600;margin-top:2px}
+
+  /* 재렌탈 구간 상세 카드 */
+  .rr-card{margin-top:12px;border-radius:4px;background:var(--color-safe-bg);border:1px solid var(--color-accent);overflow:hidden}
+  .rr-head{padding:8px 14px;display:flex;align-items:center;justify-content:space-between}
+  .rr-head-label{font-size:13px;font-weight:700;color:var(--color-primary)}
+  .rr-head-save{font-size:12px;font-weight:600;color:var(--color-discount)}
+  .rr-body{padding:6px 14px 10px;display:flex;gap:10px;border-top:1px solid rgba(46,170,220,0.12)}
+  .rr-col{flex:1;display:flex;justify-content:space-between;align-items:baseline}
+  .rr-col-label{font-size:11px;color:var(--color-text-tertiary)}
+  .rr-val-hero{font-size:15px;font-weight:800;color:var(--color-discount);font-family:var(--font-number)}
+  .rr-val-normal{font-size:14px;font-weight:600;color:var(--color-text-primary);font-family:var(--font-number)}
+  .rr-unit{font-size:10px;font-weight:400}
+  .rr-divider{width:1px;background:var(--color-border-light);flex-shrink:0}
+
+  /* 명세서 sub-line 섹션 */
+  .spec{margin-top:16px;padding:12px;background:var(--color-surface);border-radius:4px}
+  .spec-title{font-size:13px;font-weight:700;color:var(--color-text-primary);margin-bottom:10px}
+  .spec-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0}
+  .spec-main-label{font-size:13px;color:var(--color-text-secondary);font-weight:600}
+  .spec-main-val{font-size:13px;font-weight:700;color:var(--color-discount);font-family:var(--font-number)}
+  .spec-sub{display:flex;justify-content:space-between;align-items:baseline;padding:2px 0 2px 14px}
+  .spec-sub-label{font-size:11px;color:var(--color-text-tertiary)}
+  .spec-sub-val{font-size:11px;font-weight:500;color:var(--color-text-tertiary);font-family:var(--font-number)}
+
+  h2{font-size:14px;color:#4a4a4a;margin:0 0 4px;align-self:flex-start;padding-left:calc(50% - 187px)}
+  .note{font-size:11px;color:#888;padding:0 20px;max-width:500px;text-align:center}
+</style>
+</head>
+<body>
+
+<h2>① 메인 카드 — 재렌탈 구간 상세 카드</h2>
+<div class="phone">
+  <div class="top-summary">
+    <div class="label">재렌탈 월 납부액</div>
+    <div>
+      <span class="price-big">26,570</span><span class="price-unit">원/월</span>
+      <span class="badge">재렌탈</span>
+    </div>
+    <div class="sub-save">페스타보다 월 1,330원 더 저렴</div>
+  </div>
+
+  <!-- 재렌탈 구간 카드 (페스타 반값 카드와 동일 구조) -->
+  <div class="rr-card">
+    <div class="rr-head">
+      <span class="rr-head-label">재렌탈 할인 (2단계)</span>
+      <span class="rr-head-save">-288,120원</span>
+    </div>
+    <div class="rr-body">
+      <div class="rr-col">
+        <span class="rr-col-label">1~12개월</span>
+        <span class="rr-val-hero">24,000<span class="rr-unit">원/월</span></span>
+      </div>
+      <div class="rr-divider"></div>
+      <div class="rr-col">
+        <span class="rr-col-label">13~84개월</span>
+        <span class="rr-val-normal">27,000<span class="rr-unit">원/월</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="note">처음 12개월 <b>20% 할인</b>, 이후 대수·결합에 따라 <b>10·13·16% 할인</b>.<br/>카드는 페스타 반값 D-card와 동일 디자인·색상·레이아웃을 사용합니다.</p>
+
+<h2>② 혜택보기 명세서 — Sub-line 형식</h2>
+<div class="phone">
+  <div class="spec">
+    <div class="spec-title">할인 상세</div>
+
+    <div class="spec-row">
+      <span class="spec-main-label">자동이체 할인 (1,000원/월)</span>
+      <span class="spec-main-val">-84,000원</span>
+    </div>
+
+    <div class="spec-row">
+      <span class="spec-main-label">재렌탈 할인 (2단계)</span>
+      <span class="spec-main-val">-288,120원</span>
+    </div>
+    <div class="spec-sub">
+      <span class="spec-sub-label">└ 1~12개월: 월 24,000원 (−20%)</span>
+      <span class="spec-sub-val">-72,000원</span>
+    </div>
+    <div class="spec-sub">
+      <span class="spec-sub-label">└ 13~84개월: 월 27,000원 (−10%)</span>
+      <span class="spec-sub-val">-216,000원</span>
+    </div>
+
+    <div style="height:1px;background:var(--color-border);margin:10px 0"></div>
+
+    <div class="spec-row">
+      <span class="spec-main-label" style="font-weight:800;color:var(--color-discount)">총 할인</span>
+      <span class="spec-main-val" style="font-size:14px">-372,120원</span>
+    </div>
+  </div>
+</div>
+
+<p class="note">명세서에서는 <b>기존 페스타 반값 sub-line</b>(└ 처음 N개월 / └ 이후 구간)과 같은 계층 구조로 삽입.</p>
+
+</body>
+</html>

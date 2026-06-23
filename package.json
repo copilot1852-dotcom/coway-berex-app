@@ -1,0 +1,21 @@
+{
+  "name": "v5-festa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sw.js",
+  "scripts": {
+    "test": "node scripts/verify_promo_policy.js && node scripts/verify_card_promo_data.js && node scripts/verify_promo_notice_ui.js && node scripts/verify_modern_foundation_data.js && node scripts/verify_mattress_ontology.js && node scripts/verify_smart_s6_data.js && node scripts/verify_smart_s8_data.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-react": "^7.28.5"
+  },
+  "dependencies": {
+    "sharp": "^0.34.5"
+  }
+}

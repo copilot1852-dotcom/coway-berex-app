@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>메인화면 Notion 스타일</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background: #fff; color: #37352f;
+    max-width: 375px; margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 64px;
+  }
+  .num { font-family: 'Inter', 'SF Pro Display', 'Pretendard', sans-serif; }
+
+  /* ===== 헤더 ===== */
+  .header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid #e9e9e7;
+    position: sticky; top: 0; background: #fff; z-index: 10;
+  }
+  .header-logo { font-size: 15px; font-weight: 800; color: #37352f; letter-spacing: 0.05em; }
+  .header-tabs { display: flex; gap: 2px; }
+  .header-tab {
+    padding: 5px 12px; border-radius: 3px; border: none;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    background: transparent; color: #9b9a97;
+  }
+  .header-tab.active { background: #2eaadc; color: #fff; }
+  .header-right { display: flex; align-items: center; gap: 8px; }
+  .header-icon {
+    width: 28px; height: 28px; border-radius: 3px; border: 1px solid #e9e9e7;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; cursor: pointer; background: #fff;
+  }
+  .header-user {
+    font-size: 11px; font-weight: 500; color: #9b9a97;
+    display: flex; align-items: center; gap: 3px;
+  }
+
+  /* ===== HERO 가격 ===== */
+  .hero {
+    padding: 28px 20px 20px;
+    text-align: left;
+  }
+  .hero-label {
+    font-size: 11px; font-weight: 500; color: #9b9a97;
+    margin-bottom: 4px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .hero-price {
+    font-size: 42px; font-weight: 200; color: #37352f;
+    letter-spacing: -0.04em; line-height: 1.1;
+  }
+  .hero-price .unit { font-size: 16px; font-weight: 400; color: #9b9a97; margin-left: 2px; }
+  .hero-compare {
+    margin-top: 6px;
+    font-size: 12px; font-weight: 500; color: #2eaadc;
+  }
+
+  /* ===== 미니 대시보드 ===== */
+  .mini-dash {
+    display: flex; padding: 0 20px 16px;
+    gap: 0;
+  }
+  .mini-item {
+    flex: 1; text-align: center;
+    padding: 8px 0;
+    border-right: 1px solid #e9e9e7;
+  }
+  .mini-item:last-child { border-right: none; }
+  .mini-label { font-size: 11px; font-weight: 500; color: #9b9a97; margin-bottom: 2px; }
+  .mini-val { font-size: 14px; font-weight: 700; color: #37352f; letter-spacing: -0.02em; }
+  .mini-val.red { color: #eb5757; }
+
+  /* ===== 결합할인 ===== */
+  .cross-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 20px;
+    border-top: 1px solid #e9e9e7;
+    border-bottom: 1px solid #e9e9e7;
+  }
+  .cross-left { display: flex; align-items: center; gap: 8px; }
+  .cross-label { font-size: 13px; font-weight: 600; }
+  .cross-sub { font-size: 11px; color: #9b9a97; }
+  .toggle-track {
+    width: 36px; height: 20px; border-radius: 10px;
+    background: #e9e9e7; position: relative; cursor: pointer;
+  }
+  .toggle-thumb {
+    width: 16px; height: 16px; border-radius: 8px;
+    background: #fff; position: absolute; top: 2px; left: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  /* ===== 선택 그룹 ===== */
+  .sel-group {
+    padding: 10px 20px 6px;
+  }
+  .sel-row {
+    display: flex; align-items: center; gap: 0;
+    margin-bottom: 8px;
+  }
+  .sel-icon {
+    width: 28px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sel-icon-dot {
+    width: 6px; height: 16px; border-radius: 1px;
+  }
+  .sel-chips {
+    display: flex; gap: 4px; flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .sel-chip {
+    padding: 6px 14px; border-radius: 3px;
+    border: 1px solid #e9e9e7; background: #fff;
+    font-size: 13px; font-weight: 500; color: #37352f;
+    white-space: nowrap; cursor: pointer;
+    flex-shrink: 0;
+  }
+  .sel-chip.active {
+    background: #37352f; color: #fff; border-color: #37352f;
+  }
+  .sel-chip.active.size { background: #2eaadc; border-color: #2eaadc; }
+  .sel-chip.active.period { background: #2eaadc; border-color: #2eaadc; }
+  .sel-chip.active.matt { background: #9ec8b9; border-color: #9ec8b9; color: #fff; }
+  .sel-chip.active.frame { background: #b7d9ad; border-color: #b7d9ad; color: #fff; }
+  .sel-chip.active.care { background: #2eaadc; border-color: #2eaadc; }
+  .sel-more {
+    padding: 6px 8px; border-radius: 3px;
+    border: 1px solid #e9e9e7; background: #f7f6f3;
+    font-size: 12px; font-weight: 500; color: #9b9a97;
+    cursor: pointer; flex-shrink: 0;
+  }
+
+  /* ===== 액션 버튼 ===== */
+  .action-row {
+    display: flex; gap: 8px; padding: 8px 20px 6px;
+  }
+  .btn-primary {
+    flex: 1; padding: 11px; border-radius: 4px; border: none;
+    background: #37352f; color: #fff;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+  }
+  .btn-outline {
+    flex: 1; padding: 11px; border-radius: 4px;
+    border: 1px solid #e9e9e7; background: #fff;
+    font-size: 14px; font-weight: 700; color: #37352f; cursor: pointer;
+  }
+  .action-row2 {
+    display: flex; gap: 8px; padding: 4px 20px 12px;
+  }
+  .btn-ghost {
+    flex: 1; padding: 9px; border-radius: 4px;
+    border: 1px solid #e9e9e7; background: #fff;
+    font-size: 13px; font-weight: 600; color: #9b9a97; cursor: pointer;
+  }
+  .btn-accent {
+    flex: 1; padding: 9px; border-radius: 4px;
+    border: 1px solid #2eaadc; background: #fff;
+    font-size: 13px; font-weight: 700; color: #2eaadc; cursor: pointer;
+  }
+
+  /* ===== 하단 네비 ===== */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 375px; background: #fff;
+    border-top: 1px solid #e9e9e7;
+    display: flex; padding: 6px 0 10px;
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    gap: 2px; cursor: pointer; border: none; background: none;
+    font-size: 10px; font-weight: 500; color: #9b9a97;
+    padding: 4px 0;
+  }
+  .nav-icon { font-size: 18px; line-height: 1; }
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div class="header">
+  <span class="header-logo">COWAY</span>
+  <div class="header-tabs">
+    <button class="header-tab active">페스타</button>
+    <button class="header-tab">재렌탈</button>
+  </div>
+  <div class="header-right">
+    <div class="header-icon">☽</div>
+    <span class="header-user">⊙ 테스트</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">monthly</div>
+  <div class="hero-price num">57,620<span class="unit">원/월</span></div>
+  <div class="hero-compare">재렌탈 1,200원 더 저렴</div>
+</div>
+
+<!-- 미니 대시보드 -->
+<div class="mini-dash">
+  <div class="mini-item">
+    <div class="mini-label">5년총납입</div>
+    <div class="mini-val num">346만</div>
+  </div>
+  <div class="mini-item">
+    <div class="mini-label">절약</div>
+    <div class="mini-val red num">84만 (20%)</div>
+  </div>
+  <div class="mini-item">
+    <div class="mini-label">하루</div>
+    <div class="mini-val num">1,920원</div>
+  </div>
+  <div class="mini-item">
+    <div class="mini-label">투자</div>
+    <div class="mini-val num">약11분</div>
+  </div>
+</div>
+
+<!-- 결합할인 -->
+<div class="cross-row">
+  <div class="cross-left">
+    <span class="cross-label">결합할인 5%</span>
+    <span class="cross-sub">기존 코웨이 고객</span>
+  </div>
+  <div class="toggle-track"><div class="toggle-thumb"></div></div>
+</div>
+
+<!-- 선택 그룹 -->
+<div class="sel-group">
+  <!-- 사이즈 -->
+  <div class="sel-row">
+    <div class="sel-icon"><div class="sel-icon-dot" style="background:#2eaadc"></div></div>
+    <div class="sel-chips">
+      <button class="sel-chip">슈싱</button>
+      <button class="sel-chip active size">퀸</button>
+      <button class="sel-chip">킹</button>
+      <button class="sel-chip">라지킹</button>
+      <button class="sel-more">+2</button>
+    </div>
+  </div>
+  <!-- 약정 -->
+  <div class="sel-row">
+    <div class="sel-icon"><div class="sel-icon-dot" style="background:#2eaadc"></div></div>
+    <div class="sel-chips">
+      <button class="sel-chip active period">5년</button>
+      <button class="sel-chip">7년</button>
+      <button class="sel-chip">9년</button>
+    </div>
+  </div>
+  <!-- 매트리스 -->
+  <div class="sel-row">
+    <div class="sel-icon"><div class="sel-icon-dot" style="background:#9ec8b9"></div></div>
+    <div class="sel-chips">
+      <button class="sel-chip">엘리트</button>
+      <button class="sel-chip active matt">모디</button>
+      <button class="sel-chip">루네어</button>
+      <button class="sel-chip">하4</button>
+      <button class="sel-more">+6</button>
+    </div>
+  </div>
+  <!-- 프레임 -->
+  <div class="sel-row">
+    <div class="sel-icon"><div class="sel-icon-dot" style="background:#b7d9ad"></div></div>
+    <div class="sel-chips">
+      <button class="sel-chip">파데</button>
+      <button class="sel-chip">우디</button>
+      <button class="sel-chip active frame">코지</button>
+      <button class="sel-chip">볼륨</button>
+      <button class="sel-more">+9</button>
+    </div>
+  </div>
+  <!-- 케어 -->
+  <div class="sel-row">
+    <div class="sel-icon"><div class="sel-icon-dot" style="background:#2eaadc"></div></div>
+    <div class="sel-chips">
+      <button class="sel-chip active care">토탈</button>
+      <button class="sel-chip">서프</button>
+      <button class="sel-chip">스페셜</button>
+      <button class="sel-chip">베이직</button>
+    </div>
+  </div>
+</div>
+
+<!-- 액션 버튼 -->
+<div class="action-row">
+  <button class="btn-primary">M 담기</button>
+  <button class="btn-outline">F 담기</button>
+</div>
+<div class="action-row2">
+  <button class="btn-ghost">맞춤 추천</button>
+  <button class="btn-accent">BENEFIT</button>
+</div>
+
+<!-- 하단 네비 -->
+<div class="bottom-nav">
+  <button class="nav-item"><span class="nav-icon">🛒</span>장바구니</button>
+  <button class="nav-item"><span class="nav-icon">💳</span>제휴카드</button>
+  <button class="nav-item"><span class="nav-icon">📦</span>보관함</button>
+  <button class="nav-item"><span class="nav-icon">Aa</span>글자크기</button>
+  <button class="nav-item"><span class="nav-icon">···</span>더보기</button>
+</div>
+
+</body>
+</html>

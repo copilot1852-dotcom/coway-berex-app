@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notion 스타일 목업</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background: #fff; color: #37352f;
+    max-width: 375px; margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+  }
+  .num { font-family: 'Inter', 'SF Pro Display', 'Pretendard', sans-serif; }
+
+  .slide { padding: 24px 20px 28px; border-bottom: 1px solid #e9e9e7; }
+
+  /* Notion 스타일 헤더 */
+  .page-title {
+    font-size: 16px; font-weight: 700; color: #37352f;
+    margin-bottom: 4px;
+  }
+  .page-desc {
+    font-size: 12px; font-weight: 400; color: #9b9a97;
+    margin-bottom: 20px;
+  }
+
+  /* 도넛 영역 */
+  .donut-area {
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    width: 180px; height: 180px;
+    margin: 0 auto 8px;
+  }
+  .donut-inner {
+    position: absolute; text-align: center;
+  }
+  .donut-inner .sub { font-size: 11px; font-weight: 500; color: #9b9a97; }
+  .donut-inner .big { font-size: 20px; font-weight: 700; color: #37352f; letter-spacing: -0.03em; }
+  .donut-inner .accent { font-size: 13px; font-weight: 600; color: #2eaadc; }
+
+  /* 프로퍼티 요약 (Notion inline DB 느낌) */
+  .prop-bar {
+    display: flex; align-items: center; justify-content: center;
+    gap: 6px; margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .prop-tag {
+    display: inline-flex; align-items: center;
+    padding: 2px 8px; border-radius: 3px;
+    font-size: 12px; font-weight: 500;
+    background: #f1f1ef; color: #37352f;
+  }
+  .prop-tag.blue { background: #d3e5ef; color: #24548d; }
+  .prop-tag.green { background: #dbeddb; color: #2b6b2b; }
+  .prop-tag.orange { background: #fadec9; color: #93582a; }
+  .prop-sep { color: #d3d1cb; font-size: 11px; }
+
+  /* Notion 테이블 스타일 */
+  .n-table {
+    width: 100%; border-collapse: collapse;
+  }
+  .n-table th {
+    text-align: left; font-size: 11px; font-weight: 500; color: #9b9a97;
+    padding: 4px 0; border-bottom: 1px solid #e9e9e7;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .n-table th:last-child { text-align: right; }
+  .n-table th.pct { text-align: right; width: 40px; }
+  .n-table td {
+    padding: 7px 0; font-size: 13px; font-weight: 400; color: #37352f;
+    border-bottom: 1px solid #f1f1ef;
+    vertical-align: baseline;
+  }
+  .n-table td:last-child { text-align: right; }
+  .n-table td.pct { text-align: right; font-size: 12px; color: #9b9a97; }
+  .n-table tr:last-child td { border-bottom: none; }
+  .n-table .name-cell {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .color-dot {
+    width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0;
+  }
+  .n-table .detail {
+    font-size: 11px; color: #9b9a97; font-weight: 400;
+  }
+  .n-table .amount {
+    font-weight: 600; letter-spacing: -0.02em;
+  }
+  .n-table .strike {
+    font-size: 11px; color: #9b9a97; text-decoration: line-through;
+    margin-left: 4px;
+  }
+
+  /* 소계 행 */
+  .n-table .subtotal td {
+    font-weight: 700; border-top: 1px solid #e9e9e7;
+    border-bottom: 1px solid #e9e9e7;
+    padding: 8px 0;
+  }
+
+  /* 할인 */
+  .n-table .disc td { color: #eb5757; }
+  .n-table .disc td:first-child { color: #37352f; font-weight: 400; }
+
+  /* 총 할인 */
+  .n-table .total-disc td {
+    font-weight: 700; color: #eb5757;
+    border-top: 1px solid #e9e9e7;
+    padding: 8px 0;
+  }
+
+  /* 최종 */
+  .final-area {
+    margin-top: 16px; padding-top: 14px;
+    border-top: 2px solid #37352f;
+  }
+  .final-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+  }
+  .final-label { font-size: 14px; font-weight: 700; color: #37352f; }
+  .final-val { font-size: 22px; font-weight: 800; color: #37352f; letter-spacing: -0.03em; }
+  .final-monthly {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-top: 2px;
+  }
+  .final-m-label { font-size: 13px; font-weight: 600; color: #eb5757; }
+  .final-m-val { font-size: 18px; font-weight: 800; color: #2eaadc; letter-spacing: -0.02em; }
+
+  /* CTA */
+  .cta-btn {
+    display: block; width: 100%; margin-top: 14px;
+    padding: 9px; border-radius: 4px;
+    border: 1px solid #e9e9e7; background: #fff;
+    font-size: 13px; font-weight: 500; color: #37352f;
+    text-align: center; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .cta-btn:hover { background: #f7f6f3; }
+
+  /* ========== 슬라이드 2 ========== */
+  .item { padding: 12px 0; border-bottom: 1px solid #f1f1ef; }
+  .item:last-child { border-bottom: none; }
+  .item-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .item-name { font-size: 13px; font-weight: 600; color: #37352f; }
+  .item-pct { font-size: 18px; font-weight: 800; color: #eb5757; letter-spacing: -0.02em; }
+  .item-pct .u { font-size: 11px; font-weight: 600; }
+
+  .bars { display: flex; flex-direction: column; gap: 3px; }
+  .bar-row { display: flex; align-items: center; height: 24px; }
+  .bar-label {
+    width: 44px; flex-shrink: 0;
+    font-size: 11px; font-weight: 400; color: #9b9a97;
+  }
+  .bar-track { flex: 1; height: 20px; }
+  .bar-fill {
+    height: 100%; border-radius: 3px;
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 8px;
+    font-size: 11px; font-weight: 600; letter-spacing: -0.02em;
+    min-width: 56px;
+  }
+  .bar-fill.b-lump { background: #e9e9e7; color: #787774; }
+  .bar-fill.b-normal { background: #dbeddb; color: #2b6b2b; }
+  .bar-fill.b-disc { background: #2eaadc; color: #fff; }
+
+  .sub-info {
+    display: flex; gap: 10px; margin-top: 3px;
+    font-size: 11px; color: #9b9a97;
+  }
+  .sub-info strong { color: #37352f; font-weight: 600; }
+
+  .s2-total {
+    margin-top: 12px; padding-top: 12px;
+    border-top: 2px solid #37352f;
+  }
+  .s2-row { display: flex; align-items: baseline; justify-content: space-between; }
+  .s2-label { font-size: 14px; font-weight: 700; }
+  .s2-val { font-size: 22px; font-weight: 800; color: #eb5757; letter-spacing: -0.03em; }
+  .s2-val .u { font-size: 13px; font-weight: 700; }
+  .s2-sub { text-align: right; margin-top: 2px; font-size: 12px; color: #9b9a97; }
+
+  .slide-sep {
+    text-align: center; padding: 8px 0;
+    font-size: 10px; font-weight: 500; color: #c4c4c0;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid #e9e9e7;
+  }
+
+  /* 침대 높이 컴팩트 */
+  .bed-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding-bottom: 8px; margin-bottom: 4px;
+    border-bottom: 1px solid #e9e9e7;
+  }
+  .bed-left { display: flex; align-items: baseline; gap: 6px; }
+  .bed-lbl { font-size: 12px; font-weight: 600; color: #37352f; }
+  .bed-val { font-size: 18px; font-weight: 800; color: #37352f; }
+  .bed-detail { font-size: 10px; color: #9b9a97; }
+</style>
+</head>
+<body>
+
+<div class="slide-sep">SLIDE 1</div>
+
+<div class="slide">
+  <div class="page-title">비용 구성</div>
+  <div class="page-desc">렌탈 총 비용과 할인 내역</div>
+
+  <!-- 도넛 -->
+  <div class="donut-area">
+    <svg width="180" height="180" viewBox="0 0 180 180">
+      <circle cx="90" cy="90" r="72" fill="none" stroke="#f1f1ef" stroke-width="20"/>
+      <circle cx="90" cy="90" r="72" fill="none" stroke="#9ec8b9" stroke-width="20"
+        stroke-dasharray="195 257" stroke-dashoffset="113"/>
+      <circle cx="90" cy="90" r="72" fill="none" stroke="#b7d9ad" stroke-width="20"
+        stroke-dasharray="195 257" stroke-dashoffset="-82"/>
+      <circle cx="90" cy="90" r="72" fill="none" stroke="#d4e7c5" stroke-width="20"
+        stroke-dasharray="40 412" stroke-dashoffset="-277"/>
+      <circle cx="90" cy="90" r="72" fill="none" stroke="#e8f0de" stroke-width="20"
+        stroke-dasharray="22 430" stroke-dashoffset="-317"/>
+    </svg>
+    <div class="donut-inner">
+      <div class="sub">렌탈 5년</div>
+      <div class="big num">3,457,200</div>
+      <div class="accent num">월 57,620원</div>
+    </div>
+  </div>
+
+  <!-- 프로퍼티 태그 -->
+  <div class="prop-bar">
+    <span class="prop-tag">모디 + 코지</span>
+    <span class="prop-tag blue">퀸</span>
+    <span class="prop-tag green">5년</span>
+    <span class="prop-tag orange">토탈</span>
+    <span class="prop-tag">2대</span>
+  </div>
+
+  <!-- 침대 높이 -->
+  <div class="bed-row">
+    <div class="bed-left">
+      <span class="bed-lbl">침대 높이</span>
+      <span class="bed-val num">61cm</span>
+    </div>
+    <span class="bed-detail">모디 32cm + 코지 29cm</span>
+  </div>
+
+  <!-- 테이블 -->
+  <table class="n-table">
+    <thead>
+      <tr><th>항목</th><th>금액</th><th class="pct">비중</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><div class="name-cell"><span class="color-dot" style="background:#9ec8b9"></span>모디<span class="strike num">월35,900</span></div></td>
+        <td class="amount num">1,794,000원</td>
+        <td class="pct num">43%</td>
+      </tr>
+      <tr>
+        <td><div class="name-cell"><span class="color-dot" style="background:#b7d9ad"></span>코지<span class="strike num">월29,900</span></div></td>
+        <td class="amount num">1,794,000원</td>
+        <td class="pct num">43%</td>
+      </tr>
+      <tr>
+        <td><div class="name-cell"><span class="color-dot" style="background:#d4e7c5"></span>방문관리<span class="detail">15회</span></div></td>
+        <td class="amount num">360,000원</td>
+        <td class="pct num">9%</td>
+      </tr>
+      <tr>
+        <td><div class="name-cell"><span class="color-dot" style="background:#e8f0de"></span>탑퍼 교체<span class="detail">1회</span></div></td>
+        <td class="amount num">240,000원</td>
+        <td class="pct num">5%</td>
+      </tr>
+      <tr class="subtotal">
+        <td>정상가 합계</td>
+        <td class="amount num">4,188,000원</td>
+        <td></td>
+      </tr>
+      <tr class="disc">
+        <td>자동이체 <span class="detail">2,000/월</span></td>
+        <td class="amount num">-120,000원</td>
+        <td></td>
+      </tr>
+      <tr class="disc">
+        <td>페스타 15% <span class="detail">10,180/월</span></td>
+        <td class="amount num">-610,800원</td>
+        <td></td>
+      </tr>
+      <tr class="total-disc">
+        <td>총 할인</td>
+        <td class="amount num">-730,800원</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="final-area">
+    <div class="final-row">
+      <span class="final-label">렌탈 5년</span>
+      <span class="final-val num">3,457,200원</span>
+    </div>
+    <div class="final-monthly">
+      <span class="final-m-label">월 납부액</span>
+      <span class="final-m-val num">57,620원</span>
+    </div>
+  </div>
+
+  <button class="cta-btn">매월 2만원 더 아끼기 →</button>
+</div>
+
+<div class="slide-sep">SLIDE 2</div>
+
+<div class="slide">
+  <div class="page-title">일시불 대비 절감율</div>
+  <div class="page-desc">항목별 렌탈 vs 일시불 비교</div>
+
+  <div class="item">
+    <div class="item-head">
+      <span class="item-name">세스코 → 방문관리</span>
+      <span class="item-pct num">73<span class="u">%</span></span>
+    </div>
+    <div class="bars">
+      <div class="bar-row"><span class="bar-label">일시불</span><div class="bar-track"><div class="bar-fill b-lump num" style="width:100%">1,155,000원</div></div></div>
+      <div class="bar-row"><span class="bar-label">렌탈</span><div class="bar-track"><div class="bar-fill b-disc num" style="width:27%">306,000원</div></div></div>
+    </div>
+    <div class="sub-info"><span>15회 방문</span><span>1회당 <strong class="num">20,400원</strong></span></div>
+  </div>
+
+  <div class="item">
+    <div class="item-head">
+      <span class="item-name">탑퍼 무상 교체</span>
+      <span class="item-pct num">50<span class="u">%</span></span>
+    </div>
+    <div class="bars">
+      <div class="bar-row"><span class="bar-label">일시불</span><div class="bar-track"><div class="bar-fill b-lump num" style="width:100%">480,000원</div></div></div>
+      <div class="bar-row"><span class="bar-label">정상가</span><div class="bar-track"><div class="bar-fill b-normal num" style="width:50%">240,000원</div></div></div>
+      <div class="bar-row"><span class="bar-label">렌탈</span><div class="bar-track"><div class="bar-fill b-disc num" style="width:50%">240,000원</div></div></div>
+    </div>
+    <div class="sub-info"><span>1회 교체</span><span>1회당 <strong class="num">240,000원</strong></span></div>
+  </div>
+
+  <div class="item">
+    <div class="item-head">
+      <span class="item-name">모디 매트리스</span>
+      <span class="item-pct num">8<span class="u">%</span></span>
+    </div>
+    <div class="bars">
+      <div class="bar-row"><span class="bar-label">일시불</span><div class="bar-track"><div class="bar-fill b-lump num" style="width:100%">1,950,000원</div></div></div>
+      <div class="bar-row"><span class="bar-label">정상가</span><div class="bar-track"><div class="bar-fill b-normal num" style="width:92%">1,794,000원</div></div></div>
+      <div class="bar-row"><span class="bar-label">렌탈</span><div class="bar-track"><div class="bar-fill b-disc num" style="width:85%">1,668,600원</div></div></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-head">
+      <span class="item-name">코지 프레임</span>
+      <span class="item-pct num">5<span class="u">%</span></span>
+    </div>
+    <div class="bars">
+      <div class="bar-row"><span class="bar-label">일시불</span><div class="bar-track"><div class="bar-fill b-lump num" style="width:100%">1,590,000원</div></div></div>
+      <div class="bar-row"><span class="bar-label">정상가</span><div class="bar-track"><div class="bar-fill b-normal num" style="width:95%">1,548,000원</div></div></div>
+      <div class="bar-row"><span class="bar-label">렌탈</span><div class="bar-track"><div class="bar-fill b-disc num" style="width:90%">1,422,300원</div></div></div>
+    </div>
+  </div>
+
+  <div class="s2-total">
+    <div class="s2-row">
+      <span class="s2-label">총 절감</span>
+      <span class="s2-val num">약 153<span class="u">만원</span></span>
+    </div>
+    <div class="s2-sub">토탈 케어 · 5년 약정 · 카드 미적용 기준</div>
+  </div>
+</div>
+
+<div class="slide-sep">SLIDE 3 — 약정 시뮬레이션</div>
+
+<div class="slide">
+  <div class="page-title">약정별 비교</div>
+  <div class="page-desc">약정 기간에 따른 월 납부액과 혜택 차이</div>
+
+  <!-- 케어 + 결합 -->
+  <div style="display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap;">
+    <button style="padding:6px 14px; border-radius:3px; border:1px solid #e9e9e7; background:#2eaadc; color:#fff; font-size:12px; font-weight:600; cursor:pointer;">토탈</button>
+    <button style="padding:6px 14px; border-radius:3px; border:1px solid #e9e9e7; background:#fff; color:#37352f; font-size:12px; font-weight:500; cursor:pointer;">서프</button>
+    <button style="padding:6px 14px; border-radius:3px; border:1px solid #e9e9e7; background:#fff; color:#37352f; font-size:12px; font-weight:500; cursor:pointer;">스페셜</button>
+    <button style="padding:6px 14px; border-radius:3px; border:1px solid #e9e9e7; background:#fff; color:#37352f; font-size:12px; font-weight:500; cursor:pointer;">베이직</button>
+    <div style="flex:1"></div>
+    <label style="display:flex; align-items:center; gap:4px; font-size:11px; color:#9b9a97; cursor:pointer;">
+      <span style="width:32px;height:18px;border-radius:9px;background:#e9e9e7;display:inline-block;position:relative;">
+        <span style="width:14px;height:14px;border-radius:7px;background:#fff;position:absolute;top:2px;left:2px;"></span>
+      </span>
+      결합 5%
+    </label>
+  </div>
+
+  <!-- 약정 카드 3개 -->
+  <div style="display:flex; gap:8px; margin-bottom:16px;">
+    <!-- 5년 -->
+    <div style="flex:1; padding:14px 10px; border:2px solid #2eaadc; border-radius:4px; text-align:center;">
+      <div style="font-size:11px; font-weight:600; color:#2eaadc; margin-bottom:4px;">현재 선택</div>
+      <div style="font-size:20px; font-weight:800; color:#37352f; letter-spacing:-0.03em;" class="num">5<span style="font-size:13px; font-weight:600;">년</span></div>
+      <div style="font-size:16px; font-weight:800; color:#2eaadc; margin-top:4px; letter-spacing:-0.02em;" class="num">57,620<span style="font-size:11px;">원</span></div>
+      <div style="font-size:11px; color:#9b9a97; margin-top:2px;">반값 0개월</div>
+    </div>
+    <!-- 7년 -->
+    <div style="flex:1; padding:14px 10px; border:1px solid #e9e9e7; border-radius:4px; text-align:center; cursor:pointer;">
+      <div style="font-size:11px; font-weight:500; color:transparent; margin-bottom:4px;">-</div>
+      <div style="font-size:20px; font-weight:800; color:#37352f; letter-spacing:-0.03em;" class="num">7<span style="font-size:13px; font-weight:600;">년</span></div>
+      <div style="font-size:16px; font-weight:800; color:#37352f; margin-top:4px; letter-spacing:-0.02em;" class="num">54,120<span style="font-size:11px;">원</span></div>
+      <div style="font-size:11px; color:#9b9a97; margin-top:2px;">반값 0개월</div>
+    </div>
+    <!-- 9년 -->
+    <div style="flex:1; padding:14px 10px; border:1px solid #e9e9e7; border-radius:4px; text-align:center; cursor:pointer;">
+      <div style="font-size:11px; font-weight:500; color:transparent; margin-bottom:4px;">-</div>
+      <div style="font-size:20px; font-weight:800; color:#37352f; letter-spacing:-0.03em;" class="num">9<span style="font-size:13px; font-weight:600;">년</span></div>
+      <div style="font-size:16px; font-weight:800; color:#37352f; margin-top:4px; letter-spacing:-0.02em;" class="num">50,790<span style="font-size:11px;">원</span></div>
+      <div style="font-size:11px; color:#9b9a97; margin-top:2px;">반값 0개월</div>
+    </div>
+  </div>
+
+  <!-- 비용 차이 테이블 -->
+  <div style="font-size:13px; font-weight:700; color:#37352f; margin-bottom:8px;">7년 선택 시 5년 대비</div>
+  <table class="n-table">
+    <thead><tr><th>항목</th><th>변화</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>월 납부액</td>
+        <td class="amount num" style="color:#2eaadc;">-3,500원 ↓</td>
+      </tr>
+      <tr>
+        <td>AS 연장</td>
+        <td class="amount" style="color:#2eaadc;">+2년</td>
+      </tr>
+      <tr>
+        <td>방문관리 추가</td>
+        <td class="amount" style="color:#2eaadc;">+6회 (총 21회)</td>
+      </tr>
+      <tr>
+        <td>탑퍼 교체</td>
+        <td class="amount" style="color:#2eaadc;">+1회 (총 2회)</td>
+      </tr>
+      <tr>
+        <td>총 납입</td>
+        <td class="amount num" style="color:#eb5757;">+1,492,080원 ↑</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 적용 버튼 -->
+  <button style="display:block; width:100%; margin-top:16px; padding:12px; border-radius:4px; border:none; background:#2eaadc; color:#fff; font-size:14px; font-weight:700; cursor:pointer;">
+    토탈 · 5년 적용
+  </button>
+</div>
+
+</body>
+</html>

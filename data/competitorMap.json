@@ -1,0 +1,180 @@
+{
+  "version": "1.5.0",
+  "lastUpdated": "2026-03-31",
+  "notes": "v1.5: 침대 높이 데이터 추가. 토퍼 비용. 정가 기준. 매트/프레임 분리. MDF·본넬 주석. 공식몰 링크.",
+
+  "sesco": {
+    "label": "세스코 매트리스 케어",
+    "priceBySize": {
+      "SS": 72000,
+      "Q": 77000,
+      "K": 82000,
+      "LK": 82000
+    }
+  },
+
+  "topperReplacement": {
+    "label": "동급 토퍼 별도 구매 시",
+    "note": "시몬스 N32 토퍼 정가 기준. 에이스는 자체 토퍼 미출시로 동급 추정가 적용.",
+    "priceBySize": {
+      "SS": 740000,
+      "Q": 960000,
+      "K": 1200000,
+      "LK": 1200000
+    },
+    "source": "시몬스 N32 토퍼 공식몰 정가"
+  },
+
+  "tiers": {
+    "premium": {
+      "label": "프리미엄",
+      "cowayModels": ["스마트S6+", "스마트S8+", "스마트 S6", "스마트 S8"],
+      "simmons": {
+        "model": "N32 소프트 스프링",
+        "specs": ["파워서클스프링", "필로우탑", "36cm"],
+        "frameModel": "D2178A",
+        "frameMaterial": "MDF(E0등급)",
+        "mattThicknessCm": 36,
+        "frameHeightCm": 35,
+        "totalBedHeightCm": 71,
+        "headboardHeightCm": 105.8,
+        "mattPriceBySize": { "SS": 2650000, "Q": 3500000, "K": 4310000, "LK": 4310000 },
+        "framePriceBySize": { "SS": 860000, "Q": 1030000, "K": 1230000, "LK": 1230000 },
+        "source": "시몬스 공식몰 정가",
+        "storeUrl": "https://m.shinsegaetvshopping.com/brandhome/main/00003"
+      },
+      "ace": {
+        "model": "AB3 투매트리스",
+        "specs": ["플러스파워(본넬 기반)", "유로탑", "최고급형"],
+        "type": "투매트리스",
+        "mattThicknessCm": 35,
+        "totalHeightCm": 62,
+        "heightNote": "투매트리스 자체 높이 (프레임 별도)",
+        "priceBySize": { "SS": 2519000, "Q": 3344000, "K": 4100000, "LK": 4100000 },
+        "priceLabel": "매트+파운데이션(쿠션층 포함)",
+        "source": "에이스침대 공식몰 정가",
+        "storeUrl": "https://www.acebedmall.co.kr"
+      }
+    },
+
+    "high": {
+      "label": "고급형",
+      "cowayModels": [
+        "시그니처파이어쉴드컴포트", "시그니처컴포트",
+        "시그니처파이어쉴드", "시그니처",
+        "하이브리드4", "하이브리드3",
+        "메모리폼컴팩트"
+      ],
+      "simmons": {
+        "model": "자스민",
+        "specs": ["더블포켓스프링", "필로우탑", "33cm"],
+        "frameModel": "D2178A",
+        "frameMaterial": "MDF(E0등급)",
+        "mattThicknessCm": 33,
+        "frameHeightCm": 35,
+        "totalBedHeightCm": 68,
+        "headboardHeightCm": 105.8,
+        "mattPriceBySize": { "SS": 2650000, "Q": 3450000, "K": 4310000, "LK": 4310000 },
+        "framePriceBySize": { "SS": 860000, "Q": 1030000, "K": 1230000, "LK": 1230000 },
+        "source": "시몬스 공식몰 정가",
+        "storeUrl": "https://m.shinsegaetvshopping.com/brandhome/main/00003"
+      },
+      "ace": {
+        "model": "HT-R 원매트리스",
+        "specs": ["하이브리드Z(본넬 기반)", "유로탑", "최고급형"],
+        "type": "원매트리스",
+        "mattThicknessCm": 33,
+        "totalHeightCm": null,
+        "heightNote": "원매트리스 (프레임 별도, 높이 프레임에 따라 다름)",
+        "priceBySize": { "SS": 2150000, "Q": 2838000, "K": 3450000, "LK": 3450000 },
+        "priceLabel": "원매트리스(프레임 별도)",
+        "source": "에이스침대 공식몰 정가",
+        "storeUrl": "https://www.acebedmall.co.kr"
+      }
+    },
+
+    "mid": {
+      "label": "중급형",
+      "cowayModels": [
+        "루네어", "더블사이드", "모디"
+      ],
+      "simmons": {
+        "model": "허벌",
+        "specs": ["S-포켓스프링", "소프트", "31cm"],
+        "frameModel": "D2178A",
+        "frameMaterial": "MDF(E0등급)",
+        "mattThicknessCm": 31,
+        "frameHeightCm": 35,
+        "totalBedHeightCm": 66,
+        "headboardHeightCm": 105.8,
+        "mattPriceBySize": { "SS": 1650000, "Q": 2160000, "K": 2700000, "LK": 2700000 },
+        "framePriceBySize": { "SS": 860000, "Q": 1030000, "K": 1230000, "LK": 1230000 },
+        "source": "시몬스 공식몰 정가",
+        "storeUrl": "https://m.shinsegaetvshopping.com/brandhome/main/00003"
+      },
+      "ace": {
+        "model": "HT-B 투매트리스",
+        "specs": ["하이브리드Z(본넬 기반)", "유로탑", "고급형"],
+        "type": "투매트리스",
+        "mattThicknessCm": 33,
+        "totalHeightCm": 60,
+        "heightNote": "투매트리스 자체 높이 (프레임 별도)",
+        "priceBySize": { "SS": 1900000, "Q": 2525000, "K": 3200000, "LK": 3200000 },
+        "priceLabel": "매트+파운데이션(쿠션층 포함)",
+        "source": "에이스침대 공식몰 정가",
+        "storeUrl": "https://www.acebedmall.co.kr"
+      }
+    },
+
+    "basic": {
+      "label": "일반형",
+      "cowayModels": [
+        "프라임플러스2", "프라임", "더블체인지",
+        "원바디2", "슬림탑퍼교체", "엘리트"
+      ],
+      "simmons": {
+        "model": "시트러스",
+        "specs": ["오리지널 포켓스프링", "타이트탑", "27cm"],
+        "frameModel": "D2178A",
+        "frameMaterial": "MDF(E0등급)",
+        "mattThicknessCm": 27,
+        "frameHeightCm": 35,
+        "totalBedHeightCm": 62,
+        "headboardHeightCm": 105.8,
+        "mattPriceBySize": { "SS": 1310000, "Q": 1700000, "K": 2080000, "LK": 2080000 },
+        "framePriceBySize": { "SS": 860000, "Q": 1030000, "K": 1230000, "LK": 1230000 },
+        "source": "시몬스 공식몰 정가",
+        "storeUrl": "https://m.shinsegaetvshopping.com/brandhome/main/00003"
+      },
+      "ace": {
+        "model": "CA2 투매트리스",
+        "specs": ["매직파워(본넬 기반)", "타이트탑", "일반형"],
+        "type": "투매트리스",
+        "mattThicknessCm": 25,
+        "totalHeightCm": 50,
+        "heightNote": "투매트리스 자체 높이 (프레임 별도)",
+        "priceBySize": { "SS": 829000, "Q": 1100000, "K": 1400000, "LK": 1400000 },
+        "priceLabel": "매트+파운데이션(쿠션층 포함)",
+        "source": "에이스침대 공식몰 정가",
+        "storeUrl": "https://www.acebedmall.co.kr"
+      }
+    }
+  },
+
+  "careVisits": {
+    "토탈": { "5": 15, "7": 21, "9": 27 },
+    "서프": { "5": 10, "7": 14, "9": 18 },
+    "스페셜": { "5": 5, "7": 7, "9": 9 },
+    "베이직": { "5": 0, "7": 0, "9": 0 }
+  },
+
+  "footnotes": {
+    "price_basis": "모든 가격은 공식몰 정가 기준이며, 프로모션/할인은 미적용",
+    "mdf": "시몬스 D2178A 프레임(~103만원)은 MDF(목재 파쇄 후 접착·압축 성형) 소재. 코웨이 파데(파운데이션)는 하단 쿠션층이 포함된 투매트리스 구조로, 체압 분산 기능 제공",
+    "spring": "에이스 하이브리드Z·매직파워·플러스파워는 본넬스프링 기반 Z형 강선 구조이며, 코웨이·시몬스의 개별 포켓스프링(스프링 1개를 천으로 감싸 독립 배치)과는 구조적으로 다름",
+    "topper": "코웨이는 유로탑 분리형 구조로 탑퍼 교체 시 새 매트리스 표면으로 교체됨(렌탈 포함). 시몬스·에이스는 동일한 표면 교체 불가, 별도 토퍼 구매 필요(시몬스 N32 토퍼 퀸 정가 96만원)",
+    "sesco": "시몬스·에이스 고객이 코웨이와 동일한 4개월 주기 관리를 받으려면 세스코를 별도 이용해야 하며, 탑퍼교체는 별도 구매 불가",
+    "frame_compare": "시몬스 D2178A: MDF 밀폐형 하판(쿠션 없음) / 코웨이 파데: 쿠션층 포함 투매트리스(체압 분산) / 에이스 투매트리스: 쿠션층 포함",
+    "height": "시몬스 D2178A 프레임 높이 ~35cm(역산 추정), 에이스 투매트리스 높이는 프레임 미포함 자체 높이. 코웨이 침대 높이는 매트+파데 합산."
+  }
+}
