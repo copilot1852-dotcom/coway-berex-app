@@ -11,10 +11,6 @@ function extract(pattern, label) {
   return match[0];
 }
 
-const constants = extract(
-  /const PROMOTION_FREE_MONTHS = \{[\s\S]*?\};/,
-  'PROMOTION_FREE_MONTHS'
-);
 const decisionFn = extract(
   /const getRentalBenefitDecision = \([\s\S]*?\n  \};/,
   'getRentalBenefitDecision'
@@ -22,7 +18,7 @@ const decisionFn = extract(
 
 const sandbox = {};
 vm.createContext(sandbox);
-vm.runInContext(`${constants}\n${decisionFn}\nthis.getRentalBenefitDecision = getRentalBenefitDecision;`, sandbox);
+vm.runInContext(`${decisionFn}\nthis.getRentalBenefitDecision = getRentalBenefitDecision;`, sandbox);
 
 function assertEqual(actual, expected, message) {
   if (actual !== expected) {
@@ -30,7 +26,7 @@ function assertEqual(actual, expected, message) {
   }
 }
 
-function checkDecision({ units, period, existing = false, expectedRate, expectedMonths }) {
+function checkDecision({ units, period, existing = false, expectedRate, expectedMonths, expectedDiscountLabel, expectedBenefitLabel }) {
   const result = sandbox.getRentalBenefitDecision({
     newUnitsCount: units,
     hasExistingCoway: existing,
@@ -39,16 +35,45 @@ function checkDecision({ units, period, existing = false, expectedRate, expected
   });
   assertEqual(result.discountRate, expectedRate, `${units} unit(s), ${period}y discountRate`);
   assertEqual(result.halfMonths, expectedMonths, `${units} unit(s), ${period}y halfMonths`);
-  if (expectedMonths > 0 && !result.halfLabel.includes(`${expectedMonths}개월`)) {
-    throw new Error(`${units} unit(s), ${period}y halfLabel should include ${expectedMonths}개월`);
-  }
+  assertEqual(result.halfLabel, '', `${units} unit(s), ${period}y halfLabel`);
+  assertEqual(result.discountLabel, expectedDiscountLabel, `${units} unit(s), ${period}y discountLabel`);
+  assertEqual(result.benefitLabel, expectedBenefitLabel, `${units} unit(s), ${period}y benefitLabel`);
 }
 
-for (const [period, months] of [[5, 6], [7, 12], [9, 15]]) {
-  checkDecision({ units: 1, period, expectedRate: 0, expectedMonths: months });
-  checkDecision({ units: 1, period, existing: true, expectedRate: 0.05, expectedMonths: months });
-  checkDecision({ units: 2, period, expectedRate: 0.10, expectedMonths: months });
-  checkDecision({ units: 3, period, expectedRate: 0.10, expectedMonths: months });
+for (const period of [3, 5, 7, 9]) {
+  checkDecision({
+    units: 1,
+    period,
+    expectedRate: 0,
+    expectedMonths: 0,
+    expectedDiscountLabel: '',
+    expectedBenefitLabel: '기본 렌탈'
+  });
+  checkDecision({
+    units: 1,
+    period,
+    existing: true,
+    expectedRate: 0.05,
+    expectedMonths: 0,
+    expectedDiscountLabel: '결합할인 5%',
+    expectedBenefitLabel: '결합할인 5%'
+  });
+  checkDecision({
+    units: 2,
+    period,
+    expectedRate: 0.15,
+    expectedMonths: 0,
+    expectedDiscountLabel: '7월 15%(2개이상)',
+    expectedBenefitLabel: '7월 15%(2개이상)'
+  });
+  checkDecision({
+    units: 3,
+    period,
+    expectedRate: 0.15,
+    expectedMonths: 0,
+    expectedDiscountLabel: '7월 15%(2개이상)',
+    expectedBenefitLabel: '7월 15%(2개이상)'
+  });
 }
 
 const rerental = sandbox.getRentalBenefitDecision({

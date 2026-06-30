@@ -49,15 +49,15 @@ const hasExistingCoway = isCrossDiscount || aprilCount > 0;
 
 - `newUnitsCount`는 **이번에 새로 렌탈하는 유료 제품 수량**만 센다.
 - 매트리스, 프레임, 유료 추가제품, 힐링 제품은 모두 신규 렌탈 1개로 계산한다.
-- `aprilCount`는 기존 보유 수량이다. 신규 렌탈 수량에 더하지 않고, 기존고객 여부만 판단한다.
-- 기존고객 기준은 `isCrossDiscount === true` 또는 `aprilCount > 0`이다.
+- `aprilCount`는 7월 신규 렌탈 할인 계산에 사용하지 않는다.
+- 결합할인 5%는 사용자가 `isCrossDiscount === true`로 토글을 켰을 때만 적용한다.
 
 ---
 
 ## 3. 신규 렌탈 할인 (discountRate)
 
 ```javascript
-if (newUnitsCount >= 2) discountRate = 0.10;
+if (newUnitsCount >= 2) discountRate = 0.15;
 else if (newUnitsCount === 1 && hasExistingCoway) discountRate = 0.05;
 else discountRate = 0;
 ```
@@ -65,37 +65,28 @@ else discountRate = 0;
 | 조건 | 할인율 | 설명 |
 |------|--------|------|
 | 재렌탈 모드 | 0% | 재렌탈은 별도 할인 체계 |
-| 신규 2개 이상 | **10%** | 결합 5% + 동시 5% |
-| 신규 1개 + 기존고객 | **5%** | 반값과 함께 적용 |
-| 신규 1개 단독 | **0%** | 반값만 적용 |
+| 신규 2개 이상 | **15%** | `7월 15%(2개이상)` |
+| 신규 1개 + 결합할인 토글 ON | **5%** | `결합할인 5%` |
+| 신규 1개 단독 | **0%** | 할인 없음 |
 
 ---
 
-## 4. 반값 할인 (festaMonths)
+## 4. 반값/동시할인 제거 (festaMonths)
 
 ```javascript
-festaMonths = !isRerental && newUnitsCount >= 1
-  ? PROMOTION_FREE_MONTHS[period]
-  : 0;
+festaMonths = 0;
 ```
 
-### PROMOTION_FREE_MONTHS (L1096)
+7월 정책에서는 반값할인과 동시할인을 적용하지 않는다. 기존 총납입 계산식은 유지하지만 `festaMonths`가 항상 0이므로 반값 차감액은 0원이다.
 
-| 약정 | 반값 개월수 |
-|------|-------------------|
-| 3년 | 3개월 |
-| 5년 | 6개월 |
-| 7년 | 12개월 |
-| 9년 | 15개월 |
-
-### 반값 요약 표
+### 7월 요약 표
 
 | 조건 | 할인 | 반값 개월 | 비고 |
 |------|------|----------|------|
-| 신규 1개 단독 | 0% | 3~15개월 (약정별) | 반값 혜택 적용 |
-| 신규 1개 + 기존고객 | 5% | 3~15개월 (약정별) | 반값 + 결합 5% |
-| 신규 2개 이상 | 10% | 3~15개월 (약정별) | 10% + 반값 혜택 |
-| 기존 렌탈 N대 + 신규 1개 | 5% | 3~15개월 (약정별) | 기존 수량은 신규 수량에 더하지 않음 |
+| 신규 1개 단독 | 0% | 0개월 | 할인 없음 |
+| 신규 1개 + 결합할인 토글 ON | 5% | 0개월 | 결합할인 5% |
+| 신규 2개 이상 | 15% | 0개월 | 7월 15%(2개이상) |
+| 기존 렌탈 N대 + 신규 1개 | 토글 ON일 때만 5% | 0개월 | 기존 수량은 자동 적용 조건이 아님 |
 
 ---
 
@@ -185,15 +176,15 @@ epTotal    = (finalPrice × qty × contractMonths) - epPromo
 
 ```javascript
 // L4304-4306
-// 추가제품은 침대와 합산된 totalUnitsCount 기준 할인율/반값 공유
-epFestaMonths = festaMonths;  // 전체 반값 개월수 (단품 1개일 때 약정별 3/6/12/15개월)
+// 추가제품은 침대와 합산된 totalUnitsCount 기준 할인율을 공유한다.
+epFestaMonths = festaMonths;  // 7월 정책에서는 항상 0
 ```
 
 ### ✅ 음수 방어 (해결됨)
 
 ```
 prePkg ≤ pkgD + 1000 일 때 Math.max(0, finalPrice) 적용
-예: 1000원 입력, 10% 할인 → max(0, 1000-100-1000) = 0원
+예: 1000원 입력, 15% 할인 → max(0, 1000-150-1000) = 0원
 매트리스(mFinal), 프레임(fFinal), 추가제품(finalPrice) 모두 적용
 ```
 
@@ -401,8 +392,7 @@ ccp = cartCalculatedPrices — 장바구니 배열 합산 (useMemo, L4413+)
   현장할인         = floor(mBC/2) × months
   VIP 약정할인     = ceil(mBC/2) × months
   루네어 특별할인   = mLE × months (lunaire만)
-  패키지 할인      = mPkgD × months (2대+)
-  페스타 반값      = mFinal × 0.5 × festaMonths
+  7월 15% 할인     = mPkgD × months (2대+)
 
 검증: 세그먼트 합산 - 총 할인 = 도넛 중앙 (항상 일치해야 함)
 ```
@@ -433,10 +423,8 @@ ccp = cartCalculatedPrices — 장바구니 배열 합산 (useMemo, L4413+)
 
 코웨이 공식앱 정상가(취소선) = mBase
 코웨이 공식앱 7개월차~ 금액 = prePkg = mBase - 1,000 - mBC
-코웨이 공식앱 반값 = prePkg × 0.5
-
 도넛 할인 상세 표시 전략 (영업용):
-  공식앱: 자동이체 + 약정할인(mBC+mLE 통합) + 반값 = 3개 항목
+  공식앱: 자동이체 + 약정할인(mBC+mLE 통합) + 프로모션 할인
   우리앱: 할인을 최대한 쪼개서 항목 수를 늘린다
     → 고객에게 "이렇게 많은 할인을 받고 있다"는 임팩트 전달
     → "지금 안 하면 다음엔 더 비싸다"는 영업 명분
@@ -446,8 +434,8 @@ ccp = cartCalculatedPrices — 장바구니 배열 합산 (useMemo, L4413+)
     현장할인 (floor(mBC/2)원/월)   ← 서프/스페셜만 (mBC 4,000 → 2,000)
     VIP 약정할인 (ceil(mBC/2)원/월) ← 서프/스페셜만 (mBC 4,000 → 2,000)
     루네어 특별할인 (mLE원/월)      ← 루네어만 (5,000)
-    렌탈 할인 10%                   ← 신규 2대 이상
-    반값 혜택 (N개월)                ← 신규 1대 이상
+    7월 15%(2개이상)                ← 신규 2대 이상
+    결합할인 5%                     ← 신규 1대 + 토글 ON
     💳 카드 할인                   ← 카드 선택 시
 
   원칙: 쪼개되 임의 항목은 절대 만들지 않는다
@@ -463,7 +451,6 @@ ccp = cartCalculatedPrices — 장바구니 배열 합산 (useMemo, L4413+)
 DEFAULT_CARE_FEE = 2,000                        // L1092
 DAYS_IN_MONTH = 30                               // L1093
 MINIMUM_WAGE = 10,030                            // L1094
-PROMOTION_FREE_MONTHS = { 3:3, 5:6, 7:12, 9:15 } // L1096
 EARLY_EXCHANGE_PENALTY_RATE = 0.5                // L1162
 EARLY_EXCHANGE_PENALTY_MONTHS = 12               // L1163
 ```
@@ -477,7 +464,7 @@ EARLY_EXCHANGE_PENALTY_MONTHS = 12               // L1163
 핫픽 약정 시뮬레이션의 **단일 진실 원천**. 대수 산출 + 5/7/9년 pricing을 한 곳에서 계산.
 
 ```
-totalUnits = mQ + fQ + extras(가격>0만) + (isAprilCombo ? 1 : 0)
+totalUnits = mQ + fQ + extras(가격>0만)
 
 → [5, 7, 9].map(period => getDetailedPricingByCare(..., totalUnits))
 → [{ period, totalWithCard, totalMonthly, totalRentPayable, cardDiscount, festaMonths, promoAmount }]
@@ -552,11 +539,11 @@ cp 가드 조건: hasBed || hasHealing → 힐링 단독으로도 계산 가능
 
 ---
 
-## 21. 2026-06-01 할인 정책 전환
+## 21. 2026-07-01 할인 정책 전환
 
 ### 상수 (~L1107-1108)
 ```javascript
-const RENTAL_POLICY_VERSION = '2026-06-02-v1';
+const RENTAL_POLICY_VERSION = '2026-07-rental-benefit-v1';
 const FESTA_PROMOTION_ACTIVE = false;
 const FESTA_END_DATE = new Date('2026-06-01T00:00:00+09:00');
 ```
@@ -564,10 +551,10 @@ const FESTA_END_DATE = new Date('2026-06-01T00:00:00+09:00');
 ### 영향 범위
 | 항목 | 기준 |
 |------|------|
-| 신규 1개 단독 | 반값 유지, 추가 할인 0% |
-| 신규 1개 + 기존고객 | 반값 유지 + 결합 5% |
-| 신규 2개 이상 | 반값 유지 + 10% |
-| 기존 렌탈 수량 | 신규 수량에 포함하지 않음 |
+| 신규 1개 단독 | 할인 0% |
+| 신규 1개 + 결합할인 토글 ON | 결합할인 5% |
+| 신규 2개 이상 | 7월 15%(2개이상) |
+| 기존 렌탈 수량 | 신규 수량과 결합할인 자동 적용 조건에 포함하지 않음 |
 | 힐링 | 신규 렌탈 1개로 포함 |
 | 저장 견적 | `RENTAL_POLICY_VERSION`이 다르면 현재 정책으로 재계산 |
 
@@ -604,7 +591,7 @@ const bestPeriodInfo = useMemo(() => {
 }, [activeCare, activeMattress, ..., userTouched.mattress, userTouched.frame]);
 ```
 
-⚠️ **주의**: `userTouched`로 실제 선택된 제품만 수량 반영. 미선택 프레임을 1대로 잘못 넣으면 2대 판정되어 반값 비활성화됨 (세션 39에서 수정 완료)
+⚠️ **주의**: `userTouched`로 실제 선택된 제품만 수량 반영. 미선택 프레임을 1대로 잘못 넣으면 2대 판정되어 `7월 15%(2개이상)`이 잘못 적용될 수 있음.
 
 ---
 
@@ -628,7 +615,7 @@ _salesTalks        // 고객 심리별 최종 문장
 | proof | 5년 총 할인과 총 납입 근거 | 5년 총 2,385,800원 할인 / 총 납입 1,702,200원 |
 | care | 관리 혜택 포지셔닝 | 방문관리와 탑퍼 교체까지 포함 |
 | card | 제휴카드 순혜택 | 신한카드 순혜택 23,000원 |
-| benefits | 실제 적용 혜택명 자동 나열 | 자동이체 할인, 2개 이상 10% 할인, 반값 혜택 6개월, 신한카드 순혜택, 등록비 면제 |
+| benefits | 실제 적용 혜택명 자동 나열 | 자동이체 할인, 7월 15%(2개이상), 신한카드 순혜택, 등록비 면제 |
 
 ### 멘트 모드
 | 모드 | 목적 | 사용 상황 |
@@ -641,5 +628,5 @@ _salesTalks        // 고객 심리별 최종 문장
 ### 주의
 - 멘트는 화면에 표시된 `cur` 계산 결과만 사용한다.
 - 카드가 선택되지 않은 경우에도 문장이 깨지지 않도록 “제휴카드 미적용”으로 처리한다.
-- 기존고객 결합 5%/2개 이상 10%/반값 혜택, 제휴카드, 등록비 면제 등은 `benefits`에 자동 나열해 멘트 본문과 칩에 노출한다.
+- 결합할인 5%/7월 15%(2개이상), 제휴카드, 등록비 면제 등은 `benefits`에 자동 나열해 멘트 본문과 칩에 노출한다.
 - 총 할인은 기존 혜택 분석 표시와 맞추기 위해 렌탈 할인 + 카드 순혜택 + 등록비 면제를 포함한다.

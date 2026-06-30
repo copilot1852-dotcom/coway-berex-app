@@ -1117,8 +1117,7 @@
   const DAYS_IN_MONTH = 30;
   const MINIMUM_WAGE = 10030;
   const WAGE_PER_MINUTE = MINIMUM_WAGE / 60;
-  const RENTAL_POLICY_VERSION = '2026-06-02-v1';
-  const PROMOTION_FREE_MONTHS = { 3: 3, 5: 6, 7: 12, 9: 15 };
+  const RENTAL_POLICY_VERSION = '2026-07-rental-benefit-v1';
   const FESTA_PROMOTION_ACTIVE = false;
   const FESTA_END_DATE = new Date('2026-06-01T00:00:00+09:00');
   const IS_FESTA = FESTA_PROMOTION_ACTIVE && (!FESTA_END_DATE || new Date() < FESTA_END_DATE);
@@ -1140,27 +1139,25 @@
       };
     }
     if (units >= 2) {
-      const halfMonths = PROMOTION_FREE_MONTHS[selectedPeriod] || 0;
       return {
-        discountRate: 0.10,
+        discountRate: 0.15,
         rerentalRestRate: 0,
-        halfMonths,
-        discountLabel: '2개 이상 10% 할인',
-        halfLabel: halfMonths > 0 ? `반값 혜택 (${halfMonths}개월)` : '',
-        benefitLabel: halfMonths > 0 ? `2개 이상 10% + 반값 혜택 (${halfMonths}개월)` : '2개 이상 10% 할인',
-        reasonCode: 'multi_10_half'
+        halfMonths: 0,
+        discountLabel: '7월 15%(2개이상)',
+        halfLabel: '',
+        benefitLabel: '7월 15%(2개이상)',
+        reasonCode: 'july_multi_15'
       };
     }
     if (units === 1) {
-      const halfMonths = PROMOTION_FREE_MONTHS[selectedPeriod] || 0;
       return {
         discountRate: hasExistingCoway ? 0.05 : 0,
         rerentalRestRate: 0,
-        halfMonths,
-        discountLabel: hasExistingCoway ? '기존고객 결합 5% 할인' : '',
-        halfLabel: halfMonths > 0 ? `반값 혜택 (${halfMonths}개월)` : '',
-        benefitLabel: hasExistingCoway ? `반값 혜택 + 기존고객 5% (${halfMonths}개월)` : `반값 혜택 (${halfMonths}개월)`,
-        reasonCode: hasExistingCoway ? 'single_existing_half_5' : 'single_half'
+        halfMonths: 0,
+        discountLabel: hasExistingCoway ? '결합할인 5%' : '',
+        halfLabel: '',
+        benefitLabel: hasExistingCoway ? '결합할인 5%' : '기본 렌탈',
+        reasonCode: hasExistingCoway ? 'single_bundle_5' : 'single_none'
       };
     }
     return {
@@ -1215,7 +1212,7 @@
     doublechainge: { '킹': 264000, '퀸': 242000, '슈싱': 220000 },
     compactfoam: { '퀸': 220000, '슈싱': 165000 },
   };
-  // 탑퍼 교체 월 렌탈 비용 (2개 이상 10% 적용 후) — 매트리스 월렌탈료에 포함
+  // 탑퍼 교체 월 렌탈 비용 (2개 이상 15% 적용 후) — 매트리스 월렌탈료에 포함
   const TOPPER_MONTHLY_COST = {
     elite: 900,
     doubleside: 1800, compactfoam: 1800,
@@ -2102,7 +2099,6 @@
     const [iwViewerIdx, setIwViewerIdx] = useState(0);
     const activeBenefitLabel = (cartItems.length > 0 ? ccp?.benefitLabel : cp?.benefitLabel) || (promoMode === 'rerental' ? '재렌탈 할인' : '렌탈 혜택');
     const activeDiscountLabel = (cartItems.length > 0 ? ccp?.discountLabel : cp?.discountLabel) || (promoMode === 'rerental' ? '재렌탈 할인' : '렌탈 할인');
-    const activeHalfLabel = (cartItems.length > 0 ? ccp?.halfLabel : cp?.halfLabel) || '반값 혜택';
     useEffect(() => { if (initialTab && initialTab !== 'summary') { setQTab(initialTab); setTimeout(() => onTabReset(), 100); } }, [initialTab]);
     const QTABS = [
       {id:'summary', icon:'file-text', label:'요약'},
@@ -2267,8 +2263,8 @@
           {min:1, label:'1대', pct:10, half:0, desc:'재렌탈 10%'},
           {min:2, label:'2대+', pct:16, half:0, desc:'재렌탈 16%'},
         ] : [
-          {min:1, label:'1대', pct:0, half:1, desc:activeBenefitLabel},
-          {min:2, label:'2대+', pct:10, half:1, desc:'10% + 반값'},
+          {min:1, label:'1대', pct:0, half:0, desc:activeBenefitLabel},
+          {min:2, label:'2대+', pct:15, half:0, desc:'7월 15%(2개이상)'},
         ];
         const currentTier = [...tiers].reverse().find(t => productCount >= t.min) || tiers[0];
         const nextTier = tiers.find(t => t.min > productCount);
@@ -2302,7 +2298,7 @@
                 color: isCurrent ? 'var(--color-discount)' : isPast ? 'var(--color-text-secondary)' : 'var(--color-text-disabled)',
                 opacity: isCurrent ? 1 : isPast ? 0.6 : 0.4
               }}>
-                {t.label}{t.min === 1 ? '일 때' : ''} {t.half > 0 ? '반값' : `${t.pct}%`}
+                {t.label}{t.min === 1 ? '일 때' : ''} {t.pct > 0 ? `${t.pct}%` : '기본'}
               </span>
               );
             })}
@@ -4637,7 +4633,7 @@
     const extraQtyTotal = (extras || []).reduce((acc, p) => acc + ((Number(p.price) > 0) ? (p.qty || 0) : 0), 0);
     const newUnitsCount = overrideTotalUnits !== null ? overrideTotalUnits : (mQtyInt + fQtyInt + extraQtyTotal);
     const totalUnitsCount = newUnitsCount;
-    const hasExistingCoway = !!isCross || aprilCount > 0;
+    const hasExistingCoway = !!isCross;
     const effectivePromo = overridePromoMode || promoMode;
     const isRerental = effectivePromo === 'rerental';
     const benefitDecision = getRentalBenefitDecision({ newUnitsCount, hasExistingCoway, selectedPeriod, isRerental });
@@ -4932,7 +4928,7 @@
           grandTotalUnits,
           newUnitsCount: grandTotalUnits,
           existingRentalCount: aprilCount,
-          hasExistingCoway: !!crossDisc || aprilCount > 0,
+          hasExistingCoway: !!crossDisc,
           grandCashPrice,
           grandDirectCareCost,
           grandExtraEquivalentCost,
@@ -6338,7 +6334,7 @@
         <span style={{fontFamily:'var(--font-number)', fontSize:'42px', fontWeight:200, color: hasData ? (promoMode === 'rerental' ? 'var(--color-rerental-text)' : 'var(--color-text-primary)') : 'var(--color-text-disabled)', letterSpacing:'-0.04em', lineHeight:1}}>{hasData ? _krFmt.format(_fm) : '--'}</span>
         <span style={{fontSize:'14px', fontWeight:300, color: hasData ? 'var(--color-text-secondary)' : 'var(--color-text-disabled)'}}>원/월</span>
         {hasData && promoMode === 'rerental' && <span style={{marginLeft:'auto'}}><RerentalBadge size="lg"/></span>}
-        {hasData && promoMode !== 'rerental' && <span style={{marginLeft:'auto', fontSize:'11px', fontWeight:800, color:'var(--color-on-primary)', background:'linear-gradient(135deg, var(--color-discount), var(--color-accent))', padding:'4px 9px', borderRadius:'4px', letterSpacing:'-0.01em', boxShadow:'0 2px 8px rgba(46,170,220,0.22)', whiteSpace:'nowrap'}}>6월 동시+반값</span>}
+        {hasData && promoMode !== 'rerental' && (_cp?.discountRate || 0) > 0 && <span style={{marginLeft:'auto', fontSize:'11px', fontWeight:800, color:'var(--color-on-primary)', background:'linear-gradient(135deg, var(--color-discount), var(--color-accent))', padding:'4px 9px', borderRadius:'4px', letterSpacing:'-0.01em', boxShadow:'0 2px 8px rgba(46,170,220,0.22)', whiteSpace:'nowrap'}}>{_cp.discountLabel}</span>}
         </div>
         {/* 재렌탈 비교 + 카드할인 + 빈 상태 안내 */}
         <div style={{display:'flex', alignItems:'center', gap:'8px', marginTop:'4px', minHeight:'16px', flexWrap:'wrap'}}>
@@ -10583,22 +10579,22 @@
       <IconComponent name="home" size={20}/>
       </button>
       )}
-      {/* 6월 프로모션 + 신제품 안내 팝업 */}
+      {/* 7월 프로모션 + 신제품 안내 팝업 */}
       {showCardNotice && isRegistered && (
       <div className="fixed inset-0 z-[9998] flex items-center justify-center p-5" style={{background:'rgba(0,0,0,0.5)'}} onClick={() => setShowCardNotice(false)}>
         <div onClick={e=>e.stopPropagation()} style={{width:'100%', maxWidth:'340px', maxHeight:'85vh', background:'var(--color-background)', borderRadius:'4px', overflow:'hidden', display:'flex', flexDirection:'column'}}>
           <div style={{padding:'20px 20px 0', flexShrink:0}}>
-	            <div style={{fontSize:'17px', fontWeight:800, color:'var(--color-text-primary)', marginBottom:'4px'}}>6월 프로모션 안내</div>
-	            <div style={{fontSize:'12px', color:'var(--color-text-tertiary)', marginBottom:'14px'}}>2026.06.05 업데이트</div>
+	            <div style={{fontSize:'17px', fontWeight:800, color:'var(--color-text-primary)', marginBottom:'4px'}}>7월 프로모션 안내</div>
+	            <div style={{fontSize:'12px', color:'var(--color-text-tertiary)', marginBottom:'14px'}}>2026.07.01 업데이트</div>
           </div>
 	          <div style={{padding:'0 20px 16px', display:'flex', flexDirection:'column', gap:'8px', overflowY:'auto', flex:1, minHeight:0}}>
 	            <div style={{padding:'12px', borderRadius:'4px', background:'var(--color-accent-soft)', border:'1px solid var(--color-accent)'}}>
 	              <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:'8px', marginBottom:'6px'}}>
-	                <span style={{fontSize:'13px', fontWeight:900, color:'var(--color-accent)'}}>6월 동시+반값</span>
+	                <span style={{fontSize:'13px', fontWeight:900, color:'var(--color-accent)'}}>7월 15%(2개이상)</span>
 	                <span style={{fontSize:'10px', fontWeight:800, color:'var(--color-on-primary)', background:'var(--color-discount)', borderRadius:'3px', padding:'2px 6px', whiteSpace:'nowrap'}}>NEW</span>
 	              </div>
-	              <div style={{fontSize:'12px', lineHeight:1.55, color:'var(--color-text-primary)', fontWeight:600}}>2대 이상 10% 할인과 약정별 반값 혜택을 함께 적용합니다.</div>
-	              <div style={{fontSize:'11px', lineHeight:1.5, color:'var(--color-text-secondary)', marginTop:'6px'}}>1개 렌탈도 반값 유지 · 5년 6개월 / 7년 12개월 / 9년 15개월</div>
+	              <div style={{fontSize:'12px', lineHeight:1.55, color:'var(--color-text-primary)', fontWeight:600}}>2개 이상 렌탈 시 15% 할인을 적용합니다.</div>
+	              <div style={{fontSize:'11px', lineHeight:1.5, color:'var(--color-text-secondary)', marginTop:'6px'}}>1개 렌탈은 결합할인 토글 ON 시 5% 적용</div>
 	            </div>
 	            <div style={{padding:'12px', borderRadius:'4px', background:'var(--color-surface)', border:'1px solid var(--color-border-light)'}}>
 	              <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:'8px', marginBottom:'7px'}}>
@@ -11678,8 +11674,8 @@
             <div style={{marginTop:'12px', padding:'12px', borderRadius:'4px', background:'#fff8f0', border:'1px solid #fde2c8'}}>
               <div style={{fontSize:'11px', fontWeight:700, color:'#e9914b', marginBottom:'4px'}}>렌탈 혜택 미리보기</div>
               <div style={{fontSize:'11px', color:'var(--color-text-secondary)', lineHeight:1.5}}>
-                2개 이상 함께 담으면 <span style={{fontWeight:700, color:'var(--color-discount)'}}>10% + 반값 혜택 + 자동이체 1,000원</span> 할인<br/>
-                → {_krFmt.format(priceData.rental)} → 약 {_krFmt.format(Math.max(0, Math.ceil((priceData.rental * 0.90) / 10) * 10 - 1000))}원/월
+                2개 이상 함께 담으면 <span style={{fontWeight:700, color:'var(--color-discount)'}}>7월 15%(2개이상) + 자동이체 1,000원</span> 할인<br/>
+                → {_krFmt.format(priceData.rental)} → 약 {_krFmt.format(Math.max(0, Math.ceil((priceData.rental * 0.85) / 10) * 10 - 1000))}원/월
               </div>
             </div>
             )}
