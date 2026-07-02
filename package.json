@@ -4,7 +4,7 @@
   "description": "",
   "main": "sw.js",
   "scripts": {
-    "test": "node scripts/verify_promo_policy.js && node scripts/verify_card_promo_data.js && node scripts/verify_promo_notice_ui.js && node scripts/verify_modern_foundation_data.js && node scripts/verify_mattress_ontology.js && node scripts/verify_smart_s6_data.js && node scripts/verify_smart_s8_data.js"
+    "test": "node scripts/verify_promo_policy.js && node scripts/verify_card_promo_data.js && node scripts/verify_promo_notice_ui.js && node scripts/verify_modern_foundation_data.js && node scripts/verify_mattress_ontology.js && node scripts/verify_smart_s6_data.js && node scripts/verify_smart_s8_data.js && node scripts/verify_pwa_install_prompt.js"
   },
   "keywords": [],
   "author": "",

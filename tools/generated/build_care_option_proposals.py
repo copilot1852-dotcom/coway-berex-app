@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[2]
 INDEX = ROOT / "index.html"
 OUT_DIR = ROOT / "proposal_output"
 NODE = Path("/Users/minmacbook/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node")
+PACKAGE_DISCOUNT_RATE = 0.15
 
 ACCENT = RGBColor(31, 77, 120)
 BLUE = RGBColor(46, 116, 181)
@@ -39,8 +40,8 @@ CARE_OPTIONS = {
         "short": "서비스프리",
         "alt": "절약형",
         "summary": "방문관리 비용 부담을 낮추고 딥클리닝 쿠폰 혜택을 제공하는 절약형 옵션",
-        "headline": "6월 프로모션 기준 모든 조합에서 일시불 합산가보다 5년 총렌탈료가 낮게 산출됩니다.",
-        "talk": "고객님, 서비스프리는 방문관리 비용 부담을 줄이고 필요한 혜택만 남긴 절약형 옵션입니다. 특히 6월 프로모션 기준으로 매트리스와 파운데이션을 함께 렌탈하시면, 앱 등록 조합 전체에서 5년 총렌탈료가 일시불 합산가보다 낮게 산출됩니다.",
+        "headline": "7월 프로모션 15% 할인 기준으로 일시불 합산가와 5년 총렌탈료를 비교합니다.",
+        "talk": "고객님, 서비스프리는 방문관리 비용 부담을 줄이고 필요한 혜택만 남긴 절약형 옵션입니다. 7월 프로모션 15% 할인 기준으로 매트리스와 파운데이션을 함께 렌탈하실 때의 5년 총렌탈료를 일시불 합산가와 비교해 보실 수 있습니다.",
     },
     "basic": {
         "label": "베이직케어",
@@ -159,8 +160,7 @@ def effective_care(care_id, m_key):
 def pricing(care_id, m_key, m_item, f_item):
     period = 5
     months = 60
-    discount_rate = 0.10
-    half_months = 6
+    discount_rate = PACKAGE_DISCOUNT_RATE
 
     raw_monthly = m_item["rentalData"][str(period)]["monthly"]
     eff_care = effective_care(care_id, m_key)
@@ -181,8 +181,7 @@ def pricing(care_id, m_key, m_item, f_item):
     f_final = max(0, f_raw - f_pkg_d)
 
     monthly = m_final + f_final
-    promo = monthly * 0.5 * half_months
-    rent_total = monthly * months - promo
+    rent_total = monthly * months
     lump_total = int(m_item["price"]) + int(f_item["price"])
     diff = lump_total - rent_total
     return {
@@ -561,8 +560,8 @@ def add_title_page(doc, care_id, rows, summary):
     add_heading(doc, "비교 기준", level=1)
     for text in [
         f"약정과 옵션: 5년 약정, {care['label']}, 매트리스 1대 + 파운데이션 1대.",
-        "총렌탈료: 월 렌탈료 60개월 합계에서 5년 혜택인 6개월 반값 금액을 차감.",
-        "월 렌탈료: 신규 2개 세트 기준 앱 패키지 할인 10%와 케어 옵션별 추가 비용을 반영.",
+        "총렌탈료: 7월 프로모션 15% 할인 적용 후 월 렌탈료 60개월 합계.",
+        "월 렌탈료: 신규 2개 세트 기준 앱 패키지 할인 15%와 케어 옵션별 추가 비용을 반영.",
         "일시불 총액: 앱 등록 매트리스 일시불가와 파운데이션 일시불가의 단순 합산.",
     ]:
         add_bullet(doc, text)
@@ -646,28 +645,27 @@ def add_detail_page(doc, care_id, rows, sizes, page_label, start_new_page=True):
     add_para(
         doc,
         f"5년 {care['label']} 기준 전체 조합 상세표({page_label})",
-        size=17.5,
+        size=16.8,
         color=BLUE,
         bold=True,
-        after=3,
+        after=2,
     )
     add_para(
         doc,
-        "매트리스+파운데이션 동시 렌탈 · 6월 프로모션 6개월 반값 할인 반영 · 5년 약정 기준",
-        size=12.0,
+        "매트리스+파운데이션 동시 렌탈 · 7월 프로모션 15% 할인 반영 · 5년 약정 기준",
+        size=11.8,
         color=DARK,
         bold=True,
-        after=3,
+        after=2,
     )
     add_para(
         doc,
-        "정렬: 슈싱 > 퀸 > 킹 > 라지킹, 같은 사이즈 안에서는 가격이 낮은 매트리스 순서.",
-        size=10.4,
+        "정렬: 슈싱 > 퀸 > 킹 > 라지킹 · 파란색 배경 = 5년 총렌탈료가 일시불보다 낮은 조합 · 차액 = 일시불 총액 - 5년 총렌탈료",
+        size=9.8,
         color=MUTED,
-        after=5,
+        after=4,
     )
     add_detail_table(doc, filtered, care_id, font_size=10.8)
-    add_para(doc, "파란색 배경 행 = 5년 총렌탈료가 일시불 합산가보다 낮은 조합 · 차액 = 일시불 총액 - 5년 총렌탈료", size=11.0, color=PRINT_BLUE, bold=True, after=0, before=5)
 
 
 def add_customer_script(doc, care_id):
@@ -685,7 +683,7 @@ def add_customer_script(doc, care_id):
         add_bullet(doc, text)
     add_heading(doc, "유의사항", level=2)
     for text in [
-        "본 자료는 현재 앱에 등록된 가격과 6월 프로모션 계산식 기준이며, 본사 가격표·프로모션 변경 시 결과가 달라질 수 있습니다.",
+        "본 자료는 현재 앱에 등록된 가격과 7월 프로모션 15% 할인 계산식 기준이며, 본사 가격표·프로모션 변경 시 결과가 달라질 수 있습니다.",
         "고객의 기존 렌탈 보유 여부, 카드 청구할인, 재렌탈 조건, 추가 제품 결합 여부는 별도 비교가 필요합니다.",
         "스페셜체인지와 토탈케어는 모델별 탑퍼/커버 구조에 따라 제공 혜택이 달라질 수 있으므로 계약 전 최종 조건을 확인해야 합니다.",
     ]:
@@ -754,8 +752,8 @@ def audit_detail_collection(path):
         "5년 베이직케어 기준 전체 조합 상세표",
         "5년 스페셜체인지 기준 전체 조합 상세표",
         "5년 토탈케어 기준 전체 조합 상세표",
-        "6월 프로모션 6개월 반값 할인 반영",
-        "파란색 배경 행 = 5년 총렌탈료가 일시불 합산가보다 낮은 조합",
+        "7월 프로모션 15% 할인 반영",
+        "파란색 배경 = 5년 총렌탈료가 일시불보다 낮은 조합",
     ]
     missing = [s for s in required if s not in xml]
     if missing:
@@ -774,7 +772,7 @@ def build_detail_collection_doc(data):
             add_detail_page(doc, care_id, rows, sizes, page_label, start_new_page=not first_page)
             first_page = False
     OUT_DIR.mkdir(exist_ok=True)
-    path = OUT_DIR / "비렉스_5년_케어옵션_전체조합상세표_8장_인쇄용.docx"
+    path = OUT_DIR / "비렉스_5년_케어옵션_전체조합상세표_8장_인쇄용_7월15프로.docx"
     doc.save(path)
     audit_detail_collection(path)
     return path

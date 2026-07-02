@@ -9,10 +9,12 @@ node_modules/
 
 # Generated deployment bundles
 deploy/
+backups/
 *.zip
 
 # Customer/proposal output artifacts
 proposal_output/
+output/
 *.pdf
 *.docx
 *.png
