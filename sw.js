@@ -1,8 +1,14 @@
 // Service Worker for PWA standalone mode — cache-first with network fallback
-const CACHE_NAME = 'birex-v3-20260601-policy';
+const CACHE_NAME = 'birex-v5-202607-pwa-install-v1';
 const CACHE_FILES = [
   './',
-  './index.html'
+  './index.html',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+  './data/catalog/healing.json',
+  './data/catalog/premium-beds.json',
+  './data/competitorMap.json'
 ];
 
 // Install: pre-cache core files
@@ -32,6 +38,7 @@ self.addEventListener('fetch', e => {
 
   // Navigation requests (HTML pages)
   if (req.mode === 'navigate') {
+    const accept = req.headers.get('accept') || '';
     e.respondWith(
       fetch(req)
         .then(res => {
@@ -40,7 +47,7 @@ self.addEventListener('fetch', e => {
           caches.open(CACHE_NAME).then(cache => cache.put(req, clone));
           return res;
         })
-        .catch(() => caches.match(req).then(cached => cached || caches.match('./index.html')))
+        .catch(() => caches.match(req).then(cached => cached || (accept.includes('text/html') ? caches.match('./index.html') : undefined)))
     );
     return;
   }

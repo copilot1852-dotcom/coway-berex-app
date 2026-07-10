@@ -1,0 +1,2332 @@
+{
+  "version": "2026-07-rm-series",
+  "registrationFee": 100000,
+  "registrationFeeWaived": true,
+  "note": "BERE X R/M series guidance catalog. The app shows product characteristics and sends users to official product pages for detailed configurations and current prices.",
+  "categories": {
+    "R 시리즈": [
+      "r7_stretch_motion",
+      "r5_stretch",
+      "r3_motion",
+      "r7_twin",
+      "r5_twin",
+      "r3_twin"
+    ],
+    "M 시리즈": [
+      "m_mm_massage_mattress",
+      "m_ms_massage_mattress"
+    ],
+    "원바디": [
+      "onebody2"
+    ]
+  },
+  "workflow": {
+    "sizeOptions": [
+      {
+        "key": "single",
+        "label": "싱글",
+        "description": "1종 선택"
+      },
+      {
+        "key": "twin",
+        "label": "트윈",
+        "description": "2종 선택"
+      }
+    ],
+    "singleFrameKeys": [
+      "r7",
+      "r5",
+      "r3"
+    ],
+    "twinFrameKeys": [
+      "r7",
+      "r5",
+      "r3",
+      "rs",
+      "r0"
+    ],
+    "disallowedTwinPairs": [
+      "rs_rs",
+      "r0_r0",
+      "r0_rs",
+      "rs_r0"
+    ],
+    "headOptions": [
+      {
+        "key": "head",
+        "label": "헤드형"
+      },
+      {
+        "key": "no_head",
+        "label": "무 헤드형"
+      }
+    ],
+    "colorOptions": [
+      {
+        "key": "oat_beige",
+        "label": "오트 베이지",
+        "subtitle": "하운드투스 체크 패턴",
+        "fabricHex": "#e6dfd0",
+        "leatherHex": "#9b856d"
+      },
+      {
+        "key": "deep_blue",
+        "label": "딥 블루",
+        "subtitle": "하운드투스 체크 패턴",
+        "fabricHex": "#d8d9d4",
+        "leatherHex": "#6e7777"
+      },
+      {
+        "key": "khaki_brown",
+        "label": "카키 브라운",
+        "subtitle": "헤링본 패턴",
+        "fabricHex": "#d5d1bf",
+        "leatherHex": "#8e8b7f"
+      }
+    ],
+    "frameOptions": [
+      {
+        "key": "r7",
+        "label": "R7",
+        "title": "스트레칭 모션베드",
+        "singleModelKey": "r7_stretch_motion",
+        "twinModelKey": "r7_twin"
+      },
+      {
+        "key": "r5",
+        "label": "R5",
+        "title": "스트레칭 베드",
+        "singleModelKey": "r5_stretch",
+        "twinModelKey": "r5_twin"
+      },
+      {
+        "key": "r3",
+        "label": "R3",
+        "title": "모션베드",
+        "singleModelKey": "r3_motion",
+        "twinModelKey": "r3_twin"
+      },
+      {
+        "key": "rs",
+        "label": "RS",
+        "title": "스마트 베드",
+        "singleDisabledReason": "RS 스마트 베드와 R0 일반 베드는 싱글로 구매가 불가합니다."
+      },
+      {
+        "key": "r0",
+        "label": "R0",
+        "title": "일반 베드",
+        "singleDisabledReason": "RS 스마트 베드와 R0 일반 베드는 싱글로 구매가 불가합니다."
+      }
+    ]
+  },
+  "lineupSpecs": {
+    "columns": [
+      {
+        "key": "r7",
+        "group": "싱글",
+        "label": "R7",
+        "subtitle": "스트레칭 모션베드"
+      },
+      {
+        "key": "r5",
+        "group": "싱글",
+        "label": "R5",
+        "subtitle": "스트레칭 베드"
+      },
+      {
+        "key": "r3",
+        "group": "싱글",
+        "label": "R3",
+        "subtitle": "모션베드"
+      },
+      {
+        "key": "rs",
+        "group": "트윈",
+        "label": "RS",
+        "subtitle": "스마트 베드"
+      },
+      {
+        "key": "r0",
+        "group": "트윈",
+        "label": "R0",
+        "subtitle": "일반 베드"
+      }
+    ],
+    "sections": [
+      {
+        "label": "스트레칭 프로그램 및 모드",
+        "rows": [
+          {
+            "label": "허리 스트레칭",
+            "values": {
+              "r7": true,
+              "r5": true,
+              "rs": true
+            }
+          },
+          {
+            "label": "허리 럼버",
+            "values": {
+              "r7": true,
+              "r3": true
+            }
+          },
+          {
+            "label": "자동모드",
+            "values": {
+              "r7": true,
+              "r5": true
+            }
+          },
+          {
+            "label": "수동모드",
+            "values": {
+              "r7": true,
+              "r5": true
+            }
+          }
+        ]
+      },
+      {
+        "label": "모션 기능",
+        "rows": [
+          {
+            "label": "맞춤 자세",
+            "values": {
+              "r7": true,
+              "r3": true
+            }
+          },
+          {
+            "label": "포지션 모드",
+            "values": {
+              "r7": true,
+              "r3": true
+            }
+          },
+          {
+            "label": "자세 조정",
+            "values": {
+              "r7": true,
+              "r3": true
+            }
+          }
+        ]
+      },
+      {
+        "label": "부가 기능",
+        "rows": [
+          {
+            "label": "릴랙스 모드",
+            "values": {
+              "rs": true
+            }
+          },
+          {
+            "label": "경도 조절",
+            "values": {
+              "rs": true
+            }
+          },
+          {
+            "label": "스마트 알람",
+            "values": {
+              "r7": true,
+              "r5": true,
+              "rs": true
+            }
+          },
+          {
+            "label": "MY 모드",
+            "values": {
+              "r7": true,
+              "r5": true
+            }
+          },
+          {
+            "label": "최근 모드",
+            "values": {
+              "r7": true,
+              "r5": true
+            }
+          },
+          {
+            "label": "MY 자세",
+            "values": {
+              "r3": true
+            }
+          },
+          {
+            "label": "음성 인식",
+            "values": {
+              "r7": true,
+              "r5": true
+            }
+          },
+          {
+            "label": "수면 음원",
+            "values": {
+              "r7": true,
+              "r5": true,
+              "rs": true
+            }
+          },
+          {
+            "label": "리모컨",
+            "values": {
+              "r7": "유선/무선",
+              "r5": "유선",
+              "r3": "무선",
+              "rs": "무선"
+            }
+          },
+          {
+            "label": "APP",
+            "values": {
+              "r7": true,
+              "r5": true,
+              "r3": true,
+              "rs": true
+            }
+          },
+          {
+            "label": "사용자 레포트",
+            "values": {
+              "r7": true,
+              "r5": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "models": {
+    "onebody2": {
+      "name": "BERE X 원바디 2 매트리스",
+      "series": "원바디",
+      "isNew": true,
+      "modelNo": "CMQ-OB03_BG / CMSS-OB03_BG",
+      "url": "https://www.coway.com/product/detail?prdno=1026&optno=3",
+      "summary": "매트리스와 프레임이 결합된 3년 약정 베이직케어 전용 원바디 제품",
+      "features": [
+        "3년 약정 베이직케어(6개월) 전용",
+        "매트리스와 프레임 일체형 구성",
+        "퀸·슈퍼싱글 사이즈 선택",
+        "단순 견적을 위한 R/M 별도 카탈로그 관리"
+      ],
+      "featuredOptionKey": "queen",
+      "featuredCare": "베이직케어",
+      "featuredPeriod": 3,
+      "options": [
+        {
+          "key": "queen",
+          "label": "퀸",
+          "size": "Q",
+          "modelNo": "CMQ-OB03_BG",
+          "colors": "베이지",
+          "lumpSum": 1724000,
+          "pricing": {
+            "베이직케어": {
+              "3": {
+                "rental": 47900,
+                "reRental": 47900
+              }
+            }
+          }
+        },
+        {
+          "key": "super_single",
+          "label": "슈퍼싱글",
+          "size": "SS",
+          "modelNo": "CMSS-OB03_BG",
+          "colors": "베이지",
+          "lumpSum": 1472400,
+          "pricing": {
+            "베이직케어": {
+              "3": {
+                "rental": 40900,
+                "reRental": 40900
+              }
+            }
+          }
+        }
+      ]
+    },
+    "r7_stretch_motion": {
+      "name": "R7 스트레칭 모션베드",
+      "series": "R 시리즈",
+      "isNew": true,
+      "modelNo": "CFSS-EM07 + CMSS-EM07",
+      "url": "https://www.coway.com/product/detail?prdno=1391",
+      "summary": "전신 스트레칭과 모션 각도 조절을 결합한 최상위 R 시리즈",
+      "features": [
+        "KOTITI 방사성 물질 안전성 시험 완료",
+        "모션베드와 허리 스트레칭 결합의 전신 스트레칭",
+        "부드럽고 편안하게 상승되는 허리 스트레칭",
+        "고객 맞춤 자동·수동 스트레칭 프로그램"
+      ],
+      "featuredOptionKey": "head",
+      "featuredCare": "토탈케어",
+      "featuredPeriod": 7,
+      "displayPrice": {
+        "optionKey": "head",
+        "optionLabel": "헤드형",
+        "size": "SS",
+        "lumpSum": 9350000,
+        "rentalCare": "서비스프리",
+        "rentalPeriod": 5,
+        "rentalPrice": 150020,
+        "rentalDetailLabel": "SS 헤드있음 · 패키지 할인 반영"
+      },
+      "options": [
+        {
+          "key": "head",
+          "label": "헤드형",
+          "size": "SS",
+          "modelNo": "CFSS-EM07 + CMSS-EM07",
+          "colors": "오트 베이지 / 딥 블루 / 카키 브라운",
+          "lumpSum": 9350000,
+          "coverPrice": 200000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 181800,
+                "reRental": 163600
+              },
+              "7": {
+                "rental": 146800,
+                "reRental": 132100
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 178800,
+                "reRental": 160900
+              },
+              "7": {
+                "rental": 143800,
+                "reRental": 129400
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 176800,
+                "reRental": 176800
+              },
+              "7": {
+                "rental": 141800,
+                "reRental": 141800
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head",
+          "label": "무헤드형",
+          "size": "SS",
+          "modelNo": "CFSS-EM07 + CMSS-EM07",
+          "colors": "오트 베이지 / 딥 블루 / 카키 브라운",
+          "lumpSum": 8200000,
+          "coverPrice": 200000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 160800,
+                "reRental": 144700
+              },
+              "7": {
+                "rental": 129800,
+                "reRental": 116800
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 157800,
+                "reRental": 142000
+              },
+              "7": {
+                "rental": 126800,
+                "reRental": 114100
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 155800,
+                "reRental": 155800
+              },
+              "7": {
+                "rental": 124800,
+                "reRental": 124800
+              }
+            }
+          }
+        }
+      ]
+    },
+    "r5_stretch": {
+      "name": "R5 스트레칭 베드",
+      "series": "R 시리즈",
+      "isNew": true,
+      "modelNo": "CFSS-EM05 + CMSS-EM07",
+      "url": "https://www.coway.com/product/detail?prdno=1392",
+      "summary": "허리 스트레칭 중심의 R 시리즈 베드",
+      "features": [
+        "KOTITI 방사성 물질 안전성 시험 완료",
+        "듀얼셀 스트레칭 기술로 부드럽고 편안한 허리 스트레칭",
+        "고객 맞춤 자동·수동 스트레칭 프로그램"
+      ],
+      "featuredOptionKey": "head",
+      "featuredCare": "토탈케어",
+      "featuredPeriod": 7,
+      "displayPrice": {
+        "optionKey": "head",
+        "optionLabel": "헤드형",
+        "size": "SS",
+        "lumpSum": 8550000,
+        "rentalCare": "서비스프리",
+        "rentalPeriod": 5,
+        "rentalPrice": 136420,
+        "rentalDetailLabel": "SS 헤드있음 · 패키지 할인 반영"
+      },
+      "options": [
+        {
+          "key": "head",
+          "label": "헤드형",
+          "size": "SS",
+          "modelNo": "CFSS-EM05 + CMSS-EM07",
+          "colors": "오트 베이지 / 딥 블루 / 카키 브라운",
+          "lumpSum": 8550000,
+          "coverPrice": 200000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 165800,
+                "reRental": 149200
+              },
+              "7": {
+                "rental": 134800,
+                "reRental": 121300
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 162800,
+                "reRental": 146500
+              },
+              "7": {
+                "rental": 131800,
+                "reRental": 118600
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 160800,
+                "reRental": 160800
+              },
+              "7": {
+                "rental": 129800,
+                "reRental": 129800
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head",
+          "label": "무헤드형",
+          "size": "SS",
+          "modelNo": "CFSS-EM05 + CMSS-EM07",
+          "colors": "오트 베이지 / 딥 블루 / 카키 브라운",
+          "lumpSum": 7400000,
+          "coverPrice": 200000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 144800,
+                "reRental": 130300
+              },
+              "7": {
+                "rental": 117800,
+                "reRental": 106000
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 141800,
+                "reRental": 127600
+              },
+              "7": {
+                "rental": 114800,
+                "reRental": 103300
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 139800,
+                "reRental": 139800
+              },
+              "7": {
+                "rental": 112800,
+                "reRental": 112800
+              }
+            }
+          }
+        }
+      ]
+    },
+    "r3_motion": {
+      "name": "R3 모션베드",
+      "series": "R 시리즈",
+      "isNew": true,
+      "modelNo": "CFSS-EM03 + CMSS-EM03",
+      "url": "https://www.coway.com/product/detail?prdno=1393",
+      "summary": "허리 릴랙스 서포트와 자세 조절을 담은 R 시리즈",
+      "features": [
+        "KOTITI 방사성 물질 안전성 시험 완료",
+        "머리·상체·허리·하체를 원하는 각도로 조절",
+        "나만의 맞춤 자세로 최적의 휴식 제공",
+        "허리 럼버 서포트로 편안한 자세 제공"
+      ],
+      "featuredOptionKey": "head",
+      "featuredCare": "서비스프리",
+      "featuredPeriod": 7,
+      "displayPrice": {
+        "optionKey": "head",
+        "optionLabel": "헤드형",
+        "size": "SS",
+        "lumpSum": 7850000,
+        "rentalCare": "서비스프리",
+        "rentalPeriod": 5,
+        "rentalPrice": 127070,
+        "rentalDetailLabel": "SS 헤드있음 · 패키지 할인 반영"
+      },
+      "options": [
+        {
+          "key": "head",
+          "label": "헤드형",
+          "size": "SS",
+          "modelNo": "CFSS-EM03 + CMSS-EM03",
+          "colors": "카키 브라운",
+          "lumpSum": 7850000,
+          "coverPrice": 200000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 154800,
+                "reRental": 139300
+              },
+              "7": {
+                "rental": 123800,
+                "reRental": 111400
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 151800,
+                "reRental": 136600
+              },
+              "7": {
+                "rental": 120800,
+                "reRental": 108700
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 127070,
+                "reRental": 127070
+              },
+              "7": {
+                "rental": 100120,
+                "reRental": 100120
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head",
+          "label": "무헤드형",
+          "size": "SS",
+          "modelNo": "CFSS-EM03 + CMSS-EM03",
+          "colors": "카키 브라운",
+          "lumpSum": 6700000,
+          "coverPrice": 200000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 133800,
+                "reRental": 120400
+              },
+              "7": {
+                "rental": 106800,
+                "reRental": 96100
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 130800,
+                "reRental": 117700
+              },
+              "7": {
+                "rental": 103800,
+                "reRental": 93400
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 106070,
+                "reRental": 106070
+              },
+              "7": {
+                "rental": 83120,
+                "reRental": 83120
+              }
+            }
+          }
+        }
+      ]
+    },
+    "r7_twin": {
+      "name": "트윈형 R7 스트레칭 모션베드",
+      "series": "R 시리즈",
+      "isNew": true,
+      "modelNo": "CFSS-EM07 + CMSS-EM07 조합",
+      "url": "https://www.coway.com/product/detail?prdno=1391",
+      "summary": "좌우 독립 구성이 가능한 R 시리즈 트윈 세트",
+      "features": [
+        "KOTITI 방사성 물질 안전성 시험 완료",
+        "원하는 케어와 취향, 라이프 스타일에 따라 좌우 조합 가능",
+        "좌우 독립 프레임으로 개인별 사용 편의 강화",
+        "R7/R5/R3/RS/R0 조합 가능"
+      ],
+      "featuredOptionKey": "head_r7_r7",
+      "featuredCare": "토탈케어",
+      "featuredPeriod": 7,
+      "displayPrice": {
+        "optionKey": "head_r7_r7",
+        "optionLabel": "헤드형 · R7 + R7",
+        "size": "SS + SS",
+        "lumpSum": 18250000,
+        "rentalCare": "서비스프리",
+        "rentalPeriod": 5,
+        "rentalPrice": 291040,
+        "rentalDetailLabel": "SS+SS 헤드형 R7+R7 · 패키지 할인 반영"
+      },
+      "options": [
+        {
+          "key": "head_r7_r7",
+          "label": "헤드형 · R7 + R7",
+          "size": "SS + SS",
+          "modelNo": "R7 + R7",
+          "lumpSum": 18250000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 354600,
+                "reRental": 319100
+              },
+              "7": {
+                "rental": 285000,
+                "reRental": 257000
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 348600,
+                "reRental": 313700
+              },
+              "7": {
+                "rental": 279600,
+                "reRental": 251600
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 344600,
+                "reRental": 344600
+              },
+              "7": {
+                "rental": 275600,
+                "reRental": 275600
+              }
+            }
+          }
+        },
+        {
+          "key": "head_r7_r5",
+          "label": "헤드형 · R7 + R5",
+          "size": "SS + SS",
+          "modelNo": "R7 + R5",
+          "lumpSum": 17450000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 338600,
+                "reRental": 304700
+              },
+              "7": {
+                "rental": 273300,
+                "reRental": 246200
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 332600,
+                "reRental": 299300
+              },
+              "7": {
+                "rental": 267600,
+                "reRental": 240800
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 328600,
+                "reRental": 328600
+              },
+              "7": {
+                "rental": 263600,
+                "reRental": 263600
+              }
+            }
+          }
+        },
+        {
+          "key": "head_r7_r3",
+          "label": "헤드형 · R7 + R3",
+          "size": "SS + SS",
+          "modelNo": "R7 + R3",
+          "lumpSum": 16750000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 327600,
+                "reRental": 294800
+              },
+              "7": {
+                "rental": 262600,
+                "reRental": 236300
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 321600,
+                "reRental": 289400
+              },
+              "7": {
+                "rental": 256600,
+                "reRental": 230900
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 317600,
+                "reRental": 317600
+              },
+              "7": {
+                "rental": 252600,
+                "reRental": 252600
+              }
+            }
+          }
+        },
+        {
+          "key": "head_r7_rs",
+          "label": "헤드형 · R7 + RS 스마트",
+          "size": "SS + SS",
+          "modelNo": "R7 + RS",
+          "lumpSum": 16350000,
+          "coverPrice": 500000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 324600,
+                "reRental": 292100
+              },
+              "7": {
+                "rental": 257600,
+                "reRental": 231800
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 317600,
+                "reRental": 285800
+              },
+              "7": {
+                "rental": 250600,
+                "reRental": 225500
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 313600,
+                "reRental": 313600
+              },
+              "7": {
+                "rental": 246600,
+                "reRental": 246600
+              }
+            }
+          }
+        },
+        {
+          "key": "head_r7_r0",
+          "label": "헤드형 · R7 + R0",
+          "size": "SS + SS",
+          "modelNo": "R7 + R0",
+          "lumpSum": 14250000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 276600,
+                "reRental": 248900
+              },
+              "7": {
+                "rental": 223600,
+                "reRental": 201200
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 270600,
+                "reRental": 243500
+              },
+              "7": {
+                "rental": 217600,
+                "reRental": 195800
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 266600,
+                "reRental": 266600
+              },
+              "7": {
+                "rental": 213600,
+                "reRental": 213600
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_r7_r7",
+          "label": "무헤드형 · R7 + R7",
+          "size": "SS + SS",
+          "modelNo": "R7 + R7",
+          "lumpSum": 16400000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 321600,
+                "reRental": 289400
+              },
+              "7": {
+                "rental": 259600,
+                "reRental": 233600
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 315600,
+                "reRental": 284000
+              },
+              "7": {
+                "rental": 253600,
+                "reRental": 228200
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 311600,
+                "reRental": 311600
+              },
+              "7": {
+                "rental": 249600,
+                "reRental": 249600
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_r7_r5",
+          "label": "무헤드형 · R7 + R5",
+          "size": "SS + SS",
+          "modelNo": "R7 + R5",
+          "lumpSum": 15600000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 305600,
+                "reRental": 275000
+              },
+              "7": {
+                "rental": 247600,
+                "reRental": 222800
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 299600,
+                "reRental": 269600
+              },
+              "7": {
+                "rental": 241600,
+                "reRental": 217400
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 295600,
+                "reRental": 295600
+              },
+              "7": {
+                "rental": 237600,
+                "reRental": 237600
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_r7_r3",
+          "label": "무헤드형 · R7 + R3",
+          "size": "SS + SS",
+          "modelNo": "R7 + R3",
+          "lumpSum": 14900000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 294600,
+                "reRental": 265100
+              },
+              "7": {
+                "rental": 236600,
+                "reRental": 212900
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 288600,
+                "reRental": 259700
+              },
+              "7": {
+                "rental": 230600,
+                "reRental": 207500
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 284600,
+                "reRental": 284600
+              },
+              "7": {
+                "rental": 226600,
+                "reRental": 226600
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_r7_r0",
+          "label": "무헤드형 · R7 + R0",
+          "size": "SS + SS",
+          "modelNo": "R7 + R0",
+          "lumpSum": 12400000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 243600,
+                "reRental": 219200
+              },
+              "7": {
+                "rental": 197600,
+                "reRental": 177800
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 237600,
+                "reRental": 213800
+              },
+              "7": {
+                "rental": 191600,
+                "reRental": 172400
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 233600,
+                "reRental": 233600
+              },
+              "7": {
+                "rental": 187600,
+                "reRental": 187600
+              }
+            }
+          }
+        }
+      ]
+    },
+    "r5_twin": {
+      "name": "트윈형 R5 스트레칭 베드",
+      "series": "R 시리즈",
+      "isNew": true,
+      "modelNo": "CFSS-EM05 + CMSS-EM07 조합",
+      "url": "https://www.coway.com/product/detail?prdno=1392",
+      "summary": "좌우 독립 구성이 가능한 R5 스트레칭 베드 트윈 세트",
+      "features": [
+        "KOTITI 방사성 물질 안전성 시험 완료",
+        "듀얼셀 스트레칭 기술로 부드럽고 편안한 허리 스트레칭",
+        "좌우 독립 프레임으로 개인별 사용 편의 강화",
+        "R5 스트레칭 베드 2세트 구성"
+      ],
+      "featuredOptionKey": "head_r5_r5",
+      "featuredCare": "서비스프리",
+      "featuredPeriod": 5,
+      "displayPrice": {
+        "optionKey": "head_r5_r5",
+        "optionLabel": "헤드형 · R5 + R5",
+        "size": "SS + SS",
+        "lumpSum": 16650000,
+        "rentalCare": "서비스프리",
+        "rentalPeriod": 5,
+        "rentalPrice": 263840,
+        "rentalDetailLabel": "SS+SS 헤드형 R5+R5 · 패키지 할인 반영"
+      },
+      "options": [
+        {
+          "key": "head_r5_r5",
+          "label": "헤드형 · R5 + R5",
+          "size": "SS + SS",
+          "modelNo": "R5 + R5",
+          "lumpSum": 16650000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 322600,
+                "reRental": 290300
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 316600,
+                "reRental": 284900
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 312600,
+                "reRental": 312600
+              }
+            }
+          }
+        }
+      ]
+    },
+    "r3_twin": {
+      "name": "트윈형 R3 모션베드",
+      "series": "R 시리즈",
+      "isNew": true,
+      "modelNo": "CFSS-EM03 + CMSS-EM03 조합",
+      "url": "https://www.coway.com/product/detail?prdno=1393",
+      "summary": "좌우 독립 구성이 가능한 R3 모션베드 트윈 세트",
+      "features": [
+        "KOTITI 방사성 물질 안전성 시험 완료",
+        "머리·상체·허리·하체를 원하는 각도로 조절",
+        "좌우 독립 프레임으로 개인별 사용 편의 강화",
+        "R3 모션베드 2세트 구성"
+      ],
+      "featuredOptionKey": "head_r3_r3",
+      "featuredCare": "서비스프리",
+      "featuredPeriod": 5,
+      "displayPrice": {
+        "optionKey": "head_r3_r3",
+        "optionLabel": "헤드형 · R3 + R3",
+        "size": "SS + SS",
+        "lumpSum": 15250000,
+        "rentalCare": "서비스프리",
+        "rentalPeriod": 5,
+        "rentalPrice": 245140,
+        "rentalDetailLabel": "SS+SS 헤드형 R3+R3 · 패키지 할인 반영"
+      },
+      "options": [
+        {
+          "key": "head_r3_r3",
+          "label": "헤드형 · R3 + R3",
+          "size": "SS + SS",
+          "modelNo": "R3 + R3",
+          "lumpSum": 15250000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 300600,
+                "reRental": 270500
+              }
+            },
+            "베이직케어": {
+              "5": {
+                "rental": 294600,
+                "reRental": 265100
+              }
+            },
+            "서비스프리": {
+              "5": {
+                "rental": 290600,
+                "reRental": 290600
+              }
+            }
+          }
+        }
+      ]
+    },
+    "m_mm_massage_mattress": {
+      "name": "비렉스 안마매트리스 MM",
+      "series": "M 시리즈",
+      "isNew": true,
+      "modelNo": "CMMQ-M01 / CMMK-M01 / CMMLK-M01 / CMMGK-M01",
+      "url": "https://www.coway.com/product/detail?prdno=1425",
+      "summary": "안마 모듈을 탑재한 신개념 매트리스",
+      "features": [
+        "안마 모듈을 탑재한 신개념 매트리스",
+        "강력하게 주물러주는 3D 입체 안마형",
+        "숙면을 유도하는 수면 특화 코스",
+        "온열 시스템 30~65도",
+        "KOTITI 방사성 물질 안전성 시험 완료"
+      ],
+      "featuredOptionKey": "modern_gk",
+      "featuredCare": "토탈케어",
+      "featuredPeriod": 7,
+      "displayPrice": {
+        "optionKey": "modern_ss",
+        "optionLabel": "모던라운드 헤드보드 · SS",
+        "size": "SS",
+        "lumpSum": 10400000,
+        "rentalCare": "스페셜체인지",
+        "rentalPeriod": 5,
+        "rentalPrice": 187080,
+        "rentalDetailLabel": "SS 안마형 · 모던라운드 헤드보드 · 패키지 할인 반영"
+      },
+      "options": [
+        {
+          "key": "modern_gk",
+          "label": "모던라운드 헤드보드 · GK",
+          "size": "GK",
+          "frameGroup": "모던라운드 헤드보드 결합형",
+          "lumpSum": 13300000,
+          "coverPrice": 500000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 291400,
+                "reRental": 262200
+              },
+              "7": {
+                "rental": 236400,
+                "reRental": 212700
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 285400,
+                "reRental": 256800
+              },
+              "7": {
+                "rental": 230400,
+                "reRental": 207300
+              }
+            }
+          }
+        },
+        {
+          "key": "modern_lk",
+          "label": "모던라운드 헤드보드 · LK",
+          "size": "LK",
+          "frameGroup": "모던라운드 헤드보드 결합형",
+          "lumpSum": 12650000,
+          "coverPrice": 450000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 272400,
+                "reRental": 245100
+              },
+              "7": {
+                "rental": 217400,
+                "reRental": 195600
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 266400,
+                "reRental": 239700
+              },
+              "7": {
+                "rental": 211400,
+                "reRental": 190200
+              }
+            }
+          }
+        },
+        {
+          "key": "modern_k",
+          "label": "모던라운드 헤드보드 · K",
+          "size": "K",
+          "frameGroup": "모던라운드 헤드보드 결합형",
+          "lumpSum": 11700000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 255400,
+                "reRental": 229800
+              },
+              "7": {
+                "rental": 200400,
+                "reRental": 180300
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 249400,
+                "reRental": 224400
+              },
+              "7": {
+                "rental": 194400,
+                "reRental": 174900
+              }
+            }
+          }
+        },
+        {
+          "key": "modern_q",
+          "label": "모던라운드 헤드보드 · Q",
+          "size": "Q",
+          "frameGroup": "모던라운드 헤드보드 결합형",
+          "lumpSum": 11300000,
+          "coverPrice": 350000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 245400,
+                "reRental": 220800
+              },
+              "7": {
+                "rental": 190400,
+                "reRental": 171300
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 239400,
+                "reRental": 215400
+              },
+              "7": {
+                "rental": 184400,
+                "reRental": 165900
+              }
+            }
+          }
+        },
+        {
+          "key": "modern_ss",
+          "label": "모던라운드 헤드보드 · SS",
+          "size": "SS",
+          "frameGroup": "모던라운드 헤드보드 결합형",
+          "lumpSum": 10400000,
+          "coverPrice": 300000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 226400,
+                "reRental": 203700
+              },
+              "7": {
+                "rental": 171400,
+                "reRental": 154200
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 220400,
+                "reRental": 198300
+              },
+              "7": {
+                "rental": 165400,
+                "reRental": 148800
+              }
+            }
+          }
+        },
+        {
+          "key": "volume_lk",
+          "label": "볼륨 헤드보드 · LK",
+          "size": "LK",
+          "frameGroup": "볼륨 헤드보드 결합형",
+          "lumpSum": 12250000,
+          "coverPrice": 450000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 270400,
+                "reRental": 243300
+              },
+              "7": {
+                "rental": 215400,
+                "reRental": 193800
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 264400,
+                "reRental": 237900
+              },
+              "7": {
+                "rental": 209400,
+                "reRental": 188400
+              }
+            }
+          }
+        },
+        {
+          "key": "volume_k",
+          "label": "볼륨 헤드보드 · K",
+          "size": "K",
+          "frameGroup": "볼륨 헤드보드 결합형",
+          "lumpSum": 11600000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 253400,
+                "reRental": 228000
+              },
+              "7": {
+                "rental": 198400,
+                "reRental": 178500
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 247400,
+                "reRental": 222600
+              },
+              "7": {
+                "rental": 192400,
+                "reRental": 173100
+              }
+            }
+          }
+        },
+        {
+          "key": "volume_q",
+          "label": "볼륨 헤드보드 · Q",
+          "size": "Q",
+          "frameGroup": "볼륨 헤드보드 결합형",
+          "lumpSum": 11200000,
+          "coverPrice": 350000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 243400,
+                "reRental": 219000
+              },
+              "7": {
+                "rental": 188400,
+                "reRental": 169500
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 237400,
+                "reRental": 213600
+              },
+              "7": {
+                "rental": 182400,
+                "reRental": 164100
+              }
+            }
+          }
+        },
+        {
+          "key": "volume_ss",
+          "label": "볼륨 헤드보드 · SS",
+          "size": "SS",
+          "frameGroup": "볼륨 헤드보드 결합형",
+          "lumpSum": 10300000,
+          "coverPrice": 300000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 224400,
+                "reRental": 201900
+              },
+              "7": {
+                "rental": 169400,
+                "reRental": 152400
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 218400,
+                "reRental": 196500
+              },
+              "7": {
+                "rental": 163400,
+                "reRental": 147000
+              }
+            }
+          }
+        },
+        {
+          "key": "cozy_lk",
+          "label": "코지 헤드보드 · LK",
+          "size": "LK",
+          "frameGroup": "코지 헤드보드 결합형",
+          "lumpSum": 12350000,
+          "coverPrice": 450000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 266400,
+                "reRental": 239700
+              },
+              "7": {
+                "rental": 211400,
+                "reRental": 190200
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 260400,
+                "reRental": 234300
+              },
+              "7": {
+                "rental": 205400,
+                "reRental": 184800
+              }
+            }
+          }
+        },
+        {
+          "key": "cozy_k",
+          "label": "코지 헤드보드 · K",
+          "size": "K",
+          "frameGroup": "코지 헤드보드 결합형",
+          "lumpSum": 11400000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 249400,
+                "reRental": 224400
+              },
+              "7": {
+                "rental": 194400,
+                "reRental": 174900
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 243400,
+                "reRental": 219000
+              },
+              "7": {
+                "rental": 188400,
+                "reRental": 169500
+              }
+            }
+          }
+        },
+        {
+          "key": "cozy_q",
+          "label": "코지 헤드보드 · Q",
+          "size": "Q",
+          "frameGroup": "코지 헤드보드 결합형",
+          "lumpSum": 11000000,
+          "coverPrice": 350000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 239400,
+                "reRental": 215400
+              },
+              "7": {
+                "rental": 184400,
+                "reRental": 165900
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 233400,
+                "reRental": 210000
+              },
+              "7": {
+                "rental": 178400,
+                "reRental": 160500
+              }
+            }
+          }
+        },
+        {
+          "key": "cozy_ss",
+          "label": "코지 헤드보드 · SS",
+          "size": "SS",
+          "frameGroup": "코지 헤드보드 결합형",
+          "lumpSum": 10100000,
+          "coverPrice": 300000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 220400,
+                "reRental": 198300
+              },
+              "7": {
+                "rental": 165400,
+                "reRental": 148800
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 214400,
+                "reRental": 192900
+              },
+              "7": {
+                "rental": 159400,
+                "reRental": 143400
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_gk",
+          "label": "무헤드형 · GK",
+          "size": "GK",
+          "frameGroup": "무헤드형",
+          "lumpSum": 11650000,
+          "coverPrice": 500000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 264400,
+                "reRental": 238000
+              },
+              "7": {
+                "rental": 209400,
+                "reRental": 188400
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 258400,
+                "reRental": 232600
+              },
+              "7": {
+                "rental": 203400,
+                "reRental": 183000
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_lk",
+          "label": "무헤드형 · LK",
+          "size": "LK",
+          "frameGroup": "무헤드형",
+          "lumpSum": 11130000,
+          "coverPrice": 450000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 244400,
+                "reRental": 219900
+              },
+              "7": {
+                "rental": 193400,
+                "reRental": 174000
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 238400,
+                "reRental": 214500
+              },
+              "7": {
+                "rental": 187400,
+                "reRental": 168600
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_k",
+          "label": "무헤드형 · K",
+          "size": "K",
+          "frameGroup": "무헤드형",
+          "lumpSum": 10310000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 230400,
+                "reRental": 207300
+              },
+              "7": {
+                "rental": 179400,
+                "reRental": 161400
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 224400,
+                "reRental": 201900
+              },
+              "7": {
+                "rental": 173400,
+                "reRental": 156000
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_q",
+          "label": "무헤드형 · Q",
+          "size": "Q",
+          "frameGroup": "무헤드형",
+          "lumpSum": 10000000,
+          "coverPrice": 350000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 222400,
+                "reRental": 200100
+              },
+              "7": {
+                "rental": 171400,
+                "reRental": 154200
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 216400,
+                "reRental": 194700
+              },
+              "7": {
+                "rental": 165400,
+                "reRental": 148800
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_ss",
+          "label": "무헤드형 · SS",
+          "size": "SS",
+          "frameGroup": "무헤드형",
+          "lumpSum": 9190000,
+          "coverPrice": 300000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 205400,
+                "reRental": 184800
+              },
+              "7": {
+                "rental": 154400,
+                "reRental": 138900
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 199400,
+                "reRental": 179400
+              },
+              "7": {
+                "rental": 148400,
+                "reRental": 133500
+              }
+            }
+          }
+        }
+      ]
+    },
+    "m_ms_massage_mattress": {
+      "name": "비렉스 안마매트리스 MS",
+      "series": "M 시리즈",
+      "isNew": true,
+      "modelNo": "CMMQ-R01 / CMMK-R01 / CMMLK-R01 / CMMGK-R01",
+      "url": "https://www.coway.com/product/detail?prdno=1425",
+      "summary": "측면 마사지 모듈을 탑재한 신개념 매트리스",
+      "features": [
+        "안마 모듈을 탑재한 신개념 매트리스",
+        "부드럽게 지긋이 눌러주는 릴렉싱 안마",
+        "숙면을 유도하는 수면 특화 코스",
+        "온열 시스템 30~65도",
+        "KOTITI 방사성 물질 안전성 시험 완료"
+      ],
+      "featuredOptionKey": "modern_gk",
+      "featuredCare": "토탈케어",
+      "featuredPeriod": 7,
+      "displayPrice": {
+        "optionKey": "modern_ss",
+        "optionLabel": "모던라운드 헤드보드 · SS",
+        "size": "SS",
+        "lumpSum": 9900000,
+        "rentalCare": "스페셜체인지",
+        "rentalPeriod": 5,
+        "rentalPrice": 176880,
+        "rentalDetailLabel": "SS 척추형 · 모던라운드 헤드보드 · 패키지 할인 반영"
+      },
+      "options": [
+        {
+          "key": "modern_gk",
+          "label": "모던라운드 헤드보드 · GK",
+          "size": "GK",
+          "frameGroup": "모던라운드 헤드보드 결합형",
+          "lumpSum": 12800000,
+          "coverPrice": 500000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 279400,
+                "reRental": 251400
+              },
+              "7": {
+                "rental": 228400,
+                "reRental": 205500
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 273400,
+                "reRental": 246000
+              },
+              "7": {
+                "rental": 222400,
+                "reRental": 200100
+              }
+            }
+          }
+        },
+        {
+          "key": "modern_lk",
+          "label": "모던라운드 헤드보드 · LK",
+          "size": "LK",
+          "frameGroup": "모던라운드 헤드보드 결합형",
+          "lumpSum": 12150000,
+          "coverPrice": 450000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 260400,
+                "reRental": 234300
+              },
+              "7": {
+                "rental": 209400,
+                "reRental": 188400
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 254400,
+                "reRental": 228900
+              },
+              "7": {
+                "rental": 203400,
+                "reRental": 183000
+              }
+            }
+          }
+        },
+        {
+          "key": "modern_k",
+          "label": "모던라운드 헤드보드 · K",
+          "size": "K",
+          "frameGroup": "모던라운드 헤드보드 결합형",
+          "lumpSum": 11200000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 243400,
+                "reRental": 219000
+              },
+              "7": {
+                "rental": 192400,
+                "reRental": 173100
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 237400,
+                "reRental": 213600
+              },
+              "7": {
+                "rental": 186400,
+                "reRental": 167700
+              }
+            }
+          }
+        },
+        {
+          "key": "modern_q",
+          "label": "모던라운드 헤드보드 · Q",
+          "size": "Q",
+          "frameGroup": "모던라운드 헤드보드 결합형",
+          "lumpSum": 10900000,
+          "coverPrice": 350000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 233400,
+                "reRental": 210000
+              },
+              "7": {
+                "rental": 182400,
+                "reRental": 164100
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 227400,
+                "reRental": 204600
+              },
+              "7": {
+                "rental": 176400,
+                "reRental": 158700
+              }
+            }
+          }
+        },
+        {
+          "key": "modern_ss",
+          "label": "모던라운드 헤드보드 · SS",
+          "size": "SS",
+          "frameGroup": "모던라운드 헤드보드 결합형",
+          "lumpSum": 9900000,
+          "coverPrice": 300000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 214400,
+                "reRental": 192900
+              },
+              "7": {
+                "rental": 163400,
+                "reRental": 147000
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 208400,
+                "reRental": 187500
+              },
+              "7": {
+                "rental": 157400,
+                "reRental": 141600
+              }
+            }
+          }
+        },
+        {
+          "key": "volume_lk",
+          "label": "볼륨 헤드보드 · LK",
+          "size": "LK",
+          "frameGroup": "볼륨 헤드보드 결합형",
+          "lumpSum": 12050000,
+          "coverPrice": 450000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 258400,
+                "reRental": 232500
+              },
+              "7": {
+                "rental": 207400,
+                "reRental": 186600
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 252400,
+                "reRental": 227100
+              },
+              "7": {
+                "rental": 201400,
+                "reRental": 181200
+              }
+            }
+          }
+        },
+        {
+          "key": "volume_k",
+          "label": "볼륨 헤드보드 · K",
+          "size": "K",
+          "frameGroup": "볼륨 헤드보드 결합형",
+          "lumpSum": 11100000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 241400,
+                "reRental": 217200
+              },
+              "7": {
+                "rental": 190400,
+                "reRental": 171300
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 235400,
+                "reRental": 211800
+              },
+              "7": {
+                "rental": 184400,
+                "reRental": 165900
+              }
+            }
+          }
+        },
+        {
+          "key": "volume_q",
+          "label": "볼륨 헤드보드 · Q",
+          "size": "Q",
+          "frameGroup": "볼륨 헤드보드 결합형",
+          "lumpSum": 10800000,
+          "coverPrice": 350000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 231400,
+                "reRental": 208200
+              },
+              "7": {
+                "rental": 180400,
+                "reRental": 162300
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 225400,
+                "reRental": 202800
+              },
+              "7": {
+                "rental": 174400,
+                "reRental": 156900
+              }
+            }
+          }
+        },
+        {
+          "key": "volume_ss",
+          "label": "볼륨 헤드보드 · SS",
+          "size": "SS",
+          "frameGroup": "볼륨 헤드보드 결합형",
+          "lumpSum": 9800000,
+          "coverPrice": 300000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 212400,
+                "reRental": 191100
+              },
+              "7": {
+                "rental": 161400,
+                "reRental": 145200
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 206400,
+                "reRental": 185700
+              },
+              "7": {
+                "rental": 155400,
+                "reRental": 139800
+              }
+            }
+          }
+        },
+        {
+          "key": "cozy_lk",
+          "label": "코지 헤드보드 · LK",
+          "size": "LK",
+          "frameGroup": "코지 헤드보드 결합형",
+          "lumpSum": 11850000,
+          "coverPrice": 450000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 254400,
+                "reRental": 228900
+              },
+              "7": {
+                "rental": 203400,
+                "reRental": 183000
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 248400,
+                "reRental": 223500
+              },
+              "7": {
+                "rental": 197400,
+                "reRental": 177600
+              }
+            }
+          }
+        },
+        {
+          "key": "cozy_k",
+          "label": "코지 헤드보드 · K",
+          "size": "K",
+          "frameGroup": "코지 헤드보드 결합형",
+          "lumpSum": 10900000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 237400,
+                "reRental": 213600
+              },
+              "7": {
+                "rental": 186400,
+                "reRental": 167700
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 231400,
+                "reRental": 208200
+              },
+              "7": {
+                "rental": 180400,
+                "reRental": 162300
+              }
+            }
+          }
+        },
+        {
+          "key": "cozy_q",
+          "label": "코지 헤드보드 · Q",
+          "size": "Q",
+          "frameGroup": "코지 헤드보드 결합형",
+          "lumpSum": 10600000,
+          "coverPrice": 350000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 227400,
+                "reRental": 204600
+              },
+              "7": {
+                "rental": 176400,
+                "reRental": 158700
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 221400,
+                "reRental": 199200
+              },
+              "7": {
+                "rental": 170400,
+                "reRental": 153300
+              }
+            }
+          }
+        },
+        {
+          "key": "cozy_ss",
+          "label": "코지 헤드보드 · SS",
+          "size": "SS",
+          "frameGroup": "코지 헤드보드 결합형",
+          "lumpSum": 9600000,
+          "coverPrice": 300000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 208400,
+                "reRental": 187500
+              },
+              "7": {
+                "rental": 157400,
+                "reRental": 141600
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 202400,
+                "reRental": 182100
+              },
+              "7": {
+                "rental": 151400,
+                "reRental": 136200
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_gk",
+          "label": "무헤드형 · GK",
+          "size": "GK",
+          "frameGroup": "무헤드형",
+          "lumpSum": 11150000,
+          "coverPrice": 500000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 248400,
+                "reRental": 223500
+              },
+              "7": {
+                "rental": 201400,
+                "reRental": 181200
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 242400,
+                "reRental": 218100
+              },
+              "7": {
+                "rental": 195400,
+                "reRental": 175800
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_lk",
+          "label": "무헤드형 · LK",
+          "size": "LK",
+          "frameGroup": "무헤드형",
+          "lumpSum": 10630000,
+          "coverPrice": 450000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 232400,
+                "reRental": 209100
+              },
+              "7": {
+                "rental": 185400,
+                "reRental": 166800
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 226400,
+                "reRental": 203700
+              },
+              "7": {
+                "rental": 179400,
+                "reRental": 161400
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_k",
+          "label": "무헤드형 · K",
+          "size": "K",
+          "frameGroup": "무헤드형",
+          "lumpSum": 9810000,
+          "coverPrice": 400000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 218400,
+                "reRental": 196500
+              },
+              "7": {
+                "rental": 171400,
+                "reRental": 154200
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 212400,
+                "reRental": 191100
+              },
+              "7": {
+                "rental": 165400,
+                "reRental": 148800
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_q",
+          "label": "무헤드형 · Q",
+          "size": "Q",
+          "frameGroup": "무헤드형",
+          "lumpSum": 9600000,
+          "coverPrice": 350000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 210400,
+                "reRental": 189300
+              },
+              "7": {
+                "rental": 163400,
+                "reRental": 147000
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 204400,
+                "reRental": 183900
+              },
+              "7": {
+                "rental": 157400,
+                "reRental": 141600
+              }
+            }
+          }
+        },
+        {
+          "key": "no_head_ss",
+          "label": "무헤드형 · SS",
+          "size": "SS",
+          "frameGroup": "무헤드형",
+          "lumpSum": 8650000,
+          "coverPrice": 300000,
+          "pricing": {
+            "토탈케어": {
+              "5": {
+                "rental": 193400,
+                "reRental": 174000
+              },
+              "7": {
+                "rental": 146400,
+                "reRental": 131700
+              }
+            },
+            "스페셜체인지": {
+              "5": {
+                "rental": 187400,
+                "reRental": 168600
+              },
+              "7": {
+                "rental": 140400,
+                "reRental": 126300
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

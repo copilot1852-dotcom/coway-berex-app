@@ -12,6 +12,7 @@
       "category": "코어셋",
       "isNew": true,
       "modelNo": "MB-R05M",
+      "url": "https://www.coway.com/product/detail?prdno=1359&optno=1",
       "size": "펼침 737×2,060×447mm / 접음 737×1,310×460mm",
       "weight": "약 100kg",
       "power": "528VA",
@@ -19,27 +20,94 @@
       "features": ["견인치료 및 근육통 완화 식약처 인증 의료기기", "자동 리클라이닝 기능", "척추라인 밀착 마사지 척추온열도자", "온열 시스템 30~65℃"],
       "careNote": "관리주기 1회/12개월, 교체주기 1회/36개월",
       "isMedicalDevice": true,
+      "featuredPrice": { "care": "스페셜체인지", "period": 5, "label": "5년 약정 스페셜체인지" },
+      "julyPromotion": {
+        "label": "7월 할인행사제품",
+        "summary": "월 10% 할인",
+        "pricing": {
+          "토탈케어": {
+            "5": { "originalRental": 119000, "discountAmount": 11900 },
+            "7": { "originalRental": 96000, "discountAmount": 9600 }
+          },
+          "스페셜체인지": {
+            "5": { "originalRental": 115000, "discountAmount": 11500 },
+            "7": { "originalRental": 92000, "discountAmount": 9200 }
+          },
+          "서비스프리": {
+            "5": { "originalRental": 110000, "discountAmount": 11000 },
+            "7": { "originalRental": 87000, "discountAmount": 8700 }
+          }
+        },
+        "lumpSum": { "original": 5800000, "discountAmount": 580000 }
+      },
       "pricing": {
         "토탈케어": {
-          "5": { "rental": 119000, "reRental": 107100 },
-          "7": { "rental": 96000, "reRental": 86400 }
+          "5": { "rental": 107100, "reRental": 96300 },
+          "7": { "rental": 86400, "reRental": 77700 }
         },
         "스페셜체인지": {
-          "5": { "rental": 115000, "reRental": 103500 },
-          "7": { "rental": 92000, "reRental": 82800 }
+          "5": { "rental": 103500, "reRental": 93100 },
+          "7": { "rental": 82800, "reRental": 74500 }
         },
         "서비스프리": {
-          "5": { "rental": 110000, "reRental": 99000 },
-          "7": { "rental": 87000, "reRental": 78300 }
+          "5": { "rental": 99000, "reRental": 89100 },
+          "7": { "rental": 78300, "reRental": 70400 }
         }
       },
-      "lumpSum": { "normal": 5800000, "discount": 5220000 }
+      "lumpSum": { "normal": 5800000, "discount": 5220000 },
+      "specialChangeService": {
+        "care": "스페셜체인지",
+        "title": "리프레시 서비스",
+        "month": 36,
+        "count": 1,
+        "items": ["결천", "속천, 뒷속천", "멀티 마사지 쿠션 커버"],
+        "note": "스페셜체인지 5년 약정 기준, 렌탈 기간 중 36개월 차에 총 1회 제공"
+      },
+      "totalCareService": {
+        "care": "토탈케어",
+        "title": "토탈 케어",
+        "summary": ["12개월마다 케어 + 교체 서비스", "36개월 차 리프레시 서비스"],
+        "careService": {
+          "title": "케어 서비스",
+          "interval": "12개월마다",
+          "count": 4,
+          "countLabel": "4회 또는 6회",
+          "months": [12, 24, 36, 48],
+          "months7": [12, 24, 36, 48, 60, 72],
+          "steps": [
+            { "step": "STEP 1", "title": "제품 상태 점검", "description": "동작 및 제품 성능 점검" },
+            { "step": "STEP 2", "title": "내부 클리닝", "description": "컬비(KIRBY) 활용 내외부 먼지 및 오염물 클리닝" },
+            { "step": "STEP 3", "title": "UV 살균 케어", "description": "세균, 집먼지진드기 등 자외선 살균" },
+            { "step": "STEP 4", "title": "가죽 클리닝", "description": "가죽 세정 및 가죽 광택 보호" }
+          ],
+          "note": "5년 렌탈 기간 동안 총 4회(12/24/36/48개월 차), 7년 렌탈 기간 동안 총 6회(12/24/36/48/60/72개월 차) 제공됩니다.",
+          "extraNote": "크림 화이트 색상의 경우 가죽 클리닝 대신 패브릭 클리닝(패브릭 전용 세정제 사용)이 제공됩니다."
+        },
+        "partialExchange": {
+          "title": "일부 교체 서비스",
+          "interval": "12개월 차",
+          "count": 3,
+          "countLabel": "3회 또는 5회",
+          "months": [12, 24, 48],
+          "months7": [12, 24, 48, 60, 72],
+          "items": ["결천"],
+          "note": "5년 렌탈 기간 동안 총 3회(12/24/48개월 차), 7년 렌탈 기간 동안 총 5회(12/24/48/60/72개월 차) 제공됩니다."
+        },
+        "refreshService": {
+          "title": "리프레시 서비스",
+          "month": 36,
+          "count": 1,
+          "items": ["결천", "속천, 뒷속천", "멀티 마사지 쿠션 커버"],
+          "note": "렌탈 기간 동안 1회(36개월 차) 제공"
+        }
+      }
     },
     "coreset": {
       "name": "코어셋",
       "category": "코어셋",
       "isNew": true,
       "modelNo": "MB-R03M",
+      "url": "https://www.coway.com/product/detail?prdno=1357&optno=1",
       "size": "펼침 737×2,060×447mm / 접음 737×1,310×460mm",
       "weight": "약 90kg",
       "power": "528VA",
@@ -47,27 +115,94 @@
       "features": ["견인치료 및 근육통 완화 식약처 인증 의료기기", "척추라인 밀착 마사지 척추온열도자", "온열 시스템 30~65℃"],
       "careNote": "관리주기 1회/12개월, 교체주기 1회/36개월",
       "isMedicalDevice": true,
+      "featuredPrice": { "care": "스페셜체인지", "period": 5, "label": "5년 약정 스페셜체인지" },
+      "julyPromotion": {
+        "label": "7월 할인행사제품",
+        "summary": "월 10% 할인",
+        "pricing": {
+          "토탈케어": {
+            "5": { "originalRental": 109000, "discountAmount": 10900 },
+            "7": { "originalRental": 86000, "discountAmount": 8600 }
+          },
+          "스페셜체인지": {
+            "5": { "originalRental": 105000, "discountAmount": 10500 },
+            "7": { "originalRental": 82000, "discountAmount": 8200 }
+          },
+          "서비스프리": {
+            "5": { "originalRental": 102000, "discountAmount": 10200 },
+            "7": { "originalRental": 79000, "discountAmount": 7900 }
+          }
+        },
+        "lumpSum": { "original": 5300000, "discountAmount": 530000 }
+      },
       "pricing": {
         "토탈케어": {
-          "5": { "rental": 109000, "reRental": 98100 },
-          "7": { "rental": 86000, "reRental": 77400 }
+          "5": { "rental": 98100, "reRental": 88200 },
+          "7": { "rental": 77400, "reRental": 69600 }
         },
         "스페셜체인지": {
-          "5": { "rental": 105000, "reRental": 94500 },
-          "7": { "rental": 82000, "reRental": 73800 }
+          "5": { "rental": 94500, "reRental": 85000 },
+          "7": { "rental": 73800, "reRental": 66400 }
         },
         "서비스프리": {
-          "5": { "rental": 102000, "reRental": 91800 },
-          "7": { "rental": 79000, "reRental": 71100 }
+          "5": { "rental": 91800, "reRental": 82600 },
+          "7": { "rental": 71100, "reRental": 63900 }
         }
       },
-      "lumpSum": { "normal": 5300000, "discount": 4770000 }
+      "lumpSum": { "normal": 5300000, "discount": 4770000 },
+      "specialChangeService": {
+        "care": "스페셜체인지",
+        "title": "리프레시 서비스",
+        "month": 36,
+        "count": 1,
+        "items": ["결천", "속천, 뒷속천", "멀티 마사지 쿠션 커버"],
+        "note": "스페셜체인지 5년 약정 기준, 렌탈 기간 중 36개월 차에 총 1회 제공"
+      },
+      "totalCareService": {
+        "care": "토탈케어",
+        "title": "토탈 케어",
+        "summary": ["12개월마다 케어 + 교체 서비스", "36개월 차 리프레시 서비스"],
+        "careService": {
+          "title": "케어 서비스",
+          "interval": "12개월마다",
+          "count": 4,
+          "countLabel": "4회 또는 6회",
+          "months": [12, 24, 36, 48],
+          "months7": [12, 24, 36, 48, 60, 72],
+          "steps": [
+            { "step": "STEP 1", "title": "제품 상태 점검", "description": "동작 및 제품 성능 점검" },
+            { "step": "STEP 2", "title": "내부 클리닝", "description": "컬비(KIRBY) 활용 내외부 먼지 및 오염물 클리닝" },
+            { "step": "STEP 3", "title": "UV 살균 케어", "description": "세균, 집먼지진드기 등 자외선 살균" },
+            { "step": "STEP 4", "title": "가죽 클리닝", "description": "가죽 세정 및 가죽 광택 보호" }
+          ],
+          "note": "5년 렌탈 기간 동안 총 4회(12/24/36/48개월 차), 7년 렌탈 기간 동안 총 6회(12/24/36/48/60/72개월 차) 제공됩니다.",
+          "extraNote": "크림 화이트 색상의 경우 가죽 클리닝 대신 패브릭 클리닝(패브릭 전용 세정제 사용)이 제공됩니다."
+        },
+        "partialExchange": {
+          "title": "일부 교체 서비스",
+          "interval": "12개월 차",
+          "count": 3,
+          "countLabel": "3회 또는 5회",
+          "months": [12, 24, 48],
+          "months7": [12, 24, 48, 60, 72],
+          "items": ["결천"],
+          "note": "5년 렌탈 기간 동안 총 3회(12/24/48개월 차), 7년 렌탈 기간 동안 총 5회(12/24/48/60/72개월 차) 제공됩니다."
+        },
+        "refreshService": {
+          "title": "리프레시 서비스",
+          "month": 36,
+          "count": 1,
+          "items": ["결천", "속천, 뒷속천", "멀티 마사지 쿠션 커버"],
+          "note": "렌탈 기간 동안 1회(36개월 차) 제공"
+        }
+      }
     },
     "reclining_massageset": {
       "name": "리클라이닝 마사지셋",
       "category": "마사지셋",
       "isNew": true,
       "modelNo": "MB-M05M",
+      "url": "https://www.coway.com/product/detail?prdno=1358&optno=1",
       "size": "펼침 737×2,060×447mm / 접음 737×1,310×460mm",
       "weight": "약 105kg",
       "power": "463VA",
@@ -75,27 +210,94 @@
       "features": ["견인치료 및 근육통 완화 식약처 인증 의료기기", "자동 리클라이닝 기능", "목(경추)~엉덩이(천추미추) 집중 케어 척추온열마사지모듈", "온열 시스템 30~65℃"],
       "careNote": "관리주기 1회/12개월, 교체주기 1회/36개월",
       "isMedicalDevice": true,
+      "featuredPrice": { "care": "스페셜체인지", "period": 5, "label": "5년 약정 스페셜체인지" },
+      "julyPromotion": {
+        "label": "7월 할인행사제품",
+        "summary": "월 10% 할인",
+        "pricing": {
+          "토탈케어": {
+            "5": { "originalRental": 130000, "discountAmount": 13000 },
+            "7": { "originalRental": 103000, "discountAmount": 10300 }
+          },
+          "스페셜체인지": {
+            "5": { "originalRental": 126000, "discountAmount": 12600 },
+            "7": { "originalRental": 99000, "discountAmount": 9900 }
+          },
+          "서비스프리": {
+            "5": { "originalRental": 121000, "discountAmount": 12100 },
+            "7": { "originalRental": 94000, "discountAmount": 9400 }
+          }
+        },
+        "lumpSum": { "original": 6600000, "discountAmount": 660000 }
+      },
       "pricing": {
         "토탈케어": {
-          "5": { "rental": 130000, "reRental": 117000 },
-          "7": { "rental": 103000, "reRental": 92700 }
+          "5": { "rental": 117000, "reRental": 105300 },
+          "7": { "rental": 92700, "reRental": 83400 }
         },
         "스페셜체인지": {
-          "5": { "rental": 126000, "reRental": 113400 },
-          "7": { "rental": 99000, "reRental": 89100 }
+          "5": { "rental": 113400, "reRental": 102000 },
+          "7": { "rental": 89100, "reRental": 80100 }
         },
         "서비스프리": {
-          "5": { "rental": 121000, "reRental": 108900 },
-          "7": { "rental": 94000, "reRental": 84600 }
+          "5": { "rental": 108900, "reRental": 98000 },
+          "7": { "rental": 84600, "reRental": 76100 }
         }
       },
-      "lumpSum": { "normal": 6600000, "discount": 5940000 }
+      "lumpSum": { "normal": 6600000, "discount": 5940000 },
+      "specialChangeService": {
+        "care": "스페셜체인지",
+        "title": "리프레시 서비스",
+        "month": 36,
+        "count": 1,
+        "items": ["결천", "속천, 뒷속천", "멀티 마사지 쿠션 커버"],
+        "note": "스페셜체인지 5년 약정 기준, 렌탈 기간 중 36개월 차에 총 1회 제공"
+      },
+      "totalCareService": {
+        "care": "토탈케어",
+        "title": "토탈 케어",
+        "summary": ["12개월마다 케어 + 교체 서비스", "36개월 차 리프레시 서비스"],
+        "careService": {
+          "title": "케어 서비스",
+          "interval": "12개월마다",
+          "count": 4,
+          "countLabel": "4회 또는 6회",
+          "months": [12, 24, 36, 48],
+          "months7": [12, 24, 36, 48, 60, 72],
+          "steps": [
+            { "step": "STEP 1", "title": "제품 상태 점검", "description": "동작 및 제품 성능 점검" },
+            { "step": "STEP 2", "title": "내부 클리닝", "description": "컬비(KIRBY) 활용 내외부 먼지 및 오염물 클리닝" },
+            { "step": "STEP 3", "title": "UV 살균 케어", "description": "세균, 집먼지진드기 등 자외선 살균" },
+            { "step": "STEP 4", "title": "가죽 클리닝", "description": "가죽 세정 및 가죽 광택 보호" }
+          ],
+          "note": "5년 렌탈 기간 동안 총 4회(12/24/36/48개월 차), 7년 렌탈 기간 동안 총 6회(12/24/36/48/60/72개월 차) 제공됩니다.",
+          "extraNote": "크림 화이트 색상의 경우 가죽 클리닝 대신 패브릭 클리닝(패브릭 전용 세정제 사용)이 제공됩니다."
+        },
+        "partialExchange": {
+          "title": "일부 교체 서비스",
+          "interval": "12개월 차",
+          "count": 3,
+          "countLabel": "3회 또는 5회",
+          "months": [12, 24, 48],
+          "months7": [12, 24, 48, 60, 72],
+          "items": ["결천"],
+          "note": "5년 렌탈 기간 동안 총 3회(12/24/48개월 차), 7년 렌탈 기간 동안 총 5회(12/24/48/60/72개월 차) 제공됩니다."
+        },
+        "refreshService": {
+          "title": "리프레시 서비스",
+          "month": 36,
+          "count": 1,
+          "items": ["결천", "속천, 뒷속천", "멀티 마사지 쿠션 커버"],
+          "note": "렌탈 기간 동안 1회(36개월 차) 제공"
+        }
+      }
     },
     "massageset": {
       "name": "마사지셋",
       "category": "마사지셋",
       "isNew": true,
       "modelNo": "MB-M03M",
+      "url": "https://www.coway.com/product/detail?prdno=1356&optno=1",
       "size": "펼침 737×2,060×447mm / 접음 737×1,310×460mm",
       "weight": "약 94kg",
       "power": "463VA",
@@ -103,27 +305,94 @@
       "features": ["견인치료 및 근육통 완화 식약처 인증 의료기기", "목(경추)~엉덩이(천추미추) 집중 케어 척추온열마사지모듈", "온열 시스템 30~65℃"],
       "careNote": "관리주기 1회/12개월, 교체주기 1회/36개월",
       "isMedicalDevice": true,
+      "featuredPrice": { "care": "스페셜체인지", "period": 5, "label": "5년 약정 스페셜체인지" },
+      "julyPromotion": {
+        "label": "7월 할인행사제품",
+        "summary": "월 10% 할인",
+        "pricing": {
+          "토탈케어": {
+            "5": { "originalRental": 120000, "discountAmount": 12000 },
+            "7": { "originalRental": 93000, "discountAmount": 9300 }
+          },
+          "스페셜체인지": {
+            "5": { "originalRental": 116000, "discountAmount": 11600 },
+            "7": { "originalRental": 89000, "discountAmount": 8900 }
+          },
+          "서비스프리": {
+            "5": { "originalRental": 113000, "discountAmount": 11300 },
+            "7": { "originalRental": 86000, "discountAmount": 8600 }
+          }
+        },
+        "lumpSum": { "original": 6100000, "discountAmount": 610000 }
+      },
       "pricing": {
         "토탈케어": {
-          "5": { "rental": 120000, "reRental": 108000 },
-          "7": { "rental": 93000, "reRental": 83700 }
+          "5": { "rental": 108000, "reRental": 97200 },
+          "7": { "rental": 83700, "reRental": 75300 }
         },
         "스페셜체인지": {
-          "5": { "rental": 116000, "reRental": 104400 },
-          "7": { "rental": 89000, "reRental": 80100 }
+          "5": { "rental": 104400, "reRental": 93900 },
+          "7": { "rental": 80100, "reRental": 72000 }
         },
         "서비스프리": {
-          "5": { "rental": 113000, "reRental": 101700 },
-          "7": { "rental": 86000, "reRental": 77400 }
+          "5": { "rental": 101700, "reRental": 91500 },
+          "7": { "rental": 77400, "reRental": 69600 }
         }
       },
-      "lumpSum": { "normal": 6100000, "discount": 5490000 }
+      "lumpSum": { "normal": 6100000, "discount": 5490000 },
+      "specialChangeService": {
+        "care": "스페셜체인지",
+        "title": "리프레시 서비스",
+        "month": 36,
+        "count": 1,
+        "items": ["결천", "속천, 뒷속천", "멀티 마사지 쿠션 커버"],
+        "note": "스페셜체인지 5년 약정 기준, 렌탈 기간 중 36개월 차에 총 1회 제공"
+      },
+      "totalCareService": {
+        "care": "토탈케어",
+        "title": "토탈 케어",
+        "summary": ["12개월마다 케어 + 교체 서비스", "36개월 차 리프레시 서비스"],
+        "careService": {
+          "title": "케어 서비스",
+          "interval": "12개월마다",
+          "count": 4,
+          "countLabel": "4회 또는 6회",
+          "months": [12, 24, 36, 48],
+          "months7": [12, 24, 36, 48, 60, 72],
+          "steps": [
+            { "step": "STEP 1", "title": "제품 상태 점검", "description": "동작 및 제품 성능 점검" },
+            { "step": "STEP 2", "title": "내부 클리닝", "description": "컬비(KIRBY) 활용 내외부 먼지 및 오염물 클리닝" },
+            { "step": "STEP 3", "title": "UV 살균 케어", "description": "세균, 집먼지진드기 등 자외선 살균" },
+            { "step": "STEP 4", "title": "가죽 클리닝", "description": "가죽 세정 및 가죽 광택 보호" }
+          ],
+          "note": "5년 렌탈 기간 동안 총 4회(12/24/36/48개월 차), 7년 렌탈 기간 동안 총 6회(12/24/36/48/60/72개월 차) 제공됩니다.",
+          "extraNote": "크림 화이트 색상의 경우 가죽 클리닝 대신 패브릭 클리닝(패브릭 전용 세정제 사용)이 제공됩니다."
+        },
+        "partialExchange": {
+          "title": "일부 교체 서비스",
+          "interval": "12개월 차",
+          "count": 3,
+          "countLabel": "3회 또는 5회",
+          "months": [12, 24, 48],
+          "months7": [12, 24, 48, 60, 72],
+          "items": ["결천"],
+          "note": "5년 렌탈 기간 동안 총 3회(12/24/48개월 차), 7년 렌탈 기간 동안 총 5회(12/24/48/60/72개월 차) 제공됩니다."
+        },
+        "refreshService": {
+          "title": "리프레시 서비스",
+          "month": 36,
+          "count": 1,
+          "items": ["결천", "속천, 뒷속천", "멀티 마사지 쿠션 커버"],
+          "note": "렌탈 기간 동안 1회(36개월 차) 제공"
+        }
+      }
     },
     "triple_normal": {
       "name": "트리플체어 일반형",
       "category": "안마의자",
       "isNew": false,
       "modelNo": "MC-R01",
+      "url": "https://www.coway.com/product/detail?prdno=1207&optno=1",
       "size": "세움 750×835×1,160mm / 눕힘 750×1,675×855mm",
       "weight": "64kg",
       "power": "80W",
@@ -131,24 +400,73 @@
       "features": ["몰입·회복·휴식 맞춤 전동 리클라이닝", "퍼니처형 디자인", "2IN1 무선 온열쿠션", "무선 컨트롤러와 퀵 버튼"],
       "careNote": "관리주기 1회/12개월, 교체주기 1회/36개월",
       "isMedicalDevice": false,
-      "pricing": {
-        "토탈케어": {
-          "5": { "rental": 74900, "reRental": 67400 }
-        },
-        "스페셜체인지": {
-          "5": { "rental": 71900, "reRental": 64700 }
-        },
-        "서비스프리": {
-          "5": { "rental": 66900, "reRental": 60200 }
+      "featuredPrice": { "care": "스페셜체인지", "period": 5, "label": "5년 약정 스페셜체인지" },
+      "julyPromotion": {
+        "label": "7월 할인행사제품",
+        "summary": "월 6,000원 할인",
+        "pricing": {
+          "토탈케어": { "5": { "originalRental": 74900, "discountAmount": 6000 } },
+          "스페셜체인지": { "5": { "originalRental": 71900, "discountAmount": 6000 } },
+          "서비스프리": { "5": { "originalRental": 66900, "discountAmount": 6000 } }
         }
       },
-      "lumpSum": { "normal": 3500000 }
+      "pricing": {
+        "토탈케어": {
+          "5": { "rental": 68900, "reRental": 67400 }
+        },
+        "스페셜체인지": {
+          "5": { "rental": 65900, "reRental": 64700 }
+        },
+        "서비스프리": {
+          "5": { "rental": 60900, "reRental": 60200 }
+        }
+      },
+      "lumpSum": { "normal": 3500000 },
+      "accessories": [
+        { "name": "헤드 쿠션", "price": 50000 },
+        { "name": "등패드 커버", "price": 205000 },
+        { "name": "전용 프리미엄 러그", "price": 70000 }
+      ],
+      "specialChangeService": {
+        "care": "스페셜체인지",
+        "title": "리프레시 서비스",
+        "month": 36,
+        "count": 1,
+        "items": ["헤드 쿠션", "등커버", "멀티 마사지 쿠션커버"],
+        "note": "스페셜체인지 5년 약정 기준, 렌탈 기간 중 36개월 차에 총 1회 제공"
+      },
+      "totalCareService": {
+        "care": "토탈케어",
+        "title": "토탈 케어",
+        "summary": ["12개월마다 케어 서비스", "36개월 차 리프레시 서비스"],
+        "careService": {
+          "title": "케어 서비스",
+          "interval": "12개월마다",
+          "count": 4,
+          "months": [12, 24, 36, 48],
+          "steps": [
+            { "step": "STEP 1", "title": "제품 상태 점검", "description": "동작 및 제품 성능 점검" },
+            { "step": "STEP 2", "title": "내부 클리닝", "description": "컬비(KIRBY) 활용 내외부 먼지 및 오염물 클리닝" },
+            { "step": "STEP 3", "title": "가죽 클리닝", "description": "가죽 세정 및 가죽 광택 보호" },
+            { "step": "STEP 4", "title": "UV 살균 케어", "description": "세균, 집먼지진드기 등 자외선 살균" }
+          ],
+          "note": "렌탈 기간 동안 4회(12/24/36/48개월 차) 제공"
+        },
+        "refreshService": {
+          "title": "리프레시 서비스",
+          "month": 36,
+          "count": 1,
+          "items": ["헤드 쿠션", "등커버", "멀티 마사지 쿠션커버"],
+          "note": "렌탈 기간 동안 1회(36개월 차) 제공"
+        }
+      }
     },
     "triple_moving": {
       "name": "트리플체어 무빙형",
       "category": "안마의자",
       "isNew": true,
       "modelNo": "MC-R01M",
+      "url": "https://www.coway.com/product/detail?prdno=1207&optno=1",
       "size": "세움 750×835×1,150mm / 눕힘 750×1,555×845mm",
       "weight": "60.9kg",
       "power": "80W",
@@ -156,24 +474,73 @@
       "features": ["업무용 이동 바퀴 장착", "전동 리클라이닝", "퍼니처형 디자인", "2IN1 무선 온열쿠션"],
       "careNote": "관리주기 1회/12개월, 교체주기 1회/36개월",
       "isMedicalDevice": false,
-      "pricing": {
-        "토탈케어": {
-          "5": { "rental": 76900, "reRental": 69200 }
-        },
-        "스페셜체인지": {
-          "5": { "rental": 73900, "reRental": 66500 }
-        },
-        "서비스프리": {
-          "5": { "rental": 68900, "reRental": 62000 }
+      "featuredPrice": { "care": "스페셜체인지", "period": 5, "label": "5년 약정 스페셜체인지" },
+      "julyPromotion": {
+        "label": "7월 할인행사제품",
+        "summary": "월 6,000원 할인",
+        "pricing": {
+          "토탈케어": { "5": { "originalRental": 76900, "discountAmount": 6000 } },
+          "스페셜체인지": { "5": { "originalRental": 73900, "discountAmount": 6000 } },
+          "서비스프리": { "5": { "originalRental": 68900, "discountAmount": 6000 } }
         }
       },
-      "lumpSum": { "normal": 3650000 }
+      "pricing": {
+        "토탈케어": {
+          "5": { "rental": 70900, "reRental": 69200 }
+        },
+        "스페셜체인지": {
+          "5": { "rental": 67900, "reRental": 66500 }
+        },
+        "서비스프리": {
+          "5": { "rental": 62900, "reRental": 62000 }
+        }
+      },
+      "lumpSum": { "normal": 3650000 },
+      "accessories": [
+        { "name": "헤드 쿠션", "price": 50000 },
+        { "name": "등패드 커버", "price": 205000 },
+        { "name": "전용 프리미엄 러그", "price": 80000 }
+      ],
+      "specialChangeService": {
+        "care": "스페셜체인지",
+        "title": "리프레시 서비스",
+        "month": 36,
+        "count": 1,
+        "items": ["헤드 쿠션", "등커버", "멀티 마사지 쿠션커버"],
+        "note": "스페셜체인지 5년 약정 기준, 렌탈 기간 중 36개월 차에 총 1회 제공"
+      },
+      "totalCareService": {
+        "care": "토탈케어",
+        "title": "토탈 케어",
+        "summary": ["12개월마다 케어 서비스", "36개월 차 리프레시 서비스"],
+        "careService": {
+          "title": "케어 서비스",
+          "interval": "12개월마다",
+          "count": 4,
+          "months": [12, 24, 36, 48],
+          "steps": [
+            { "step": "STEP 1", "title": "제품 상태 점검", "description": "동작 및 제품 성능 점검" },
+            { "step": "STEP 2", "title": "내부 클리닝", "description": "컬비(KIRBY) 활용 내외부 먼지 및 오염물 클리닝" },
+            { "step": "STEP 3", "title": "가죽 클리닝", "description": "가죽 세정 및 가죽 광택 보호" },
+            { "step": "STEP 4", "title": "UV 살균 케어", "description": "세균, 집먼지진드기 등 자외선 살균" }
+          ],
+          "note": "렌탈 기간 동안 4회(12/24/36/48개월 차) 제공"
+        },
+        "refreshService": {
+          "title": "리프레시 서비스",
+          "month": 36,
+          "count": 1,
+          "items": ["헤드 쿠션", "등커버", "멀티 마사지 쿠션커버"],
+          "note": "렌탈 기간 동안 1회(36개월 차) 제공"
+        }
+      }
     },
     "pebble2": {
       "name": "페블체어2 전동형",
       "category": "안마의자",
       "isNew": false,
       "modelNo": "MC-C02AT",
+      "url": "https://www.coway.com/product/detail?prdno=1426&optno=1",
       "size": "730×1,020×1,210mm",
       "weight": "69kg(제품) + 7.8kg(다리받침)",
       "power": "300W",
@@ -181,24 +548,71 @@
       "features": ["인체공학적 SSL 프레임과 3D 전문 마사지 모듈", "온열 안마볼과 전신 온열 시스템", "전동 리클라이닝 & 오토만", "무선 충전 리모컨과 퀵버튼", "신체 맞춤 정밀 스캔"],
       "careNote": "관리주기 1회/12개월, 교체주기 1회/36개월",
       "isMedicalDevice": false,
-      "pricing": {
-        "토탈케어": {
-          "5": { "rental": 72900, "reRental": 65600 }
-        },
-        "스페셜체인지": {
-          "5": { "rental": 69900, "reRental": 62900 }
-        },
-        "서비스프리": {
-          "5": { "rental": 64900, "reRental": 58400 }
+      "featuredPrice": { "care": "스페셜체인지", "period": 5, "label": "5년 약정 스페셜체인지" },
+      "julyPromotion": {
+        "label": "7월 할인행사제품",
+        "summary": "월 6,000원 할인",
+        "pricing": {
+          "토탈케어": { "5": { "originalRental": 72900, "discountAmount": 6000 } },
+          "스페셜체인지": { "5": { "originalRental": 69900, "discountAmount": 6000 } },
+          "서비스프리": { "5": { "originalRental": 64900, "discountAmount": 6000 } }
         }
       },
-      "lumpSum": { "normal": 3250000 }
+      "pricing": {
+        "토탈케어": {
+          "5": { "rental": 66900, "reRental": 65600 }
+        },
+        "스페셜체인지": {
+          "5": { "rental": 63900, "reRental": 62900 }
+        },
+        "서비스프리": {
+          "5": { "rental": 58900, "reRental": 58400 }
+        }
+      },
+      "lumpSum": { "normal": 3250000 },
+      "accessories": [
+        { "name": "멀티 마사지 쿠션", "price": 250000, "rentalPrice": 3000 }
+      ],
+      "specialChangeService": {
+        "care": "스페셜체인지",
+        "title": "리프레시 서비스",
+        "month": 36,
+        "count": 1,
+        "items": ["등 & 엉덩이 패드", "멀티 마사지 쿠션 커버"],
+        "note": "스페셜체인지 5년 약정 기준, 렌탈 기간 중 36개월 차에 총 1회 제공"
+      },
+      "totalCareService": {
+        "care": "토탈케어",
+        "title": "토탈 케어",
+        "summary": ["12개월마다 케어 서비스", "36개월 차 리프레시 서비스"],
+        "careService": {
+          "title": "케어 서비스",
+          "interval": "12개월마다",
+          "count": 4,
+          "months": [12, 24, 36, 48],
+          "steps": [
+            { "step": "STEP 1", "title": "제품 상태 점검", "description": "동작 및 제품 성능 점검" },
+            { "step": "STEP 2", "title": "내부 클리닝", "description": "컬비(KIRBY) 활용 내외부 먼지 및 오염물 클리닝" },
+            { "step": "STEP 3", "title": "UV 살균 케어", "description": "세균, 집먼지진드기 등 자외선 살균" },
+            { "step": "STEP 4", "title": "가죽 클리닝", "description": "가죽 세정 및 가죽 광택 보호" }
+          ],
+          "note": "렌탈 기간 동안 4회(12/24/36/48개월 차) 제공"
+        },
+        "refreshService": {
+          "title": "리프레시 서비스",
+          "month": 36,
+          "count": 1,
+          "items": ["등 & 엉덩이 패드", "멀티 마사지 쿠션 커버"],
+          "note": "렌탈 기간 동안 1회(36개월 차) 제공"
+        }
+      }
     },
     "pebble": {
       "name": "페블체어",
       "category": "안마의자",
       "isNew": false,
       "modelNo": "MC-C01",
+      "url": "https://www.coway.com/product/detail?prdno=1059&optno=2",
       "size": "735×1,120×1,015mm",
       "weight": "45.5kg(제품) + 4.5kg(다리받침)",
       "power": "77W",
@@ -206,6 +620,7 @@
       "features": ["3D 마사지 모듈과 S&L 프레임", "퍼니처형 디자인", "핫스톤 테라피툴과 온열패드", "2IN1 무선 온열쿠션", "수동 리클라이닝과 오토만"],
       "careNote": "관리주기 1회/12개월, 교체주기 1회/36개월",
       "isMedicalDevice": false,
+      "featuredPrice": { "care": "스페셜체인지", "period": 5, "label": "5년 약정 스페셜체인지" },
       "pricing": {
         "토탈케어": {
           "5": { "rental": 61900, "reRental": 55700 }
@@ -217,13 +632,53 @@
           "5": { "rental": 53900, "reRental": 48500 }
         }
       },
-      "lumpSum": { "normal": 2750000 }
+      "lumpSum": { "normal": 2750000 },
+      "accessories": [
+        { "name": "머리 패드", "price": 39000 },
+        { "name": "방석 패드", "price": 40500 },
+        { "name": "전용 프리미엄 러그", "price": 88000 }
+      ],
+      "careService": { "price": 48000, "originalPrice": 60000, "content": "내부클리닝(컬비) + UV살균 + 가죽세정" },
+      "specialChangeService": {
+        "care": "스페셜체인지",
+        "title": "리프레시 서비스",
+        "month": 36,
+        "count": 1,
+        "items": ["등 & 엉덩이 패드", "멀티 마사지 쿠션 커버"],
+        "note": "스페셜체인지 5년 약정 기준, 렌탈 기간 중 36개월 차에 총 1회 제공"
+      },
+      "totalCareService": {
+        "care": "토탈케어",
+        "title": "토탈 케어",
+        "summary": ["12개월마다 케어 서비스", "36개월 차 리프레시 서비스"],
+        "careService": {
+          "title": "케어 서비스",
+          "interval": "12개월마다",
+          "count": 4,
+          "months": [12, 24, 36, 48],
+          "steps": [
+            { "step": "STEP 1", "title": "제품 상태 점검", "description": "동작 및 제품 성능 점검" },
+            { "step": "STEP 2", "title": "내부 클리닝", "description": "컬비(KIRBY) 활용 내외부 먼지 및 오염물 클리닝" },
+            { "step": "STEP 3", "title": "UV 살균 케어", "description": "세균, 집먼지진드기 등 자외선 살균" },
+            { "step": "STEP 4", "title": "가죽 클리닝", "description": "가죽 세정 및 가죽 광택 보호" }
+          ],
+          "note": "렌탈 기간 동안 4회(12/24/36/48개월 차) 제공"
+        },
+        "refreshService": {
+          "title": "리프레시 서비스",
+          "month": 36,
+          "count": 1,
+          "items": ["등 & 엉덩이 패드", "멀티 마사지 쿠션 커버"],
+          "note": "렌탈 기간 동안 1회(36개월 차) 제공"
+        }
+      }
     },
     "mine_plus": {
       "name": "마인 플러스",
       "category": "안마의자",
       "isNew": false,
       "modelNo": "MC-B02",
+      "url": "https://www.coway.com/product/detail?prdno=1149&optno=1",
       "size": "740×1,250×1,030mm",
       "weight": "58.5kg",
       "power": "95W",
@@ -231,6 +686,7 @@
       "features": ["머리~발끝 전신 안마", "컴팩트 사이즈", "등&엉덩이&종아리 3Zone 온열", "다리 안마 특화"],
       "careNote": "관리주기 1회/6개월, 교체주기 1회/36개월",
       "isMedicalDevice": false,
+      "featuredPrice": { "care": "스페셜체인지", "period": 5, "label": "5년 약정 스페셜체인지" },
       "pricing": {
         "토탈케어": {
           "5": { "rental": 56900, "reRental": 51200 }
@@ -242,13 +698,60 @@
           "5": { "rental": 44900, "reRental": 40400 }
         }
       },
-      "lumpSum": { "normal": 2390000 }
+      "lumpSum": { "normal": 2390000 },
+      "accessories": [
+        { "name": "머리 패드", "price": 60000 },
+        { "name": "방석 패드", "price": 40000 },
+        { "name": "발바닥 쿠션", "price": 6000 }
+      ],
+      "specialChangeService": {
+        "care": "스페셜체인지",
+        "title": "리프레시 서비스",
+        "month": 36,
+        "count": 1,
+        "items": ["헤드 쿠션", "등 & 엉덩이 패드", "종아리 커버", "발 쿠션 패드", "속천"],
+        "note": "스페셜체인지 5년 약정 기준, 렌탈 기간 중 36개월 차에 총 1회 제공"
+      },
+      "totalCareService": {
+        "care": "토탈케어",
+        "title": "토탈 케어",
+        "summary": ["6개월마다 케어 서비스", "12개월마다 일부 교체 서비스", "36개월 차 리프레시 서비스"],
+        "careService": {
+          "title": "케어 서비스",
+          "interval": "6개월마다",
+          "count": 9,
+          "months": [6, 12, 18, 24, 30, 36, 42, 48, 54],
+          "steps": [
+            { "step": "STEP 1", "title": "제품 상태 점검", "description": "동작 및 제품 성능 점검" },
+            { "step": "STEP 2", "title": "내부 클리닝", "description": "컬비(KIRBY) 활용 내외부 먼지 및 오염물 클리닝" },
+            { "step": "STEP 3", "title": "UV 살균 케어", "description": "세균, 집먼지진드기 등 자외선 살균" },
+            { "step": "STEP 4", "title": "가죽 클리닝", "description": "가죽 세정 및 가죽 광택 보호" }
+          ],
+          "note": "렌탈 기간 동안 9회(6/12/18/24/30/36/42/48/54개월 차) 제공"
+        },
+        "partialExchange": {
+          "title": "일부 교체 서비스",
+          "interval": "12개월마다",
+          "count": 3,
+          "months": [12, 24, 48],
+          "items": ["종아리 커버", "발 쿠션 패드"],
+          "note": "렌탈 기간 동안 3회(12/24/48개월 차) 제공"
+        },
+        "refreshService": {
+          "title": "리프레시 서비스",
+          "month": 36,
+          "count": 1,
+          "items": ["헤드 쿠션", "등 & 엉덩이 패드", "종아리 커버", "발 쿠션 패드", "속천"],
+          "note": "렌탈 기간 동안 1회(36개월 차) 제공"
+        }
+      }
     },
     "mine": {
       "name": "마인",
       "category": "안마의자",
       "isNew": false,
       "modelNo": "MC-B03",
+      "url": "https://www.coway.com/product/detail?prdno=1169&optno=3",
       "size": "725×1,150×1,005mm",
       "weight": "54kg",
       "power": "101W",
@@ -256,24 +759,81 @@
       "features": ["컴팩트 사이즈 공간활용 최적화", "등&엉덩이 2Zone 온열", "180° 회전형 종아리 모듈", "전용 방석 제공 1인용 리클라이너", "3Zone 종아리 특화 마사지"],
       "careNote": "관리주기 1회/6개월, 교체주기 1회/36개월",
       "isMedicalDevice": false,
-      "pricing": {
-        "토탈케어": {
-          "5": { "rental": 56900, "reRental": 51200 }
-        },
-        "스페셜체인지": {
-          "5": { "rental": 49900, "reRental": 44900 }
-        },
-        "서비스프리": {
-          "5": { "rental": 44900, "reRental": 40400 }
+      "featuredPrice": { "care": "스페셜체인지", "period": 5, "label": "5년 약정 스페셜체인지" },
+      "julyPromotion": {
+        "label": "7월 할인행사제품",
+        "summary": "월 2,000원 할인",
+        "pricing": {
+          "토탈케어": { "5": { "originalRental": 56900, "discountAmount": 2000 } },
+          "스페셜체인지": { "5": { "originalRental": 49900, "discountAmount": 2000 } },
+          "서비스프리": { "5": { "originalRental": 44900, "discountAmount": 2000 } }
         }
       },
-      "lumpSum": { "normal": 2390000 }
+      "pricing": {
+        "토탈케어": {
+          "5": { "rental": 54900, "reRental": 51200 }
+        },
+        "스페셜체인지": {
+          "5": { "rental": 47900, "reRental": 44900 }
+        },
+        "서비스프리": {
+          "5": { "rental": 42900, "reRental": 40400 }
+        }
+      },
+      "lumpSum": { "normal": 2390000 },
+      "accessories": [
+        { "name": "머리 패드", "price": 60000 },
+        { "name": "방석 패드", "price": 40000 }
+      ],
+      "careService": { "price": 52000, "originalPrice": 65000, "content": "내부클리닝(컬비) + UV살균 + 가죽세정" },
+      "specialChangeService": {
+        "care": "스페셜체인지",
+        "title": "리프레시 서비스",
+        "month": 36,
+        "count": 1,
+        "items": ["헤드 쿠션", "등 & 엉덩이 패드", "종아리 커버"],
+        "note": "스페셜체인지 5년 약정 기준, 렌탈 기간 중 36개월 차에 총 1회 제공"
+      },
+      "totalCareService": {
+        "care": "토탈케어",
+        "title": "토탈 케어",
+        "summary": ["6개월마다 케어 서비스", "12개월마다 일부 교체 서비스", "36개월 차 리프레시 서비스"],
+        "careService": {
+          "title": "케어 서비스",
+          "interval": "6개월마다",
+          "count": 9,
+          "months": [6, 12, 18, 24, 30, 36, 42, 48, 54],
+          "steps": [
+            { "step": "STEP 1", "title": "제품 상태 점검", "description": "동작 및 제품 성능 점검" },
+            { "step": "STEP 2", "title": "내부 클리닝", "description": "컬비(KIRBY) 활용 내외부 먼지 및 오염물 클리닝" },
+            { "step": "STEP 3", "title": "UV 살균 케어", "description": "세균, 집먼지진드기 등 자외선 살균" },
+            { "step": "STEP 4", "title": "가죽 클리닝", "description": "가죽 세정 및 가죽 광택 보호" }
+          ],
+          "note": "렌탈 기간 동안 9회(6/12/18/24/30/36/42/48/54개월 차) 제공"
+        },
+        "partialExchange": {
+          "title": "일부 교체 서비스",
+          "interval": "12개월마다",
+          "count": 3,
+          "months": [12, 24, 48],
+          "items": ["종아리 커버"],
+          "note": "렌탈 기간 동안 3회(12/24/48개월 차) 제공"
+        },
+        "refreshService": {
+          "title": "리프레시 서비스",
+          "month": 36,
+          "count": 1,
+          "items": ["헤드 쿠션", "등 & 엉덩이 패드", "종아리 커버"],
+          "note": "렌탈 기간 동안 1회(36개월 차) 제공"
+        }
+      }
     },
     "signature": {
       "name": "시그니처",
       "category": "안마의자",
       "isNew": false,
       "modelNo": "MC-SC01",
+      "url": "https://www.coway.com/product/detail?prdno=234&optno=2",
       "size": "810×1,670×1,230mm",
       "weight": "137kg",
       "power": "280W",
@@ -281,6 +841,7 @@
       "features": ["4D+ 기어타입 안마 모듈", "안전 센서 및 비명 인식 탑재", "진화된 핫스톤 테라피 툴", "음성인식과 가이드 기능"],
       "careNote": "관리주기 1회/6개월, 교체주기 1회/36개월",
       "isMedicalDevice": false,
+      "featuredPrice": { "care": "스페셜체인지", "period": 5, "label": "5년 약정 스페셜체인지" },
       "pricing": {
         "토탈케어": {
           "5": { "rental": 128000, "reRental": 115200 }
@@ -292,7 +853,53 @@
           "5": { "rental": 109000, "reRental": 98100 }
         }
       },
-      "lumpSum": { "normal": 6000000 }
+      "lumpSum": { "normal": 6000000 },
+      "accessories": [
+        { "name": "머리 패드", "price": 60000 },
+        { "name": "어깨 패드", "price": 70000 }
+      ],
+      "careService": { "price": 54400, "originalPrice": 68000, "content": "내부클리닝(컬비) + UV살균 + 가죽세정" },
+      "specialChangeService": {
+        "care": "스페셜체인지",
+        "title": "리프레시 서비스",
+        "month": 36,
+        "count": 1,
+        "items": ["헤드 쿠션", "어깨 패드", "등 & 엉덩이 패드", "발 패드"],
+        "note": "스페셜체인지 5년 약정 기준, 렌탈 기간 중 36개월 차에 총 1회 제공"
+      },
+      "totalCareService": {
+        "care": "토탈케어",
+        "title": "토탈 케어",
+        "summary": ["6개월마다 케어 서비스", "12개월마다 일부 교체 서비스", "36개월 차 리프레시 서비스"],
+        "careService": {
+          "title": "케어 서비스",
+          "interval": "6개월마다",
+          "count": 9,
+          "months": [6, 12, 18, 24, 30, 36, 42, 48, 54],
+          "steps": [
+            { "step": "STEP 1", "title": "제품 상태 점검", "description": "동작 및 제품 성능 점검" },
+            { "step": "STEP 2", "title": "내부 클리닝", "description": "컬비(KIRBY) 활용 내외부 먼지 및 오염물 클리닝" },
+            { "step": "STEP 3", "title": "UV 살균 케어", "description": "세균, 집먼지진드기 등 자외선 살균" },
+            { "step": "STEP 4", "title": "가죽 클리닝", "description": "가죽 세정 및 가죽 광택 보호" }
+          ],
+          "note": "렌탈 기간 동안 9회(6/12/18/24/30/36/42/48/54개월 차) 제공"
+        },
+        "partialExchange": {
+          "title": "일부 교체 서비스",
+          "interval": "12개월마다",
+          "count": 3,
+          "months": [12, 24, 48],
+          "items": ["발 패드"],
+          "note": "렌탈 기간 동안 3회(12/24/48개월 차) 제공"
+        },
+        "refreshService": {
+          "title": "리프레시 서비스",
+          "month": 36,
+          "count": 1,
+          "items": ["헤드 쿠션", "어깨 패드", "등 & 엉덩이 패드", "발 패드"],
+          "note": "렌탈 기간 동안 1회(36개월 차) 제공"
+        }
+      }
     }
   }
 }
